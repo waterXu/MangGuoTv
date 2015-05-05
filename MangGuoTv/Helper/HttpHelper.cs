@@ -72,13 +72,14 @@ namespace MangGuoTv
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误");
+                        System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误"+ex.Message);
                     }
                     if (channels != null) 
                     {
                         CommonData.LockedChannel = channels.data.lockedChannel;
                         CommonData.NormalChannel = channels.data.normalChannel;
                         IsLoaded = true;
+                        WpStorage.SaveStringToIsoStore(CommonData.ChannelStorage, JsonConvert.SerializeObject(channels.data));
                         CommonData.ChannelLoaded = true;
                     }
                 }

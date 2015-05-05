@@ -86,6 +86,7 @@ namespace MangGuoTv
         // 此代码在重新激活应用程序时不执行
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            HttpHelper.LoadChannelList();
             CommonData.informCallback = CallbackManager.CallBackTrigger;
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
             App.GetNetName();
@@ -213,10 +214,10 @@ namespace MangGuoTv
         {
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            sencond = 2;
+            sencond = 1;
             dispatcherTimer.Start();
         }
-        private static int sencond = 2;
+        private static int sencond = 1;
         private static void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (sencond == 0)

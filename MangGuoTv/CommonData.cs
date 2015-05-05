@@ -26,6 +26,8 @@ namespace MangGuoTv
         /// 频道详情
         /// </summary>
         public static string GetChannelInfoUrl { get { return MangGuoHost + "channel/getDetail?" + CommonUrl; } }
+
+
       
         #endregion
 
@@ -34,6 +36,11 @@ namespace MangGuoTv
         /// 是否第一次使用该App
         /// </summary>
         public static string IsFirstUse { get { return "IsFirstUse"; } }
+        /// <summary>
+        /// 本地保存的频道列表
+        /// </summary>
+        public static string ChannelStorage { get { return "channels.dat"; } }
+
         /// <summary>
         /// 上次成功登陆用户名
         /// </summary>
@@ -179,5 +186,6 @@ namespace MangGuoTv
         public static List<ChannelInfo> NormalChannel { get; set; }
 
         public static bool ChannelLoaded { get; set; }
+
     }
 }

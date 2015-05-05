@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:tool="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -24,75 +25,32 @@
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
-        <phone:Pivot x:Name="MainPivot" Grid.Row="1" ItemsSource="{Binding}">       
-            <phone:PivotItem Margin="0,10,0,0" Loaded="OmnibusPivotItem_Loaded" >
-                <phone:PivotItem.Header>
-                    <TextBlock  Text="精选" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <!--<phone:Pivot.ItemTemplate>
-                <DataTemplate>
-                    <phone:PivotItem>
-                        <phone:PivotItem.Header>
-                            <TextBlock  Text="{Binding Path=channelName}" Width="80"  FontSize="35"/>
-                        </phone:PivotItem.Header>                  
-                    </phone:PivotItem>
-                </DataTemplate>
-            </phone:Pivot.ItemTemplate>-->
-            <!--<phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="综艺" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
+        <phone:Pivot x:Name="MainPivot" Grid.Row="1" ItemsSource="{Binding}">
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
-                    <TextBlock Text="电视剧" Width="110"  FontSize="35"></TextBlock>
+                    <TextBlock Text="所有频道" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="电影" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="动漫" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="热榜" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="生活" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="音乐" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="纪录片" Width="110"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="新闻" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="直播" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
-            </phone:PivotItem>-->
-            <phone:PivotItem Margin="0,10,0,0">
-                <phone:PivotItem.Header>
-                    <TextBlock Text="频道" Width="80"  FontSize="35"></TextBlock>
-                </phone:PivotItem.Header>
+                <ListBox x:Name="AllChannels" ItemsSource="{Binding AllChannels}" Margin="0,10,0,-10" SelectionChanged="AllChannels_SelectionChanged">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="10,0,0,0">
+                                <Grid Margin="5" Width="130" Height="150" Background="#CCFC875C">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding iconUrl}" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding channelName}"/>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
@@ -100,14 +58,6 @@
                 </phone:PivotItem.Header>
             </phone:PivotItem>
         </phone:Pivot>
-      
-        <!--取消注释，以显示对齐网格，从而帮助确保
-            控件在公用边界上对齐。图像在系统栏中显示时的
-            上边距为 -32px。如果隐藏了系统栏，则将此值设为 0
-            (或完全删除边距)。
-
-            在发送之前删除此 XAML 和图像本身。-->
-        <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
     </Grid>
 
 </phone:PhoneApplicationPage>

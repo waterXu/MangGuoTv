@@ -8,10 +8,7 @@
         <RowDefinition Height="3*"/>
         <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"></Image>
-    <!--<coding4fun:Tile Background="{x:Null}" Command="{Binding SelectVideoCommand}" CommandParameter="{Binding playUrl}">
-        <Image  Source="{Binding picUrl}" Margin="5"/>
-    </coding4fun:Tile>-->
-    <TextBlock Grid.Row="0" Text="{Binding tag}" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="25"></TextBlock>
+    <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill" CacheMode="BitmapCache"></Image>
+    <TextBlock Grid.Row="0" Text="{Binding tag}" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="25" Margin="0,0,10,0" TextWrapping="Wrap"></TextBlock>
     <TextBlock Text="{Binding name}" Grid.Row="1"></TextBlock>   
 </Grid>

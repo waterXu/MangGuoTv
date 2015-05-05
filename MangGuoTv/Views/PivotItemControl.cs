@@ -21,13 +21,13 @@ namespace MangGuoTv.Views
     {
         private ChannelInfo channel { get; set; }
         public PivotItem pivotItem;
-        private ScrollViewer scrollView { set; get;}
+        public ScrollViewer scrollView { set; get;}
         private StackPanel stackPanel { get; set; }
         public PivotItemControl( ChannelInfo channelInfo) 
         {
             channel = channelInfo;
             pivotItem = new PivotItem();
-            pivotItem.Margin = new Thickness(0, 0, 10, 0);
+            pivotItem.Margin = new Thickness(0, 10, 0, 0);
             pivotItem.Loaded += new System.Windows.RoutedEventHandler(PivotItem_Loaded);
             TextBlock textBlock = new TextBlock();
             textBlock.Text = channelInfo.channelName;
@@ -39,8 +39,14 @@ namespace MangGuoTv.Views
             stackPanel = new StackPanel();
             scrollView.Content = stackPanel;
             pivotItem.Content = scrollView;
-
-
+        }
+        public static ScrollViewer CreateContent(ChannelInfo channelInfo)
+        {
+            ScrollViewer scrollView = new ScrollViewer();
+            scrollView.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            StackPanel stackPanel = new StackPanel();
+            scrollView.Content = stackPanel;
+            return scrollView;
         }
         private void PivotItem_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -82,6 +88,8 @@ namespace MangGuoTv.Views
                     case "banner":
                         CreateBanner(channeldetail.templateData);
                         break;
+                    case "normalAvatorText":
+                        break;
                     case "largeLandScapeNodesc":
                         CreateLandscapeImage(channeldetail.templateData);
                         break;
@@ -111,10 +119,11 @@ namespace MangGuoTv.Views
             foreach (ChannelTemplate template in list) 
             {
                 StackPanel titlePanel = new StackPanel();
-                titlePanel.Height = 50;
+                titlePanel.Margin = new Thickness(20,0,0,0);
+                titlePanel.Height = 40;
                 titlePanel.Orientation = Orientation.Horizontal;
                 Rectangle myRectangle = new Rectangle();
-                myRectangle.Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                myRectangle.Fill = new SolidColorBrush(Color.FromArgb(100, 252, 135, 92));
                 myRectangle.Width = 10;
                 myRectangle.Height = 40;
                 myRectangle.VerticalAlignment = VerticalAlignment.Center;
@@ -123,6 +132,7 @@ namespace MangGuoTv.Views
                 titleBlock.VerticalAlignment = VerticalAlignment.Center;
                 titleBlock.Text = template.name;
                 titleBlock.Height = 50;
+                titleBlock.Margin = new Thickness(15, 0, 0, 0);
                 titlePanel.Children.Add(titleBlock);
                 if (template.jumpType == "subjectPage") 
                 {
@@ -130,27 +140,26 @@ namespace MangGuoTv.Views
                     moreBlock.Text = "            更多>>";
                    // moreBlock.Command =
                     moreBlock.HorizontalAlignment = HorizontalAlignment.Right;
-                    moreBlock.VerticalAlignment = VerticalAlignment.Center;
                     moreBlock.Height = 50;
                     titlePanel.Children.Add(moreBlock);
                 }
                 stackPanel.Children.Add(titlePanel);
             }
-          
         }
 
         private void CreateNorLandscapeImages(List<ChannelTemplate> list)
         {
             // Create the Grid
+            double gridImageHeight = 210;
             Grid myGrid = new Grid();
             myGrid.HorizontalAlignment = HorizontalAlignment.Center;
-            myGrid.ShowGridLines = true;
+            myGrid.ShowGridLines = false;
             // Define the Columns
             ColumnDefinition colDef1 = new ColumnDefinition();
             ColumnDefinition colDef2 = new ColumnDefinition();
             myGrid.ColumnDefinitions.Add(colDef1);
             myGrid.ColumnDefinitions.Add(colDef2);
-            myGrid.Height = 210 * Math.Ceiling((double)list.Count * 0.5);
+            myGrid.Height = gridImageHeight * Math.Ceiling((double)list.Count * 0.5);
             for (int i = 0; i < Math.Ceiling((double)list.Count * 0.5); i++) 
             {
                 RowDefinition rowDef = new RowDefinition();
@@ -162,21 +171,20 @@ namespace MangGuoTv.Views
             {
                 ChannelTemplate template = list[i];
                 double imageWidth = (PopupManager.screenWidth - 20 - 10) * 0.5;
-                Grid imageGrid = CreateImageView(imageWidth, template);
+                Grid imageGrid = CreateImageView(imageWidth, template, gridImageHeight-10);
                 imageGrid.Margin = new Thickness(5,5,5,5);
                 Grid.SetColumn(imageGrid, i % 2);
                 Grid.SetRow(imageGrid, i / 2);
                 myGrid.Children.Add(imageGrid);
             }
             stackPanel.Children.Add(myGrid);
-
         }
 
         private void CreateLandscapeImage(List<ChannelTemplate> list)
         {
             foreach (ChannelTemplate template in list)
             {
-                stackPanel.Children.Add(CreateImageView(PopupManager.screenWidth - 20, template));
+                stackPanel.Children.Add(CreateImageView(PopupManager.screenWidth - 20, template,250));
             }
         }
 
@@ -185,7 +193,7 @@ namespace MangGuoTv.Views
         }
         private string xaml = string.Empty;
 
-        private Grid CreateImageView(double width, ChannelTemplate template) 
+        private Grid CreateImageView(double width, ChannelTemplate template, double height) 
         {
             if (string.IsNullOrEmpty(xaml))
             {
@@ -200,8 +208,14 @@ namespace MangGuoTv.Views
             // 加载Rectangle
             Grid imageGrid = (Grid)XamlReader.Load(xaml);
             imageGrid.Width = width;
+            imageGrid.Height = height;
             imageGrid.DataContext = template;
+            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ImageGrid_Tap);
             return imageGrid;
+        }
+
+        private void ImageGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
         }
     }
 }

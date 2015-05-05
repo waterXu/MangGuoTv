@@ -23,49 +23,24 @@ namespace MangGuoTv
         public MainPage()
         {
             InitializeComponent();
-            //BuildLocalizedApplicationBar();
-            string strFileContent = string.Empty;
-            if(!CommonData.ChannelLoaded)
+            this.DataContext = App.ViewModel;
+            App.ViewModel.LoadChannels();
+            for (int i = 0; i < CommonData.LockedChannel.Count; i++)
             {
-                using (Stream stream = Application.GetResourceStream(new Uri("channels.txt", UriKind.Relative)).Stream)
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        strFileContent = reader.ReadToEnd();
-                    }
-                }
-                AllChannelsData channels = JsonConvert.DeserializeObject<AllChannelsData>(strFileContent);
-                CommonData.LockedChannel = channels.lockedChannel;
-                CommonData.NormalChannel = channels.normalChannel;
+                PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
+                MainPivot.Items.Add(pivot.pivotItem);
             }
             for (int i = 0; i < CommonData.NormalChannel.Count / 2; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
                 MainPivot.Items.Add(pivot.pivotItem);
             }
+            MainPivot.SelectedIndex = 2;
         }
        
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             CallbackManager.Mainpage = this;
-            HttpHelper.LoadChannelList();
-        //    string strFileContent = string.Empty;
-
-        //    using (Stream stream = Application.GetResourceStream(new Uri("channels.txt", UriKind.Relative)).Stream)
-        //    {
-        //        using (StreamReader reader = new StreamReader(stream))
-        //        {
-        //            strFileContent = reader.ReadToEnd();
-        //        }
-        //    }
-        //    AllChannelsData channels = JsonConvert.DeserializeObject<AllChannelsData>(strFileContent);
-        //    CommonData.LockedChannel = channels.lockedChannel;
-        //    CommonData.NormalChannel = channels.normalChannel;
-        //    for (int i = 0; i < CommonData.NormalChannel.Count / 2; i++)
-        //    {
-        //        PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
-        //        MainPivot.Items.Add(pivot.pivotItem);
-        //    }
         }
         
 
@@ -114,37 +89,44 @@ namespace MangGuoTv
            // System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
         }
 
-        private void OmnibusPivotItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        //private void OmnibusPivotItem_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + CommonData.NormalChannel[0].channelId + "&type=" + CommonData.NormalChannel[0].type;
+        //    HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
+        //    System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
+        //}
 
-        private void LoadChannelCompleted(IAsyncResult ar)
-        {
-            string result = HttpHelper.SyncResultTostring(ar);
-            if (result != null)
-            {
-                try
-                {
-                    List<ChannelDetail> channelDetails = JsonConvert.DeserializeObject<List<ChannelDetail>>(result);
-                    this.Dispatcher.BeginInvoke(() =>
-                    {
-                        LoadChannelDetail(channelDetails);
-                    });
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误");
-                }
-            }
-            else
-            {
-            }
-        }
+        //private void LoadChannelCompleted(IAsyncResult ar)
+        //{
+        //    string result = HttpHelper.SyncResultTostring(ar);
+        //    if (result != null)
+        //    {
+        //        try
+        //        {
+        //            List<ChannelDetail> channelDetails = JsonConvert.DeserializeObject<List<ChannelDetail>>(result);
+        //            this.Dispatcher.BeginInvoke(() =>
+        //            {
+        //                LoadChannelDetail(channelDetails);
+        //            });
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误");
+        //        }
+        //    }
+        //    else
+        //    {
+        //    }
+        //}
 
-        private void LoadChannelDetail(List<ChannelDetail> channelDetails)
-        {
+        //private void LoadChannelDetail(List<ChannelDetail> channelDetails)
+        //{
             
+        //}
+
+        private void AllChannels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
