@@ -39,7 +39,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10,0,0,0">
-                                <Grid Margin="5" Width="130" Height="150" Background="#CCFC875C">
+                                <Grid Margin="5" Width="130" Height="150">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="4*"/>
                                         <RowDefinition Height="*"/>
