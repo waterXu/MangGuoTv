@@ -12,6 +12,8 @@ using System.IO;
 using System.Windows.Shapes;
 using System.Windows.Markup;
 using Windows.Storage.Pickers;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace MangGuoTv.Views
 {
@@ -19,6 +21,12 @@ namespace MangGuoTv.Views
     {
         public ScrollViewer scrollView { set; get; }
         private StackPanel stackPanel { get; set; }
+        private ScrollViewer imageScroll { get; set; }
+        private double scrollImageWidth = 250;
+        /// <summary>
+        ///图片滚动计时器
+        /// </summary>
+        private DispatcherTimer timer;
         public ChannelScrollView() 
         {
             scrollView = new ScrollViewer();
@@ -37,7 +45,7 @@ namespace MangGuoTv.Views
                         CreateBanner(channeldetail.templateData);
                         break;
                     case "normalAvatorText":
-                        CreateNorLandscapeImages(channeldetail.templateData,150,4);
+                        CreateNorLandscapeImages(channeldetail.templateData,180,4);
                         break;
                     case "largeLandScapeNodesc":
                     case "normalLandScapeNodesc":
@@ -157,6 +165,76 @@ namespace MangGuoTv.Views
 
         private void CreateBanner(List<ChannelTemplate> list)
         {
+            //timer = new DispatcherTimer();
+            //timer.Interval = new TimeSpan(1000);
+            totalScrollImages = list.Count;
+
+
+            double imageWidth = PopupManager.screenWidth - 20;
+            double imageHieght = 250;
+            Grid imagesGrid = new Grid();
+            imagesGrid.Margin = new Thickness(0,0,0,10);
+            imagesGrid.Width = imageWidth;
+            imagesGrid.Height = imageHieght;
+          
+            imageScroll = new ScrollViewer();
+            imageScroll.Height = imageHieght;
+            imageScroll.Width = imageWidth;
+            imageScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            imageScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            //imageScroll.ManipulationStarted += new EventHandler<System.Windows.Input.ManipulationStartedEventArgs>(ImageScroll_StartMove);
+            //imageScroll.ManipulationCompleted += new EventHandler<System.Windows.Input.ManipulationCompletedEventArgs>(ImageScroll_EndMove);
+            //imageScroll.ManipulationDelta += new EventHandler<System.Windows.Input.ManipulationDeltaEventArgs>(ImageScroll_EndDelta);
+            //imageScroll.SizeChanged += new SizeChangedEventHandler();
+            StackPanel imagesPanel = new StackPanel();
+            imagesPanel.Orientation = Orientation.Horizontal;
+            imageScroll.Content = imagesPanel;
+            imagesPanel.Height = imageHieght;
+
+            imagesGrid.Children.Add(imageScroll);
+           
+            foreach (ChannelTemplate template in list) 
+            {
+                Image image = new Image();
+                image.Width = imageWidth;
+                image.Height = imageHieght;
+                image.Source =new BitmapImage(new Uri(template.picUrl,UriKind.RelativeOrAbsolute));
+                image.Stretch = Stretch.UniformToFill;
+                image.DataContext = template;
+                image.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(Image_Tap);
+                imagesPanel.Children.Add(image);
+            }
+            stackPanel.Children.Add(imagesGrid);
+            //timer.Tick += new EventHandler(Timer_Tick);
+            //timer.Start();
+        }
+        int totalScrollImages = 0;
+        int currentIndex = 0;
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            currentIndex++;
+            if (currentIndex > totalScrollImages) 
+            {
+                currentIndex = 0;
+            }
+            imageScroll.ScrollToHorizontalOffset(currentIndex * scrollImageWidth);
+        }
+
+        private void ImageScroll_EndDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+            double horOffset = imageScroll.HorizontalOffset;
+            int index = (int)Math.Round(horOffset / scrollImageWidth);
+            imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
+        }
+
+        private void ImageScroll_EndMove(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            timer.Start();
+        }
+
+        private void ImageScroll_StartMove(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            timer.Stop();
         }
         private string xaml = string.Empty;
 
@@ -177,13 +255,13 @@ namespace MangGuoTv.Views
             imageGrid.Width = width;
             imageGrid.Height = height;
             imageGrid.DataContext = template;
-            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ImageGrid_Tap);
+            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(Image_Tap);
             return imageGrid;
         }
 
-        private void ImageGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            ChannelTemplate template = (sender as Grid).DataContext as ChannelTemplate;
+            ChannelTemplate template = (sender as Control).DataContext as ChannelTemplate;
             switch (template.jumpType) 
             {
                 case "videoPlayer":

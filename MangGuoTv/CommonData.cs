@@ -17,7 +17,7 @@ namespace MangGuoTv
         /// </summary>
         public static string MangGuoHost { get { return "http://mobile.api.hunantv.com/"; } }
 
-        public static string CommonUrl { get { return "UserId="+UserId+"userId=&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=android"; } }
+        public static string CommonUrl { get { return "userId="+UserId+"&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=android"; } }
         /// <summary>
         /// 视频列表url
         /// </summary>
@@ -30,7 +30,17 @@ namespace MangGuoTv
         /// 获取更多专题
         /// </summary>
         public static string GetSpecialUrl { get { return MangGuoHost + "channel/special?" + CommonUrl; } }
-
+        /// <summary>
+        ///获取节目列表
+        /// </summary>
+        public static string GetVideoListUrl { get { return MangGuoHost + "video/getList?" + CommonUrl + "&pageSize=50"; } }
+        /// <summary>
+        /// 获取视频详情
+        /// </summary>
+        public static string GetVideoDetailUrl { get { return MangGuoHost + "video/getById?" + CommonUrl; } }
+        /// <summary>
+        /// 专题页面
+        /// </summary>
         public static string SpecialPageName { get { return "/Views/MoreSubject.xaml"; } }
 
         #endregion

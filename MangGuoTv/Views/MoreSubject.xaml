@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <Grid Background="#FFEE6221">
+        <Grid>
             <Image Source="/Images/logo.png" Margin="10,10,0,0" HorizontalAlignment="Left"></Image>
             <TextBlock x:Name="subjectName" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
         </Grid>
