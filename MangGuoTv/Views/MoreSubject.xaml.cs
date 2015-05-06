@@ -14,18 +14,26 @@ namespace MangGuoTv.Views
 {
     public partial class MoreSubject : PhoneApplicationPage
     {
-        public static List<ChannelDetail> channelDetails;
-      //  mobile.api.hunantv.com/channel/special?userId=&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=android&subjectId=1052
-        public static string subjectUrl { get; set; }
+        public static string subjectId { get; set; }
+        public static string speicalName { get; set; }
         public MoreSubject()
         {
             InitializeComponent();
         }
-
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            CallbackManager.currentPage = this;
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            CallbackManager.currentPage = null;
+        }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            string channelInfoUrl = "mobile.api.hunantv.com/channel/special?userId=&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=android&subjectId=1052";
+            this.subjectName.Text = speicalName;
+            string channelInfoUrl = CommonData.GetSpecialUrl + "&subjectId=" + subjectId;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
         }

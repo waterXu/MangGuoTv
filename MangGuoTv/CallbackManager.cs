@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Phone.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace MangGuoTv
     public class CallbackManager
     {
         public static MainPage Mainpage{get;set;}
-       
+        public static PhoneApplicationPage currentPage { get; set; }
         public static void CallBackTrigger(int action,bool isSuccess,string type =null)
         {
             switch (action)

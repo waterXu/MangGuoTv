@@ -20,5 +20,5 @@ C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\XapCacheFile.xml
-C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\MoreSubject.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache

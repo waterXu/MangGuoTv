@@ -42,8 +42,17 @@ namespace MangGuoTv
         {
             CallbackManager.Mainpage = this;
         }
-        
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            CallbackManager.currentPage = this;
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+ 	         base.OnNavigatedFrom(e);
+             CallbackManager.currentPage = null;
+        }
 
        
         // 用于生成本地化 ApplicationBar 的示例代码

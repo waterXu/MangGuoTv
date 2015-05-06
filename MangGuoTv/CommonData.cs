@@ -26,9 +26,13 @@ namespace MangGuoTv
         /// 频道详情
         /// </summary>
         public static string GetChannelInfoUrl { get { return MangGuoHost + "channel/getDetail?" + CommonUrl; } }
+        /// <summary>
+        /// 获取更多专题
+        /// </summary>
+        public static string GetSpecialUrl { get { return MangGuoHost + "channel/special?" + CommonUrl; } }
 
+        public static string SpecialPageName { get { return "/Views/MoreSubject.xaml"; } }
 
-      
         #endregion
 
         #region IsolatedStorage FileName Or KeyName
@@ -186,6 +190,7 @@ namespace MangGuoTv
         public static List<ChannelInfo> NormalChannel { get; set; }
 
         public static bool ChannelLoaded { get; set; }
+
 
     }
 }

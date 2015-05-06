@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace MangGuoTv.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel:ViewModelBase
     {
         public MainViewModel()
         {

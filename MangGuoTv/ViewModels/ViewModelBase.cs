@@ -11,6 +11,7 @@ namespace MangGuoTv.ViewModels
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void NotifyPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
