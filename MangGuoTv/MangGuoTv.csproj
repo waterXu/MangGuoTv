@@ -103,10 +103,13 @@
     <Compile Include="Helper\VirtualizingCollection.cs" />
     <Compile Include="Helper\WpStorage.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Models\VideoDetail.cs" />
+    <Compile Include="Models\VideoInfo.cs" />
     <Compile Include="Popup\DbLoginControl.xaml.cs" />
     <Compile Include="Popup\DbRegisterControl.xaml.cs" />
     <Compile Include="Popup\PopupManager.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\BannerControl.xaml.cs">
       <DependentUpon>BannerControl.xaml</DependentUpon>

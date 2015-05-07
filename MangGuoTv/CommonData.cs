@@ -42,6 +42,11 @@ namespace MangGuoTv
         /// 专题页面
         /// </summary>
         public static string SpecialPageName { get { return "/Views/MoreSubject.xaml"; } }
+        /// <summary>
+        /// 播放+详情页面
+        /// </summary>
+        public static string PlayerPageName { get { return "/Views/PlayerInfo.xaml"; } }
+
 
         #endregion
 
@@ -200,6 +205,7 @@ namespace MangGuoTv
         public static List<ChannelInfo> NormalChannel { get; set; }
 
         public static bool ChannelLoaded { get; set; }
+
 
 
     }

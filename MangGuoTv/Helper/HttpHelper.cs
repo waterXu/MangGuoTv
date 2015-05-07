@@ -18,7 +18,7 @@ namespace MangGuoTv
 {
     class HttpHelper
     {
-
+        public static string rightCode = "200";
         public static string SyncResultTostring(IAsyncResult syncResult)
         {
             try
@@ -74,7 +74,7 @@ namespace MangGuoTv
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误"+ex.Message);
                     }
-                    if (channels != null) 
+                    if (channels != null && channels.err_code == rightCode) 
                     {
                         CommonData.LockedChannel = channels.data.lockedChannel;
                         CommonData.NormalChannel = channels.data.normalChannel;

@@ -48,18 +48,21 @@ namespace MangGuoTv.Views
             string result = HttpHelper.SyncResultTostring(ar);
             if (result != null)
             {
+                channelDetailResult channelDetails = null;
                 try
                 {
-
-                    channelDetailResult channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        scrollView.LoadChannelDetail(channelDetails.data);
-                    });
+                     channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误");
+                    System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                }
+                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode) 
+                {
+                    CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                    {
+                        scrollView.LoadChannelDetail(channelDetails.data);
+                    });
                 }
             }
             else

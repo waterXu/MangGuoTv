@@ -37,6 +37,23 @@ namespace MangGuoTv
                 return viewModel;
             }
         }
+        private static PlayerViewModel playerModel = null;
+
+        /// <summary>
+        /// 视图用于进行绑定的静态 ViewModel。
+        /// </summary>
+        /// <returns>MainViewModel 对象。</returns>
+        public static PlayerViewModel PlayerModel
+        {
+            get
+            {
+                // 延迟创建视图模型，直至需要时
+                if (playerModel == null)
+                    playerModel = new PlayerViewModel();
+
+                return playerModel;
+            }
+        }
         /// <summary>
         ///提供对电话应用程序的根框架的轻松访问。
         /// </summary>
