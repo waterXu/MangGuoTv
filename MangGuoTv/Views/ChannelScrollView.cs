@@ -49,6 +49,7 @@ namespace MangGuoTv.Views
                         break;
                     case "largeLandScapeNodesc":
                     case "normalLandScapeNodesc":
+                    case "live":
                         CreateLandscapeImage(channeldetail.templateData);
                         break;
                     case "normalLandScape":
@@ -58,6 +59,7 @@ namespace MangGuoTv.Views
                         CreateTitleView(channeldetail.templateData);
                         break;
                     case "rankList":
+                        CreateRankImages(channeldetail.templateData);
                         break;
                     case "unknowModType1":
                         //CreateNorLandscapeImages(channeldetail.templateData);
@@ -76,10 +78,10 @@ namespace MangGuoTv.Views
             foreach (ChannelTemplate template in list)
             {
                 Grid titlePanel = new Grid();
-                titlePanel.Margin = new Thickness(20, 0, 0, 0);
+                titlePanel.Margin = new Thickness(20, 10, 20, 10);
                 titlePanel.Height = 40;
-                Rectangle myRectangle = new Rectangle();
-                myRectangle.Fill = new SolidColorBrush(Color.FromArgb(255, 238, 98, 33));
+                Canvas myRectangle = new Canvas();
+                myRectangle.Background = new SolidColorBrush(Color.FromArgb(255, 238, 98, 33));
                 myRectangle.Width = 10;
                 myRectangle.Height = 40;
                 myRectangle.VerticalAlignment = VerticalAlignment.Center;
@@ -91,6 +93,7 @@ namespace MangGuoTv.Views
                 titleBlock.Text = template.name;
                 titleBlock.Height = 50;
                 titleBlock.Margin = new Thickness(myRectangle.Width+15, 0, 0, 0);
+                titleBlock.FontSize = 25;
                 titlePanel.Children.Add(titleBlock);
                 if (template.jumpType == "subjectPage")
                 {
@@ -162,7 +165,13 @@ namespace MangGuoTv.Views
                 stackPanel.Children.Add(CreateImageView(PopupManager.screenWidth - 20, template, 250));
             }
         }
-
+        private void CreateRankImages(List<ChannelTemplate> list)
+        {
+            foreach (ChannelTemplate template in list)
+            {
+                stackPanel.Children.Add(CreateRankImageView(PopupManager.screenWidth - 20, template, 150));
+            }
+        }
         private void CreateBanner(List<ChannelTemplate> list)
         {
             //timer = new DispatcherTimer();
@@ -250,19 +259,47 @@ namespace MangGuoTv.Views
                     }
                 }
             }
-            // 加载Rectangle
             Grid imageGrid = (Grid)XamlReader.Load(xaml);
             imageGrid.Width = width;
             imageGrid.Height = height;
             imageGrid.DataContext = template;
-            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(Image_Tap);
+            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
             return imageGrid;
         }
-
+        private string rankXaml = string.Empty;
+        private Grid CreateRankImageView(double width, ChannelTemplate template, double height) 
+        {
+            if (string.IsNullOrEmpty(rankXaml))
+            {
+                using (Stream stream = Application.GetResourceStream(new Uri("/MangGuoTv;component/Views/RankImageView.xaml", UriKind.Relative)).Stream)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        rankXaml = reader.ReadToEnd();
+                    }
+                }
+            }
+            Grid imageGrid = (Grid)XamlReader.Load(rankXaml);
+            imageGrid.Width = width;
+            imageGrid.Height = height;
+            imageGrid.DataContext = template;
+            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
+            return imageGrid;
+        }
+        private void GridImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            ChannelTemplate template = (sender as Grid).DataContext as ChannelTemplate;
+            OperationImageTap(template);
+        }
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            ChannelTemplate template = (sender as Control).DataContext as ChannelTemplate;
-            switch (template.jumpType) 
+            ChannelTemplate template = (sender as Image).DataContext as ChannelTemplate;
+            OperationImageTap(template);
+
+        }
+        private void OperationImageTap(ChannelTemplate template) 
+        {
+            switch (template.jumpType)
             {
                 case "videoPlayer":
                     break;
@@ -273,10 +310,11 @@ namespace MangGuoTv.Views
                     break;
                 case "webView":
                     break;
+                case "livePlayer":
+                    break;
                 default:
                     break;
             }
-           
         }
     }
 }

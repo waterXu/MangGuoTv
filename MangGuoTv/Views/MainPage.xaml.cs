@@ -30,7 +30,7 @@ namespace MangGuoTv
                 PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
                 MainPivot.Items.Add(pivot.pivotItem);
             }
-            for (int i = 0; i < CommonData.NormalChannel.Count / 2; i++)
+            for (int i = 0; i < CommonData.NormalChannel.Count; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
                 MainPivot.Items.Add(pivot.pivotItem);
@@ -98,44 +98,10 @@ namespace MangGuoTv
            // System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
         }
 
-        //private void OmnibusPivotItem_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + CommonData.NormalChannel[0].channelId + "&type=" + CommonData.NormalChannel[0].type;
-        //    HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
-        //    System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
-        //}
-
-        //private void LoadChannelCompleted(IAsyncResult ar)
-        //{
-        //    string result = HttpHelper.SyncResultTostring(ar);
-        //    if (result != null)
-        //    {
-        //        try
-        //        {
-        //            List<ChannelDetail> channelDetails = JsonConvert.DeserializeObject<List<ChannelDetail>>(result);
-        //            this.Dispatcher.BeginInvoke(() =>
-        //            {
-        //                LoadChannelDetail(channelDetails);
-        //            });
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误");
-        //        }
-        //    }
-        //    else
-        //    {
-        //    }
-        //}
-
-        //private void LoadChannelDetail(List<ChannelDetail> channelDetails)
-        //{
-            
-        //}
-
         private void AllChannels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
     }
 }

@@ -71,5 +71,6 @@ namespace MangGuoTv.Models
         public string splitItem { get; set; }
         public string canShare { get; set; }
         public string ext { get; set; }
+        public string rank { get; set; }
     }
 }

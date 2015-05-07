@@ -29,7 +29,7 @@ namespace MangGuoTv
                     {
                         Mainpage.Dispatcher.BeginInvoke(() => 
                         {
-                            Mainpage.DataContextLoaded(isSuccess);
+                           // Mainpage.DataContextLoaded(isSuccess);
                         });
                     }
                     break;
