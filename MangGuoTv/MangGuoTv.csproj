@@ -108,6 +108,7 @@
     <Compile Include="Popup\DbLoginControl.xaml.cs" />
     <Compile Include="Popup\DbRegisterControl.xaml.cs" />
     <Compile Include="Popup\PopupManager.cs" />
+    <Compile Include="Style\TiltEffect.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -149,6 +150,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Style\ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\ListboxItemStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

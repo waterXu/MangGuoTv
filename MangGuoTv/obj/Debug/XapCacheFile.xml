@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/7 19:54:24">
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/7 19:54:23" />
+﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/8 11:48:01">
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/8 11:48:00" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="2015/4/30 21:24:51" />
@@ -50,11 +50,11 @@
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\theme.png" archivePath="Images\theme.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\trash.png" archivePath="Images\trash.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\trash1.png" archivePath="Images\trash1.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/7 19:24:25" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/8 10:31:00" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Coding4Fun.Phone.Controls.dll" archivePath="Coding4Fun.Phone.Controls.dll" lastWriteTime="2012/3/16 10:07:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="2014/12/30 12:59:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="2014/12/15 12:33:08" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/7 19:24:25" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/8 10:31:00" />
 </xapCache>

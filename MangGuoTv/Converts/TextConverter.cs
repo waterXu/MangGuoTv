@@ -13,30 +13,14 @@ namespace MangGuoTv.Converts
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            string retValue = "";
-            bool boolVlaue = (bool)value;
-            //if (boolVlaue)
-            //{
-            //    if (parameter!=null && parameter.ToString().Equals("NickName"))
-            //    {
-            //        retValue = DbFMCommonData.NickName ?? (DbFMCommonData.NickName = AppResources.LoginFirst);
-            //    }
-            //    else
-            //    {
-            //        retValue = AppResources.ChangeAccount;
-            //    }
-            //}
-            //else
-            //{
-            //    if (parameter != null && parameter.ToString().Equals("NickName"))
-            //    {
-            //        retValue = AppResources.LoginFirst;
-            //    }
-            //    else
-            //    {
-            //        retValue = AppResources.AccountLogin;
-            //    }
-            //}
+            string retValue = value.ToString();
+            //获取空格之后的字符
+            int index = retValue.IndexOf(" ");
+            if (index != -1) 
+            {
+               retValue = retValue.Substring(retValue.IndexOf(" "));
+            }
+           
             return retValue;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)

@@ -42,6 +42,7 @@ namespace MangGuoTv.Views
 
         private void DramaItem_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("获取剧集列表 url：" + CommonData.GetVideoListUrl + "&videoId=" + App.PlayerModel.VideoIndex);
             HttpHelper.httpGet(CommonData.GetVideoListUrl + "&videoId=" + App.PlayerModel.VideoIndex, (ar) =>
             {
                 string result = HttpHelper.SyncResultTostring(ar);

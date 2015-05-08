@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Windows.Storage;
 using MangGuoTv.PopUp;
+using Microsoft.Phone.Info;
 
 namespace MangGuoTv.Views
 {
@@ -23,6 +24,7 @@ namespace MangGuoTv.Views
         public PivotItem pivotItem;
         public ChannelScrollView scrollView { set; get; }
         private StackPanel stackPanel { get; set; }
+        private bool LoadedComplete = false;
         public PivotItemControl( ChannelInfo channelInfo) 
         {
             channel = channelInfo;
@@ -39,9 +41,19 @@ namespace MangGuoTv.Views
         }
         private void PivotItem_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
+
+
+            if (LoadedComplete) return;
             string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
+
+
+           
         }
         private void LoadChannelCompleted(IAsyncResult ar)
         {
@@ -62,6 +74,7 @@ namespace MangGuoTv.Views
                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                     {
                         scrollView.LoadChannelDetail(channelDetails.data);
+                        LoadedComplete = true;
                     });
                 }
             }

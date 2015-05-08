@@ -8,7 +8,9 @@
         <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill" CacheMode="BitmapCache"></Image>
-    <TextBlock Grid.Row="0" Text="{Binding tag}" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="25" Margin="0,0,10,0" TextWrapping="Wrap"></TextBlock>
+    <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5">
+        <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"></TextBlock>
+    </Border>
     <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" ></TextBlock>
     <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"></TextBlock>
 </Grid>

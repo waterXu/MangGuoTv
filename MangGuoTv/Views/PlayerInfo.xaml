@@ -26,7 +26,7 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="剧集" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox x:Name="AllDramas" ItemsSource="{Binding AllDramas}" Margin="0,10,0,-10" SelectionChanged="AllDramas_SelectionChanged">
+                <ListBox x:Name="AllDramas" ItemsSource="{Binding AllDramas}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" SelectionChanged="AllDramas_SelectionChanged" HorizontalAlignment="Center">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -34,9 +34,7 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="#FFFF7E0D" BorderThickness="2" Width="80" Margin="10">
-                                <TextBlock Text="{Binding videoIndex}" FontSize="25"/>
-                            </Border>
+                            <TextBlock Text="{Binding name, Converter={StaticResource textConverter},ConverterParameter= name}" FontSize="25"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
