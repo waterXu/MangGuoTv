@@ -17,7 +17,7 @@ namespace MangGuoTv
         /// </summary>
         public static string MangGuoHost { get { return "http://mobile.api.hunantv.com/"; } }
 
-        public static string CommonUrl { get { return "userId="+UserId+"&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=android"; } }
+        public static string CommonUrl { get { return "userId="+UserId+"&osVersion=4.4&device=sdk&appVersion=4.3.4&ticket=&channel=360dev&mac=i000000000000000&osType=ios"; } }
         /// <summary>
         /// 视频列表url
         /// </summary>
@@ -39,6 +39,27 @@ namespace MangGuoTv
         /// </summary>
         public static string GetVideoDetailUrl { get { return MangGuoHost + "video/getById?" + CommonUrl; } }
         /// <summary>
+        /// 获取视频数据
+        /// </summary>
+        public static string GetVideoResourceUrl { get { return MangGuoHost + "video/getSource?" + CommonUrl; } }
+        /// <summary>
+        /// 评论
+        /// </summary>
+        public static string GetVideoComment { get { return MangGuoHost + "mobile_comment/top?" + CommonUrl + "&type=hunantv2014"; } }
+        /// <summary>
+        /// 更多评论
+        /// </summary>
+        public static string GetMoreVideoComment { get { return MangGuoHost + "comment/read?" + CommonUrl; } } 
+        /// <summary>
+        /// 视频花絮
+        /// </summary>
+        public static string GetVideoRrelated { get { return MangGuoHost + "video/relatedVideos?" + CommonUrl; } }
+        /// <summary>
+        /// 获取更多频道信息
+        /// </summary>
+        public static string GetMoreChannelInfo { get { return MangGuoHost + "list?" + CommonUrl; } }
+        
+        /// <summary>
         /// 专题页面
         /// </summary>
         public static string SpecialPageName { get { return "/Views/MoreSubject.xaml"; } }
@@ -46,6 +67,10 @@ namespace MangGuoTv
         /// 播放+详情页面
         /// </summary>
         public static string PlayerPageName { get { return "/Views/PlayerInfo.xaml"; } }
+        /// <summary>
+        /// 更多渠道信息
+        /// </summary>
+        public static string MoreChannelPageName { get { return "/Views/MoreChannelInfo.xaml"; } }
 
 
         #endregion

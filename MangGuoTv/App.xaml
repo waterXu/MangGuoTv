@@ -15,6 +15,8 @@
             </ResourceDictionary.MergedDictionaries>
             <local:LocalizedStrings xmlns:local="clr-namespace:MangGuoTv" x:Key="LocalizedStrings"/>
             <convert:TextConverter x:Key="textConverter" />
+            <convert:DetailConverter x:Key="detailConverter" />
+            <convert:VisibleConverter x:Key="visibleConverter" /> 
         </ResourceDictionary>
     </Application.Resources>
 

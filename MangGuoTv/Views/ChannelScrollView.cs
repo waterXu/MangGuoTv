@@ -49,7 +49,6 @@ namespace MangGuoTv.Views
                         break;
                     case "largeLandScapeNodesc":
                     case "normalLandScapeNodesc":
-                    case "live":
                         CreateLandscapeImage(channeldetail.templateData);
                         break;
                     case "normalLandScape":
@@ -60,6 +59,9 @@ namespace MangGuoTv.Views
                         break;
                     case "rankList":
                         CreateRankImages(channeldetail.templateData);
+                        break;
+                    case "live":
+                        CreateLiveView(channeldetail.templateData);
                         break;
                     case "unknowModType1":
                         //CreateNorLandscapeImages(channeldetail.templateData);
@@ -73,6 +75,8 @@ namespace MangGuoTv.Views
             }
             return scrollView;
         }
+
+       
         private void CreateTitleView(List<ChannelTemplate> list)
         {
             foreach (ChannelTemplate template in list)
@@ -118,6 +122,7 @@ namespace MangGuoTv.Views
             ChannelTemplate template = (sender as TextBlock).DataContext as ChannelTemplate;
             MoreSubject.subjectId = template.subjectId;
             MoreSubject.speicalName = template.name;
+            MoreSubject.isMoreChannel = false;
             CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.SpecialPageName, UriKind.Relative));
         }
         /// <summary>
@@ -171,6 +176,28 @@ namespace MangGuoTv.Views
             {
                 stackPanel.Children.Add(CreateRankImageView(PopupManager.screenWidth - 20, template, 150));
             }
+        }
+        private void CreateLiveView(List<ChannelTemplate> list)
+        {
+            foreach(ChannelTemplate template in list)
+            {
+                Grid myGrid = new Grid();
+                myGrid.Height = 150;
+                myGrid.Margin = new Thickness(10,5,5,10);
+                Image liveImage = new Image();
+                liveImage.Source = new BitmapImage(new Uri(template.picUrl,UriKind.RelativeOrAbsolute));
+                liveImage.Height = 130;
+                liveImage.Width = 150;
+                liveImage.HorizontalAlignment = HorizontalAlignment.Left;
+                TextBlock text = new TextBlock();
+                text.Margin = new Thickness(liveImage.Width+10,0,0,0);
+                text.VerticalAlignment = VerticalAlignment.Center;
+                text.Text = template.name;
+                myGrid.Children.Add(liveImage);
+                myGrid.Children.Add(text);
+                stackPanel.Children.Add(myGrid);
+            }
+          
         }
         private void CreateBanner(List<ChannelTemplate> list)
         {
@@ -302,12 +329,13 @@ namespace MangGuoTv.Views
             switch (template.jumpType)
             {
                 case "videoPlayer":
-                    App.PlayerModel.VideoIndex = template.videoId;
+                    App.PlayerModel.VideoId = template.videoId;
                     CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
                     break;
                 case "subjectPage":
                     MoreSubject.subjectId = template.subjectId;
                     MoreSubject.speicalName = template.name;
+                    MoreSubject.isMoreChannel = false;
                     CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.SpecialPageName, UriKind.Relative));
                     break;
                 case "webView":

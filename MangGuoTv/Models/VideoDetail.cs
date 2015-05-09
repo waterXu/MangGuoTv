@@ -10,17 +10,17 @@ namespace MangGuoTv.Models
     {
         public string err_code { get; set; }
         public string err_msg { get; set; }
-        public List<VideoDetailData> data { get; set; }
+        public VideoData data { get; set; }
     }
-    public class VideoDetailData 
+    public class VideoData 
     {
         public string reviewState { get; set; }
         public string displayType { get; set; }
-        public string videoSources { get; set; }
+        public List<VideoDefinition> videoSources { get; set; }
         public string years { get; set; }
-        public string downloadUrl { get; set; }
+        public List<VideoDefinition> downloadUrl { get; set; }
         public string adParams { get; set; }
-        public List<VideoDetail> detail {get;set;}
+        public VideoDetail detail {get;set;}
     }
     public class VideoDetail
     {

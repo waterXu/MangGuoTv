@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/8 11:48:01">
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/8 11:48:00" />
+﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/10 3:02:49">
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/10 3:02:48" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="2015/4/30 21:24:51" />
@@ -12,49 +12,27 @@
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\btn_a_on.png" archivePath="Images\btn_a_on.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\btn_c.png" archivePath="Images\btn_c.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\btn_on.png" archivePath="Images\btn_on.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\camera.png" archivePath="Images\camera.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\checkbox.png" archivePath="Images\checkbox.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\checked.png" archivePath="Images\checked.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\close.png" archivePath="Images\close.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\day.png" archivePath="Images\day.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\db.png" archivePath="Images\db.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\defaultuser.png" archivePath="Images\defaultuser.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\delete.png" archivePath="Images\delete.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\delete1.png" archivePath="Images\delete1.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\down.png" archivePath="Images\down.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\exit.png" archivePath="Images\exit.png" lastWriteTime="2015/5/2 23:56:33" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\Icons\close.png" archivePath="Images\Icons\close.png" lastWriteTime="2015/5/9 17:15:48" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\Icons\down.reset.png" archivePath="Images\Icons\down.reset.png" lastWriteTime="2015/5/9 16:27:41" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\forward.png" archivePath="Images\forward.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\header.jpg" archivePath="Images\header.jpg" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\heart.png" archivePath="Images\heart.png" lastWriteTime="2015/5/2 23:56:33" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\Icons\down.png" archivePath="Images\Icons\down.png" lastWriteTime="2015/5/9 16:41:27" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\input.png" archivePath="Images\input.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\input2.png" archivePath="Images\input2.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\inputa.png" archivePath="Images\inputa.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\inputb.png" archivePath="Images\inputb.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\logo.png" archivePath="Images\logo.png" lastWriteTime="2015/5/2 23:57:30" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\love.png" archivePath="Images\love.png" lastWriteTime="2015/5/2 23:56:34" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\main.png" archivePath="Images\main.png" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\moon.png" archivePath="Images\moon.png" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\night.png" archivePath="Images\night.png" lastWriteTime="2015/5/2 23:56:34" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pause.png" archivePath="Images\pause.png" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pivot1.jpg" archivePath="Images\pivot1.jpg" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pivot2.jpg" archivePath="Images\pivot2.jpg" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pivot3.jpg" archivePath="Images\pivot3.jpg" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pivot4.jpg" archivePath="Images\pivot4.jpg" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\zhengshuan.jpg" archivePath="Images\zhengshuan.jpg" lastWriteTime="2015/5/5 12:07:12" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\play.png" archivePath="Images\play.png" lastWriteTime="2015/5/2 23:56:34" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\reload.png" archivePath="Images\reload.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\star.png" archivePath="Images\star.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\stary.png" archivePath="Images\stary.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\stats.png" archivePath="Images\stats.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\sun.png" archivePath="Images\sun.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\theme.png" archivePath="Images\theme.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\trash.png" archivePath="Images\trash.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\trash1.png" archivePath="Images\trash1.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/8 10:31:00" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/10 3:02:49" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Coding4Fun.Phone.Controls.dll" archivePath="Coding4Fun.Phone.Controls.dll" lastWriteTime="2012/3/16 10:07:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="2014/12/30 12:59:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="2014/12/15 12:33:08" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/8 10:31:00" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/10 3:02:49" />
 </xapCache>

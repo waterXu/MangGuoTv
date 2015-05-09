@@ -28,11 +28,13 @@ namespace MangGuoTv
             for (int i = 0; i < CommonData.LockedChannel.Count; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
+                pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
                 MainPivot.Items.Add(pivot.pivotItem);
             }
-            for (int i = 0; i < CommonData.NormalChannel.Count; i++)
+            for (int i = 0; i < CommonData.NormalChannel.Count/2; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
+                pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
                 MainPivot.Items.Add(pivot.pivotItem);
             }
             MainPivot.SelectedIndex = 2;
@@ -100,7 +102,34 @@ namespace MangGuoTv
 
         private void AllChannels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            ChannelInfo info = AllChannels.SelectedItem as ChannelInfo;
+            if (info != null) 
+            {
+                if (info.libId == "0")
+                {
+                    for (int i = 0; i < MainPivot.Items.Count; i++) 
+                    {
+                        PivotItem pivotItem = MainPivot.Items[i] as PivotItem;
+                        ChannelInfo channelinfo = pivotItem.DataContext as ChannelInfo;
+                        if (channelinfo != null && channelinfo.channelId == info.channelId) 
+                        {
+                            MainPivot.SelectedIndex = i;
+                            return;
+                        }
+                        MoreSubject.subjectId = info.channelId;
+                        MoreSubject.speicalName = info.channelName;
+                        MoreSubject.isMoreChannel = true;
+                        MoreSubject.channelType = info.type;
+                        CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.SpecialPageName, UriKind.Relative));
+                    }
+                }
+                else 
+                {
+                    MoreChannelInfo.typeId = info.libId;
+                    MoreChannelInfo.name = info.channelName;
+                    this.NavigationService.Navigate(new Uri(CommonData.MoreChannelPageName, UriKind.Relative));
+                }
+            }
         }
 
     }

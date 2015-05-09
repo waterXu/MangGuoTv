@@ -12,18 +12,16 @@ using Newtonsoft.Json;
 
 namespace MangGuoTv.Views
 {
-    public partial class MoreSubject : PhoneApplicationPage
+    public partial class MoreChannelInfo : PhoneApplicationPage
     {
-        public static string subjectId { get; set; }
-        public static string speicalName { get; set; }
-        public static bool isMoreChannel { get; set; }
-        public static string channelType { get; set; }
-
-
-        public MoreSubject()
+        public static string typeId { get; set; }
+        public static string name { get; set; }
+        private int pageCount = 0;
+        public MoreChannelInfo()
         {
             InitializeComponent();
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -36,16 +34,8 @@ namespace MangGuoTv.Views
         }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            this.subjectName.Text = speicalName;
-            string channelInfoUrl = null;
-            if (isMoreChannel) 
-            {
-                channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + subjectId + "&type=" + channelType;
-            }
-            else
-            {
-                channelInfoUrl = CommonData.GetSpecialUrl + "&subjectId=" + subjectId;
-            }
+            this.channelName.Text = name;
+            string channelInfoUrl = CommonData.GetMoreChannelInfo + "&type=" + typeId + "&pageCount=" + pageCount;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
         }
@@ -57,13 +47,13 @@ namespace MangGuoTv.Views
                 channelDetailResult channelDetails = null;
                 try
                 {
-                     channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
+                    channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
                 }
-                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode) 
+                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
                 {
                     this.Dispatcher.BeginInvoke(() =>
                     {
@@ -79,6 +69,9 @@ namespace MangGuoTv.Views
             }
         }
 
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

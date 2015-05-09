@@ -1,0 +1,66 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MangGuoTv.Views.DownVideo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    xmlns:CB="clr-namespace:MangGuoTv"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0"
+    shell:SystemTray.ForegroundColor="White">
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
+        <phone:Pivot x:Name="MainPivot" Grid.Row="1">
+            <phone:PivotItem Margin="0,10,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="正在缓存" Width="150"  FontSize="35"></TextBlock>
+                </phone:PivotItem.Header>
+                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding DowningVideo}"  x:Name="RelatedVideos" CB:TiltEffect.IsTiltEnabled="true">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10">
+                                <Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                <StackPanel Margin="110,0,0,0">
+                                    <TextBlock Grid.Row="0" Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding name}"></TextBlock>
+                                    <ProgressBar Name="pbVideo1"/>
+                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Text="{Binding desc}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </phone:PivotItem>
+            <phone:PivotItem Margin="0,10,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="已经缓存" Width="150"  FontSize="35"></TextBlock>
+                </phone:PivotItem.Header>
+                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  CB:TiltEffect.IsTiltEnabled="true">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid  Margin="10">
+                                <Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                <StackPanel Margin="110,0,0,0">
+                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding name}"></TextBlock>
+                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding desc}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+</phone:PhoneApplicationPage>

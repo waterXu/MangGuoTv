@@ -46,17 +46,10 @@
         </Setter>
     </Style>
     <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="Gray"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Margin" Value="0,5"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Top"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="LayoutRoot"  CB:TiltEffect.IsTiltEnabled="true" Height="60" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <Border  CB:TiltEffect.IsTiltEnabled="true"  x:Name="LayoutRoot" BorderThickness="0" Margin="15,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"  Background="Gray">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
@@ -91,21 +84,8 @@
                                 <CheckBox x:Name="checkBox" IsHitTestVisible="False" Visibility="Collapsed"/>
                             </Grid>
                             <Grid Grid.Column="1">
-                                <Rectangle x:Name="pressRect" Opacity="0">
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                            <GradientStop Color="Transparent" Offset="0" />
-                                            <GradientStop Color="#B5FFFFFF" Offset="0.5"/>
-                                            <GradientStop Color="#B5FFFFFF" Offset="0.5" />
-                                            <GradientStop Color="Transparent" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                                <Border x:Name="BorderStyle" BorderBrush="Red" BorderThickness="3" Opacity="0">
-                                    <Image Height="20" Width="20" Source="/Images/checked.png" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                                </Border>
-                                <Border Background="#FFE4EAEB" Opacity=".5"></Border>
-                                <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:LayoutOverrides="Width, Height" Grid.Column="1" VerticalAlignment="Center"/>
+                                <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="1" Opacity="0"/>
+                                <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Center"  Margin="5" VerticalContentAlignment="Center" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Grid>
                     </Border>
