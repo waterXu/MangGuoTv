@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DouBanFMBase
+namespace MangGuoTv
 {
     public class VirtualizingCollection<T> : IList<T>, IList, INotifyPropertyChanged, INotifyCollectionChanged
     {

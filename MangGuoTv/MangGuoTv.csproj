@@ -113,6 +113,7 @@
     <Compile Include="Popup\DbRegisterControl.xaml.cs" />
     <Compile Include="Popup\PopupManager.cs" />
     <Compile Include="Style\TiltEffect.cs" />
+    <Compile Include="ViewModels\DownVideoInfoViewMoel.cs" />
     <Compile Include="ViewModels\DownVideoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Views\BannerControl.xaml.cs">
       <DependentUpon>BannerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChangeButton.cs" />
     <Compile Include="Views\ChannelScrollView.cs" />
     <Compile Include="Views\DownVideo.xaml.cs">
       <DependentUpon>DownVideo.xaml</DependentUpon>
@@ -250,6 +252,7 @@
     <Content Include="Images\pause.png" />
     <Content Include="Images\play.png" />
     <Content Include="Images\reload.png" />
+    <Content Include="Images\start.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

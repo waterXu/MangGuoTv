@@ -28,15 +28,15 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="正在缓存" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding DowningVideo}"  x:Name="RelatedVideos" CB:TiltEffect.IsTiltEnabled="true">
+                <ListBox Margin="5,0" ItemsSource="{Binding DowningVideo}"  x:Name="RelatedVideos" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="10">
-                                <Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                            <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
+                                <Image Source="{Binding Image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
                                 <StackPanel Margin="110,0,0,0">
-                                    <TextBlock Grid.Row="0" Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding name}"></TextBlock>
-                                    <ProgressBar Name="pbVideo1"/>
-                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Text="{Binding desc}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter},ConverterParameter= IsLoading}"/>
+                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Text="{Binding Desc}"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -47,14 +47,14 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="已经缓存" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  CB:TiltEffect.IsTiltEnabled="true">
+                <ListBox Margin="5,0" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid  Margin="10">
-                                <Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                            <Grid  Margin="10" CB:TiltEffect.IsTiltEnabled="true">
+                                <Image Source="{Binding LocalImage}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
                                 <StackPanel Margin="110,0,0,0">
-                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding name}"></TextBlock>
-                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding desc}"></TextBlock>
+                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding Desc}"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

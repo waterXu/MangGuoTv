@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/10 3:02:49">
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/10 3:02:48" />
+﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/5/10 22:47:27">
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/5/10 22:47:26" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="2015/4/30 21:24:51" />
@@ -25,14 +25,15 @@
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\inputb.png" archivePath="Images\inputb.png" lastWriteTime="2015/5/2 23:56:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\logo.png" archivePath="Images\logo.png" lastWriteTime="2015/5/2 23:57:30" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\main.png" archivePath="Images\main.png" lastWriteTime="2015/5/2 23:56:34" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pause.png" archivePath="Images\pause.png" lastWriteTime="2015/5/2 23:56:34" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\pause.png" archivePath="Images\pause.png" lastWriteTime="2015/5/10 20:55:41" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\play.png" archivePath="Images\play.png" lastWriteTime="2015/5/2 23:56:34" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\reload.png" archivePath="Images\reload.png" lastWriteTime="2015/5/2 23:56:33" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/10 3:02:49" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Images\start.png" archivePath="Images\start.png" lastWriteTime="2015/5/10 20:55:41" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="2015/5/10 22:36:33" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="2015/4/30 21:24:51" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Coding4Fun.Phone.Controls.dll" archivePath="Coding4Fun.Phone.Controls.dll" lastWriteTime="2012/3/16 10:07:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="2014/12/30 12:59:46" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="2014/12/15 12:33:08" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/10 3:02:49" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/5/10 22:36:33" />
 </xapCache>

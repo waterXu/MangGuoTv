@@ -12,8 +12,17 @@ namespace MangGuoTv.Converts
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            string val = value.ToString();
-            return string.IsNullOrEmpty(val) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+            if (parameter is Boolean)
+            {
+                bool val = (bool)value;
+                return val? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            }
+            else 
+            {
+                string val = value.ToString();
+                return string.IsNullOrEmpty(val) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+            }
+           
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {

@@ -20,11 +20,13 @@ namespace MangGuoTv.Views
         {
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
+            this.DataContext = App.DownVideoModel;
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
             CallbackManager.currentPage = null;
+            this.DataContext = null;
         }
         private void DownedVideo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

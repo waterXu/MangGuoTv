@@ -90,7 +90,7 @@ namespace MangGuoTv.ViewModels
                 videoId = value;
             }
         }
-        private int dramaPageCount = 1;
+        private int dramaPageCount = 0;
         public int DramaPageCount 
         {
             get { return dramaPageCount; }
@@ -118,7 +118,7 @@ namespace MangGuoTv.ViewModels
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
-                            if (DramaPageCount > 1)
+                            if (DramaPageCount > 0)
                             {
                                 AllDramas.AddRange(videosResult.data);
                             }

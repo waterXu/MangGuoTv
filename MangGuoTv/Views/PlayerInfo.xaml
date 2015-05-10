@@ -27,18 +27,43 @@
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2.5*"/>
         </Grid.RowDefinitions>
-        <TextBlock Margin="10,0,0,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
-        <MediaElement AutoPlay="True" x:Name="myMediaElement"  Grid.Row="1"></MediaElement>
+        <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
+        <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+        <MediaElement AutoPlay="True" x:Name="myMediaElement"  Grid.Row="2"></MediaElement>
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
-        <Slider Name="pbVideo" Grid.Row="2" VerticalAlignment="Bottom"  Value="0" Minimum="0" Maximum="100" Foreground="#FFF88035" Background="#FF9A968B"  ValueChanged="pbVideo_ValueChanged" IsEnabled="False" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus"/>
-        <TextBlock x:Name="StartTextBlock" Grid.Row="2" Text="00:00"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
-        <TextBlock x:Name="EndTextBlock" Text="00:00"  Grid.Row="2" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
-        <phone:Pivot x:Name="MainPivot" Grid.Row="3" >
+        <Grid Grid.Row="3"  x:Name="playerGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Tap="PlayerGrid_Tap">
+                <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
+                    <!--<CB:ChangeButton  CB:TiltEffect.IsTiltEnabled="true" x:Name="PlayBtn" DefaultImage="/Images/heart.png" SeletedImage="/Images/start.png" Click="ChangeButton_Click" ></CB:ChangeButton>-->
+                    <Image Source="/Images/start.png" x:Name="PlayImg"></Image>
+                </Border>
+            </Grid>
+            
+            <Grid Grid.Column="1" Margin="10,0,0,0">
+                <Slider Name="pbVideo" VerticalAlignment="Bottom"  Value="0" Minimum="0" Maximum="100" Foreground="#FFF88035" Background="#FF9A968B"  ValueChanged="pbVideo_ValueChanged" IsEnabled="False" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus"/>
+                <TextBlock x:Name="StartTextBlock" Text="00:00"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
+                <TextBlock x:Name="EndTextBlock" Text="00:00"  FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
+            </Grid>
+
+            <Button  Style="{StaticResource S_Button}"  Grid.Column="2" BorderThickness="0" Click="fullScreen_Click" x:Name="fullScreen">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/btn_on.png"/>
+                </Button.Background>
+            </Button>
+        </Grid>
+       
+        <phone:Pivot x:Name="MainPivot" Grid.Row="4" >
             <phone:PivotItem Margin="0,10,0,0" x:Name="DramaItem" Loaded="DramaItem_Loaded">
                 <phone:PivotItem.Header>
                     <TextBlock Text="剧集" Width="80"  FontSize="35"></TextBlock>

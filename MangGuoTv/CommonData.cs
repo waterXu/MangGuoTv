@@ -71,6 +71,10 @@ namespace MangGuoTv
         /// 更多渠道信息
         /// </summary>
         public static string MoreChannelPageName { get { return "/Views/MoreChannelInfo.xaml"; } }
+        /// <summary>
+        /// 显示下载页面
+        /// </summary>
+        public static string DownVideoPage { get { return "/Views/DownVideo.xaml"; } }
 
 
         #endregion

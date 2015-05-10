@@ -84,7 +84,7 @@
                                 <CheckBox x:Name="checkBox" IsHitTestVisible="False" Visibility="Collapsed"/>
                             </Grid>
                             <Grid Grid.Column="1">
-                                <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="1" Opacity="0"/>
+                                <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="3" Opacity="0"/>
                                 <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Center"  Margin="5" VerticalContentAlignment="Center" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Grid>

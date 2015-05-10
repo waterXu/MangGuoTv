@@ -54,6 +54,24 @@ namespace MangGuoTv
                 return playerModel;
             }
         }
+        private static DownVideoViewModel downVideoModel = null;
+
+        /// <summary>
+        /// 视图用于进行绑定的静态 ViewModel。
+        /// </summary>
+        /// <returns>MainViewModel 对象。</returns>
+        public static DownVideoViewModel DownVideoModel
+        {
+            get
+            {
+                // 延迟创建视图模型，直至需要时
+                if (downVideoModel == null)
+                    downVideoModel = new DownVideoViewModel();
+
+                return downVideoModel;
+            }
+        }
+        
         /// <summary>
         ///提供对电话应用程序的根框架的轻松访问。
         /// </summary>

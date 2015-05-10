@@ -11,12 +11,17 @@ using MangGuoTv.Models;
 using Newtonsoft.Json;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Threading;
+using System.Windows.Media.Imaging;
 
 namespace MangGuoTv
 {
     public partial class PlayerInfo : PhoneApplicationPage
     {
         private bool IsDownMode = false;
+        private string pauseImg = "/Images/pause.png";
+        private string playImg = "/Images/start.png";
+        private bool playImgStatus = false;
         public PlayerInfo()
         {
             InitializeComponent();
@@ -175,14 +180,17 @@ namespace MangGuoTv
             if (myMediaElement.CurrentState == MediaElementState.Playing)
             {//播放视频时各菜单的状态
                 currentPosition.Start();
+                PlayImg.Source = new BitmapImage(new Uri(pauseImg,UriKind.RelativeOrAbsolute));
             }
             else if (myMediaElement.CurrentState == MediaElementState.Paused)
             { //暂停视频时各菜单的状态
                 currentPosition.Stop();
+                PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
             }
             else
             {//停止视频时各菜单的状态
                 currentPosition.Stop();
+                PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
             }
         }
         //多媒体停止时触发的事件
@@ -199,7 +207,7 @@ namespace MangGuoTv
             //获取多媒体视频的总时长来设置进度条的最大值
             pbVideo.Maximum = (int)myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
             string endtext = myMediaElement.NaturalDuration.TimeSpan.ToString();
-            EndTextBlock.Text = endtext.Substring(3, 5);
+            EndTextBlock.Text = endtext.Substring(0,endtext.IndexOf("."));
             myMediaElement.BufferingProgressChanged += new RoutedEventHandler(MediaBufferChannged);
             //播放视频
             myMediaElement.Play();
@@ -218,6 +226,7 @@ namespace MangGuoTv
         private void pbVideo_LostFocus(object sender, RoutedEventArgs e)
         {
             pbVideo.Tag = "loseFoucesed";
+           /// Thread.Sleep(2000);
             currentPosition.Start();
         }
         private void pbVideo_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -233,7 +242,8 @@ namespace MangGuoTv
                     TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
                     TimeSpan newtimeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
                     myMediaElement.Position = timeSpan;
-                    myMediaElement.BufferingTime = timeSpan - newtimeSpan;
+                    fullScreen.Focus();
+                    //myMediaElement.BufferingTime = timeSpan - newtimeSpan;
                 }
             }
         }
@@ -245,7 +255,6 @@ namespace MangGuoTv
             string start = myMediaElement.Position.ToString();
             StartTextBlock.Text = start.Substring(3, 5);
             pbVideo.Tag = "loseFoucesed";
-
         }
         //播放视频菜单事件
         private void Play_Click(object sender, EventArgs e)
@@ -262,6 +271,23 @@ namespace MangGuoTv
         {
             myMediaElement.Stop();
         }
+
+        private void PlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            playImgStatus = !playImgStatus;
+            if (playImgStatus)
+            {
+                myMediaElement.Play();
+                PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
+
+            }
+            else 
+            {
+                myMediaElement.Pause();
+                PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+            }
+        }
+
         #endregion
 
         #region applicationBar method
@@ -303,7 +329,16 @@ namespace MangGuoTv
         }
         private void StartDownIcon_Click(object sender, EventArgs e)
         {
-
+            foreach (VideoInfo videoInfo in AllDramas.SelectedItems) 
+            {
+                App.DownVideoModel.AddDownVideo(videoInfo);
+            }
+            LoadDownIcon();
+            Style itemStyle = Resources["ListBoxItemStyle"] as Style;
+            AllDramas.ItemContainerStyle = itemStyle;
+            AllDramas.SelectionMode = SelectionMode.Single;
+            IsDownMode = false;
+            LoadDramaSeletedItem(App.PlayerModel.VideoId, true);
         }
        
         private void LoadDownIcon()
@@ -321,9 +356,21 @@ namespace MangGuoTv
         }
         private void ShowDownVideos_Click(object sender, EventArgs e)
         {
-
+            this.NavigationService.Navigate(new Uri(CommonData.DownVideoPage, UriKind.RelativeOrAbsolute));
         }
         #endregion
+
+
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        private void fullScreen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
 
 
