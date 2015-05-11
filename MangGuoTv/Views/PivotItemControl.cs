@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Windows.Storage;
 using MangGuoTv.PopUp;
 using Microsoft.Phone.Info;
+using Microsoft.Phone.Shell;
 
 namespace MangGuoTv.Views
 {
@@ -48,6 +49,7 @@ namespace MangGuoTv.Views
 
 
             if (LoadedComplete) return;
+            ShowLoading();
             string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
@@ -74,14 +76,47 @@ namespace MangGuoTv.Views
                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                     {
                         scrollView.LoadChannelDetail(channelDetails.data);
+                        scrollView.HideReload();
+                        progressIndicator.IsVisible = false;
                         LoadedComplete = true;
                     });
                 }
             }
             else
             {
-                App.ShowToast("获取数据失败，请检查网络或重试");
+                if (CommonData.NetworkStatus != "None") 
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    scrollView.loadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadData);
+                    progressIndicator.IsVisible = false;
+                    scrollView.ShowReload();
+                });
+               
             }
+        }
+
+        private void ReloadData(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            scrollView.HideReload();
+            string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
+            HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
+            System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
+
+        }
+        ProgressIndicator progressIndicator = null;
+        private void ShowLoading() 
+        {
+            if (progressIndicator == null) 
+            {
+                progressIndicator = new ProgressIndicator();
+            }
+            Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
+            progressIndicator.Text = "                                   正在加载";
+            progressIndicator.IsIndeterminate = true;
+            progressIndicator.IsVisible = true;
         }
     }
 }

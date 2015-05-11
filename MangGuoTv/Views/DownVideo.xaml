@@ -32,11 +32,21 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
-                                <Image Source="{Binding Image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
-                                <StackPanel Margin="110,0,0,0">
-                                    <TextBlock Grid.Row="0" Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
-                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter},ConverterParameter= IsLoading}"/>
-                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Text="{Binding Desc}"></TextBlock>
+                                <Image Source="{Binding Image}" Width="130" Height="100" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                <StackPanel Margin="140,0,0,0">
+                                    <TextBlock  Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                                    <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding Desc}"></TextBlock>
+                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter},ConverterParameter= IsLoading}" Maximum="{Binding MaxProgress}"/>
+                                    <Grid>
+                                        <TextBlock FontSize="20" TextWrapping="Wrap" Text="下载中" HorizontalAlignment="Left"></TextBlock>
+                                        <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding Speed}" HorizontalAlignment="Center"></TextBlock>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding Loadsize}"/>
+                                            <TextBlock Text="/"/>
+                                            <TextBlock Text="{Binding Size}"/>
+                                        </StackPanel>
+                                    </Grid>             
+                                   
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

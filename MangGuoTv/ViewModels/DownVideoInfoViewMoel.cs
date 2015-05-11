@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MangGuoTv.ViewModels
 {
-    public class DownVideoInfoViewMoel:ViewModelBase
+    public class DownVideoInfoViewMoel : ViewModelBase
     {
         private string videoId;
         public string VideoId
@@ -41,6 +41,7 @@ namespace MangGuoTv.ViewModels
             }
         }
         public string DownUrl { get; set; }
+
         private string name;
         public string Name
         {
@@ -183,6 +184,58 @@ namespace MangGuoTv.ViewModels
                     loadProgress = value;
                     NotifyPropertyChanged("LoadProgress");
                 }
+            }
+        }
+        private double maxProgress;
+        public double MaxProgress
+        {
+            get
+            {
+                return maxProgress;
+            }
+            set
+            {
+                maxProgress = value;
+                NotifyPropertyChanged("MaxProgress");
+            }
+        }
+        private string speed;
+        public string Speed
+        {
+            get
+            {
+                return speed;
+            }
+            set
+            {
+                speed = value;
+                NotifyPropertyChanged("Speed");
+            }
+        }
+        private string size;
+        public string Size
+        {
+            get
+            {
+                return size;
+            }
+            set
+            {
+                size = value;
+                NotifyPropertyChanged("Size");
+            }
+        }
+        private string loadsize;
+        public string Loadsize
+        {
+            get
+            {
+                return loadsize;
+            }
+            set
+            {
+                loadsize = value;
+                NotifyPropertyChanged("Loadsize");
             }
         }
     }

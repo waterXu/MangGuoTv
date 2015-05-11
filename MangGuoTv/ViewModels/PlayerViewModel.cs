@@ -81,6 +81,17 @@ namespace MangGuoTv.ViewModels
                 _downloadUrl = value;
             }
         }
+        private Uri _mediaSource;
+        public Uri MediaSource
+        {
+            get { return _mediaSource; }
+            set 
+            {
+                _mediaSource = value;
+                NotifyPropertyChanged("MediaSource");
+            }
+        }
+      
         private string videoId;
         public string VideoId
         {
@@ -254,6 +265,43 @@ namespace MangGuoTv.ViewModels
                     App.ShowToast("获取数据失败，请检查网络或重试");
                 }
             });
+        }
+        public void PlayerVideo(VideoInfo info)
+        {
+            //设置多媒体控件的网络视频资源
+            if (info.downloadUrl.Count > 0)
+            {
+                string playUrl = info.downloadUrl[0].url;
+                System.Diagnostics.Debug.WriteLine("获取播放源：" + playUrl);
+                HttpHelper.httpGet(playUrl, (ar) =>
+                {
+                    string result = HttpHelper.SyncResultTostring(ar);
+                    if (result != null)
+                    {
+                        ResourceInfo videosResult = null;
+                        try
+                        {
+                            videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                        }
+                        if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
+                        {
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                MediaSource = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
+                                System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
+                            });
+                        }
+                    }
+                    else
+                    {
+                        App.ShowToast("获取视频数据失败，请检查网络或重试");
+                    }
+                });
+            }
         }
         internal void ReloadNewVideo()
         {

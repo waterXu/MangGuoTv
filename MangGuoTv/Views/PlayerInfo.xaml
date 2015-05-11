@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
-        <MediaElement AutoPlay="True" x:Name="myMediaElement"  Grid.Row="2"></MediaElement>
+        <MediaElement AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">
             <Grid.ColumnDefinitions>
@@ -50,19 +50,18 @@
                 </Border>
             </Grid>
             
-            <Grid Grid.Column="1" Margin="10,0,0,0">
-                <Slider Name="pbVideo" VerticalAlignment="Bottom"  Value="0" Minimum="0" Maximum="100" Foreground="#FFF88035" Background="#FF9A968B"  ValueChanged="pbVideo_ValueChanged" IsEnabled="False" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus"/>
+            <Grid Grid.Column="1" Margin="5,0,0,0">
+                <Slider Name="pbVideo" VerticalAlignment="Bottom"  Value="0" Minimum="0" Maximum="100" Foreground="#FFF88035" Background="#FF9A968B"  ValueChanged="pbVideo_ValueChanged" IsEnabled="False" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
                 <TextBlock x:Name="StartTextBlock" Text="00:00"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
                 <TextBlock x:Name="EndTextBlock" Text="00:00"  FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
             </Grid>
 
-            <Button  Style="{StaticResource S_Button}"  Grid.Column="2" BorderThickness="0" Click="fullScreen_Click" x:Name="fullScreen">
+            <Button  Style="{StaticResource S_Button}"  Grid.Column="2" BorderThickness="0" Click="fullScreen_Click" x:Name="fullScreen" Margin="0,10">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Images/btn_on.png"/>
+                    <ImageBrush ImageSource="/Images/full.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
         </Grid>
-       
         <phone:Pivot x:Name="MainPivot" Grid.Row="4" >
             <phone:PivotItem Margin="0,10,0,0" x:Name="DramaItem" Loaded="DramaItem_Loaded">
                 <phone:PivotItem.Header>

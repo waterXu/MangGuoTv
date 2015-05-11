@@ -33,6 +33,8 @@ namespace MangGuoTv.Views
             //scrollView.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             scrollView.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             stackPanel = new StackPanel();
+            CreateReload();
+            stackPanel.Children.Add(loadGrid);
             scrollView.Content = stackPanel;
         }
         public ScrollViewer LoadChannelDetail(List<ChannelDetail> channelDetails)
@@ -345,6 +347,46 @@ namespace MangGuoTv.Views
                 default:
                     break;
             }
+        }
+
+        internal void ShowLoading()
+        {
+        }
+
+        internal void HideLoading()
+        {
+        }
+        public Grid loadGrid = null;
+        internal void CreateReload()
+        {
+            if (loadGrid == null) 
+            {
+                loadGrid = new Grid();
+                loadGrid.Margin = new Thickness(0, 200, 0, 0);
+                loadGrid.HorizontalAlignment = HorizontalAlignment.Center;
+                loadGrid.VerticalAlignment = VerticalAlignment.Center;
+                Image loadImage = new Image();
+                loadImage.Width = 100;
+                loadImage.Height = 100;
+                loadImage.Source = new BitmapImage(new Uri("/Images/reload.png", UriKind.RelativeOrAbsolute));
+                loadImage.VerticalAlignment = VerticalAlignment.Center;
+                TextBlock loadText = new TextBlock();
+                loadText.Text = "获取数据失败，点击重试";
+                loadText.FontSize = 25;
+                loadText.VerticalAlignment = VerticalAlignment.Center;
+                loadGrid.Children.Add(loadImage);
+                loadGrid.Children.Add(loadText);
+                loadGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void ShowReload() 
+        {
+            loadGrid.Visibility = Visibility.Visible;
+        }
+        public void HideReload()
+        {
+            loadGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

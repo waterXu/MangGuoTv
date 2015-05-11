@@ -13,6 +13,8 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using System.Threading;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Tasks;
+using MangGuoTv.PopUp;
 
 namespace MangGuoTv
 {
@@ -22,10 +24,11 @@ namespace MangGuoTv
         private string pauseImg = "/Images/pause.png";
         private string playImg = "/Images/start.png";
         private bool playImgStatus = false;
+        private double leaveSilderValue = 0;
+        private bool isLeaveApp = false;
         public PlayerInfo()
         {
             InitializeComponent();
-            this.DataContext = App.PlayerModel;
             LoadDownIcon();
         }
         
@@ -33,15 +36,22 @@ namespace MangGuoTv
         {
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
+            this.DataContext = App.PlayerModel;
+            LoadDramaSeletedItem(App.PlayerModel.VideoId);
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
             CallbackManager.currentPage = null;
             currentPosition.Stop();
+             //当用户按win键 或者长按返回键时  不清空 datacontext  否则从墓碑模式返回时会丢失当前数据
+            this.DataContext = null;
+            if (e.Content != null)
+            {
+                 leaveSilderValue = pbVideo.Value;
+                 isLeaveApp = true;
+            }
         }
-
-       
 
         private void DramaItem_Loaded(object sender, RoutedEventArgs e)
         {
@@ -73,10 +83,17 @@ namespace MangGuoTv
         private int currentDramaIndex = -1;
         private void AllDramas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AllDramas.SelectedIndex == -1) return;
+            if (AllDramas.SelectedIndex == -1)
+            {
+                if (IsDownMode) startDownBtn.IsEnabled = false;
+                return;
+            } 
             if (IsDownMode) 
             {
-                if (AllDramas.SelectedItems.Count == 0) { } 
+                if (AllDramas.SelectedItems.Count == 0)
+                {
+                    startDownBtn.IsEnabled = false;
+                } 
                 else if(AllDramas.SelectedItems.Count > 0) 
                 {
                     startDownBtn.IsEnabled = true;
@@ -90,47 +107,10 @@ namespace MangGuoTv
                     if (info == null) return;
                     App.PlayerModel.VideoId = info.videoId;
                     App.PlayerModel.ReloadNewVideo();
-                    PlayerVideo(info);
+                    App.PlayerModel.PlayerVideo(info);
                 }
                 currentDramaIndex = AllDramas.SelectedIndex;
                 RelatedVideos.SelectedIndex = -1;
-            }
-        }
-        public void PlayerVideo(VideoInfo info) 
-        {
-            //设置多媒体控件的网络视频资源
-            if(info.downloadUrl.Count > 0)
-            {
-                string playUrl = info.downloadUrl[0].url;
-                System.Diagnostics.Debug.WriteLine("获取播放源：" + playUrl);
-                HttpHelper.httpGet(playUrl, (ar) =>
-                {
-                    string result = HttpHelper.SyncResultTostring(ar);
-                    if (result != null)
-                    {
-                        ResourceInfo videosResult = null;
-                        try
-                        {
-                            videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
-                        }
-                        if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
-                        {
-                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
-                            {
-                                myMediaElement.Source = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
-                                System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
-                            });
-                        }
-                    }
-                    else
-                    {
-                        App.ShowToast("获取视频数据失败，请检查网络或重试");
-                    }
-                });
             }
         }
         private void CommentItem_Loaded(object sender, RoutedEventArgs e)
@@ -153,7 +133,7 @@ namespace MangGuoTv
             if (info == null) return;
             App.PlayerModel.VideoId = info.videoId;
             AllDramas.SelectedIndex = -1;
-            PlayerVideo(info);
+            App.PlayerModel.PlayerVideo(info);
         }
 
         #region 视频播放处理方法
@@ -211,11 +191,16 @@ namespace MangGuoTv
             myMediaElement.BufferingProgressChanged += new RoutedEventHandler(MediaBufferChannged);
             //播放视频
             myMediaElement.Play();
+            if (isLeaveApp) 
+            {
+                isLeaveApp = false;
+                pbVideo.Value = leaveSilderValue;
+            }
         }
 
         private void MediaBufferChannged(object sender, RoutedEventArgs e)
         {
-            
+            System.Diagnostics.Debug.WriteLine("正在加载");
         }
         private void pbVideo_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -226,7 +211,6 @@ namespace MangGuoTv
         private void pbVideo_LostFocus(object sender, RoutedEventArgs e)
         {
             pbVideo.Tag = "loseFoucesed";
-           /// Thread.Sleep(2000);
             currentPosition.Start();
         }
         private void pbVideo_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -251,10 +235,9 @@ namespace MangGuoTv
         void currentPosition_Tick(object sender, EventArgs e)
         {
             //获取当前视频播放了的时长来设置进度条的值
-            pbVideo.Value = (int)myMediaElement.Position.TotalMilliseconds;
+            pbVideo.Value = myMediaElement.Position.TotalMilliseconds;
             string start = myMediaElement.Position.ToString();
             StartTextBlock.Text = start.Substring(3, 5);
-            pbVideo.Tag = "loseFoucesed";
         }
         //播放视频菜单事件
         private void Play_Click(object sender, EventArgs e)
@@ -298,17 +281,16 @@ namespace MangGuoTv
             {
                 this.ApplicationBar.Buttons.RemoveAt(i);
             }
-            string closeIcon = "/Images/Icons/close.png";
+            string closeIcon = "/Images/Icons/cancel.png";
             ApplicationBarIconButton closeBtn = new ApplicationBarIconButton(new Uri(closeIcon, UriKind.Relative));
             closeBtn.Text = "取消";
             closeBtn.Click += new EventHandler(CloseIcon_Click);
             this.ApplicationBar.Buttons.Add(closeBtn);
 
-            string startDownIcon = "/Images/Icons/close.png";
+            string startDownIcon = "/Images/Icons/check.png";
             startDownBtn = new ApplicationBarIconButton(new Uri(startDownIcon, UriKind.Relative));
             startDownBtn.Text = "开始缓存";
             startDownBtn.Click += new EventHandler(StartDownIcon_Click);
-            startDownBtn.IsEnabled = false;
             this.ApplicationBar.Buttons.Add(startDownBtn);
 
            
@@ -347,7 +329,7 @@ namespace MangGuoTv
             {
                 this.ApplicationBar.Buttons.RemoveAt(i);
             }
-            string downIcon = "/Images/Icons/down.png";
+            string downIcon = "/Images/Icons/download.png";
             ApplicationBarIconButton downBtn = new ApplicationBarIconButton(new Uri(downIcon, UriKind.Relative));
             downBtn.Text = "下载";
             downBtn.Click += new EventHandler(DownLoad_Click);
@@ -360,16 +342,15 @@ namespace MangGuoTv
         }
         #endregion
 
-
-        private void ChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
         private void fullScreen_Click(object sender, RoutedEventArgs e)
         {
-
+            //myMediaElement.Height = PopupManager.screenWidth;
+            //myMediaElement.Width = PopupManager.screenHeight;
+            // RotateTransform rotateTransform = new RotateTransform();
+            // rotateTransform.Angle = 90;
+            // rotateTransform.CenterX = PopupManager.screenWidth / 2;
+            // rotateTransform.CenterY = PopupManager.screenHeight / 2;
+            // myMediaElement.RenderTransform = rotateTransform;
         }
 
 
