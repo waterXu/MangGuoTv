@@ -75,6 +75,11 @@ namespace MangGuoTv
         /// 显示下载页面
         /// </summary>
         public static string DownVideoPage { get { return "/Views/DownVideo.xaml"; } }
+        /// <summary>
+        /// 主页
+        /// </summary>
+        public static string MianPage { get { return "/Views/MainPage.xaml"; } }
+        
 
 
         #endregion
@@ -100,39 +105,6 @@ namespace MangGuoTv
         /// <summary>
         /// 应用显示 模式 
         /// </summary>
-        public static string ShowMode { get { return "ShowMode"; } }
-        /// <summary>
-        /// 主题图片路径
-        /// </summary>
-        public static string ThemePath { get { return "ThemePath"; } }
-        /// <summary>
-        /// 是否自定义主题
-        /// </summary>
-        public static string IsCustom { get { return "IsCustom"; } }
-        /// <summary>
-        /// 获取自定义主题路径
-        /// </summary>
-        public static string CustomJpgPath { get { return "Custom.jpg"; } }
-        /// <summary>
-        /// 获取用户头像路径
-        /// </summary>
-        public static string UserJpgPath { get { return "User.jpg"; } }
-        /// <summary>
-        /// 独立存储收藏hz列表名称
-        /// </summary>
-        public static string CollectName { get { return "CollectChannels"; } }
-        /// <summary>
-        /// 独立存储歌曲id列表名称
-        /// </summary>
-        public static string DownSongIdsName { get { return "DownSongIds"; } }
-        /// <summary>
-        /// 独立存储下载歌曲信息保存文件名
-        /// </summary>
-        public static string SongsSavePath { get { return "DownSongsInfo.dat"; } }
-        /// <summary>
-        /// 红心赫兹 id
-        /// </summary>
-        public static string HotChannelId { get { return "-3"; } }
 
         #endregion 
 
@@ -237,5 +209,7 @@ namespace MangGuoTv
 
 
 
+
+        public static string LoginUrl { get; set; }
     }
 }

@@ -23,8 +23,8 @@ namespace MangGuoTv
         public MainPage()
         {
             InitializeComponent();
-            this.DataContext = App.ViewModel;
-            App.ViewModel.LoadChannels();
+            this.DataContext = App.MainViewModel;
+            App.MainViewModel.LoadChannels();
             for (int i = 0; i < CommonData.LockedChannel.Count; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
@@ -49,29 +49,14 @@ namespace MangGuoTv
         {
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
+            this.DataContext = App.MainViewModel;
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
  	         base.OnNavigatedFrom(e);
+             this.DataContext = null;
              CallbackManager.currentPage = null;
         }
-
-       
-        // 用于生成本地化 ApplicationBar 的示例代码
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // 将页面的 ApplicationBar 设置为 ApplicationBar 的新实例。
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // 创建新按钮并将文本值设置为 AppResources 中的本地化字符串。
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // 使用 AppResources 中的本地化字符串创建新菜单项。
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
 
         internal void DataContextLoaded(bool isSuccess)
         {
@@ -133,6 +118,21 @@ namespace MangGuoTv
         }
 
         private void Search_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UserImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void VideoRemember_Changed(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void AllVideosRemember(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
         }

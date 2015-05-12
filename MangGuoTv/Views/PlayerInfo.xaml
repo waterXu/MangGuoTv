@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
-        <MediaElement AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
+        <MediaElement  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">
             <Grid.ColumnDefinitions>

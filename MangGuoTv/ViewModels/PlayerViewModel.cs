@@ -292,6 +292,7 @@ namespace MangGuoTv.ViewModels
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
                                 MediaSource = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
+                                App.MainViewModel.AddRememberVideo(info);
                                 System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
                             });
                         }

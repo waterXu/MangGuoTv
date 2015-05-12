@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+     xmlns:coding4fun="clr-namespace:Coding4Fun.Phone.Controls;assembly=Coding4Fun.Phone.Controls"
+    xmlns:coding4funBinding="clr-namespace:Coding4Fun.Phone.Controls.Binding;assembly=Coding4Fun.Phone.Controls"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -55,8 +57,45 @@
             </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
-                    <TextBlock Text="个人中心" Width="150"  FontSize="35"></TextBlock>
+                    <TextBlock Text="个人" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
+                <StackPanel>
+                    <TextBlock Text="播放记录          >>" Foreground="Gray" FontSize="30" Margin="20,10" Tap="AllVideosRemember"></TextBlock>
+                    <ListBox SelectionChanged="VideoRemember_Changed" ItemsSource="{Binding LastVideoRemember}" HorizontalAlignment="Center">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel  Margin="10" CB:TiltEffect.IsTiltEnabled="true"  Width="200">
+                                    <TextBlock Grid.Row="0" FontSize="15" TextWrapping="Wrap" Text="{Binding Name}" Foreground="Gray"/>
+                                    <Image Source="{Binding Image}" Width="150" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Grid CB:TiltEffect.IsTiltEnabled="true" HorizontalAlignment="Center" CacheMode="BitmapCache" Margin="0,10">
+                        <tool:WrapPanel>
+                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="离线缓存">
+                                <Image Width="50" Height="50" Source="/Images/showdown.png" Stretch="Fill" Margin="0,0,0,40" />
+                            </coding4fun:Tile>
+                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="   设置">
+                                <Image Width="50" Height="50" Source="/Images/setting.png" Stretch="Fill" Margin="0,0,0,40" />
+                            </coding4fun:Tile>
+                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="为我打分">
+                                <Image Width="50" Height="50" Source="/Images/gread.png" Stretch="Fill" Margin="0,0,0,40" />
+                            </coding4fun:Tile>
+                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="意见反馈">
+                                <Image Width="50" Height="50" Source="/Images/comment.png" Stretch="Fill" Margin="0,0,0,40" />
+                            </coding4fun:Tile>
+                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="推荐应用">
+                                <Image Width="50" Height="50" Source="/Images/tuijian.png" Stretch="Fill" Margin="0,0,0,40" />
+                            </coding4fun:Tile>
+                        </tool:WrapPanel>
+                    </Grid>
+                </StackPanel>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

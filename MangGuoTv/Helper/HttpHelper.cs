@@ -103,6 +103,27 @@ namespace MangGuoTv
             catch { }
         }
         /// <summary>
+        /// HttpGet功能函数
+        /// </summary>
+        /// <param name="url">请求url</param>
+        /// <param name="asyncCallback">请求返回</param>
+        public static void httpGetDownFile(string url, AsyncCallback asyncCallback, Action<int, int> updateProgress = null)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+                req.Method = "GET";
+                req.AllowAutoRedirect = true;
+                IAsyncResult token = req.BeginGetResponse(asyncCallback, req);
+                long totalBytes = req.ContentLength; 
+                if (updateProgress != null) 
+                {
+                    updateProgress((int)totalBytes, 0);
+                }
+            }
+            catch { }
+        }
+        /// <summary>
         /// HttpPsot功能函数
         /// </summary>
         /// <param name="url">请求url</param>
@@ -122,6 +143,11 @@ namespace MangGuoTv
                 IAsyncResult token = req.BeginGetResponse(asyncCallback, req);
             }
             catch { }
+        }
+
+        internal static bool LoginResultCodeInfo(IAsyncResult ar)
+        {
+            throw new NotImplementedException();
         }
     }
 }

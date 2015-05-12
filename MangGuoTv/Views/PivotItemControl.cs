@@ -49,13 +49,10 @@ namespace MangGuoTv.Views
 
 
             if (LoadedComplete) return;
-            ShowLoading();
+            App.ShowLoading();
             string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
-
-
-           
         }
         private void LoadChannelCompleted(IAsyncResult ar)
         {
@@ -77,7 +74,7 @@ namespace MangGuoTv.Views
                     {
                         scrollView.LoadChannelDetail(channelDetails.data);
                         scrollView.HideReload();
-                        progressIndicator.IsVisible = false;
+                        App.HideLoading();
                         LoadedComplete = true;
                     });
                 }
@@ -91,7 +88,7 @@ namespace MangGuoTv.Views
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     scrollView.loadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadData);
-                    progressIndicator.IsVisible = false;
+                    App.HideLoading();
                     scrollView.ShowReload();
                 });
                
@@ -106,17 +103,17 @@ namespace MangGuoTv.Views
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
 
         }
-        ProgressIndicator progressIndicator = null;
-        private void ShowLoading() 
-        {
-            if (progressIndicator == null) 
-            {
-                progressIndicator = new ProgressIndicator();
-            }
-            Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
-            progressIndicator.Text = "                                   正在加载";
-            progressIndicator.IsIndeterminate = true;
-            progressIndicator.IsVisible = true;
-        }
+        //ProgressIndicator progressIndicator = null;
+        //private void ShowLoading() 
+        //{
+        //    if (progressIndicator == null) 
+        //    {
+        //        progressIndicator = new ProgressIndicator();
+        //    }
+        //    Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
+        //    //progressIndicator.Text = "                                   正在加载";
+        //    progressIndicator.IsIndeterminate = true;
+        //    progressIndicator.IsVisible = true;
+        //}
     }
 }

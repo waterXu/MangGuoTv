@@ -1,9 +1,11 @@
 ﻿using MangGuoTv.Models;
+using Microsoft.Phone.Info;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,28 +15,31 @@ namespace MangGuoTv.ViewModels
 {
     public class DownVideoViewModel:ViewModelBase
     {
-        private string downingIdsIso = "DowndingIds";
-        private string downedIdsIso = "DownedIds";
-        private string downingVideosIso = "DownVideos/DowningVideos.dat";
-        private string downedVideosIso = "DownVideos/DownedVideos.dat";
+        private string downingIdsIso { get { return "DowndingIds"; } }
+        private string downedIdsIso { get { return "DownedIds"; } }
+        private string downingVideosIso { get { return "DownVideos/DowningVideos.dat"; } }
+        private string downedVideosIso { get { return "DownVideos/DownedVideos.dat"; } }
+        private string videoSavePath { get { return "DownVideos\\"; } }
+
         private bool isDownding = false;
         private WebClient webClient;
         public DownVideoViewModel()
         {
-            //todo  加载本地的数据
             this.DowningVideo = new ObservableCollection<DownVideoInfoViewMoel>();
             this.DownedVideo = new ObservableCollection<DownVideoInfoViewMoel>();
+            webClient = new WebClient();
+        }
+        public void CheckLocalData() 
+        {
+            //加载本地的数据
             loadLocalVideoData();
-            if (this.DowningVideo.Count > 0) 
+            if (this.DowningVideo.Count > 0)
             {
-                isDownding = true;
                 BeginDownVideos();
             }
-            webClient = new WebClient();
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownVideoProgressChanged);
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownVideoCompleted);
+            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(LoadedCompleted);
         }
-
         public void loadLocalVideoData()
         {
             //加载正在下载视频数据
@@ -67,14 +72,51 @@ namespace MangGuoTv.ViewModels
         public void BeginDownVideos()
         {
             if (isDownding || DowningVideo.Count==0) return;
-            sw = Stopwatch.StartNew();//用来记录总的下载时间
-            sw1 = Stopwatch.StartNew();//用来记录下载过程中的时间片，用于计算临时速度
+            isDownding = true;
             currentDownVideo = DowningVideo[0];
             System.Diagnostics.Debug.WriteLine("视频地址：" + currentDownVideo.DownUrl);
-            webClient.DownloadStringAsync(new Uri(currentDownVideo.DownUrl));
-            currentDownVideo.IsLoading = true;
+            HttpHelper.httpGet(currentDownVideo.DownUrl, (ar) =>
+            {
+                string result = HttpHelper.SyncResultTostring(ar);
+                if (result != null)
+                {
+                    ResourceInfo videosResult = null;
+                    try
+                    {
+                        videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                    }
+                    if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
+                    {
+                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        {
+                            currentDownVideo.IsLoading = true;
+                        });
+                      
+                        HttpHelper.httpGet(currentDownVideo.Image, (imageAr) =>
+                        {
+                            byte[] imgdata = HttpHelper.SyncResultToByte(imageAr);
+                            if (imgdata != null)
+                            {
+                                string imageType = currentDownVideo.Image.Remove(0, currentDownVideo.Image.Length - 4);
+                                WpStorage.SaveFilesToIsoStore(videoSavePath + currentDownVideo.VideoId.ToString() + imageType, imgdata);
+                                currentDownVideo.LocalImage = videoSavePath + currentDownVideo.VideoId.ToString() + imageType;
+                            }
+                        });
+                        sw = Stopwatch.StartNew();//用来记录总的下载时间
+                        sw1 = Stopwatch.StartNew();//用来记录下载过程中的时间片，用于计算临时速度
+                        webClient.OpenReadAsync(new Uri(videosResult.info));
+                    }
+                }
+                else
+                {
+                    //todo
+                }
+            });
         }
-
 
         private long siz;
         private long speed;
@@ -89,27 +131,69 @@ namespace MangGuoTv.ViewModels
             {
                 speed = num / ((long)sw1.Elapsed.Seconds);
             }
-            currentDownVideo.Speed = this.speed + "KB";
-            currentDownVideo.LoadProgress = e.ProgressPercentage;
-            currentDownVideo.Size = (e.TotalBytesToReceive/(1024 * 1024)).ToString();
-            currentDownVideo.Loadsize = (e.BytesReceived / (1024 * 1024)).ToString();
+            if (CallbackManager.currentPage != null) 
+            {
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    currentDownVideo.LoadProgress = e.ProgressPercentage;
+                    currentDownVideo.Size = (e.TotalBytesToReceive / (1024 * 1024)).ToString() + "MB";
+                    currentDownVideo.Loadsize = (e.BytesReceived / (1024 * 1024)).ToString() + "MB";
+                });
+            }
+          
             siz = e.TotalBytesToReceive;
             loadsiz = e.BytesReceived;
             sw1.Start();
         }
-        private void DownVideoCompleted(object sender, DownloadStringCompletedEventArgs e)
+
+        private void LoadedCompleted(object sender, OpenReadCompletedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("完成");
+            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
             sw.Stop();
             siz = siz / 1024;
             long num = siz / ((long)sw.Elapsed.Seconds);
             sw.Reset();
-            currentDownVideo.IsLoading = false;
-            currentDownVideo.IsLoaded = true;
-            DowningVideo.Remove(currentDownVideo);
-            DownedVideo.Add(currentDownVideo);
-            DownedVideoids.Add(currentDownVideo.VideoIndex);
-            DowningVideoids.Remove(currentDownVideo.VideoIndex);
-            SaveVideoData();
+
+            if (e.Error != null)
+            {
+                System.Diagnostics.Debug.WriteLine("wc_DownloadStringCompleted  error：" + e.Error);
+                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    currentDownVideo.IsLoadError = true;
+                    currentDownVideo.IsLoading = false;
+                });
+                //todo
+                return;
+            }
+           
+            try
+            {
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    WpStorage.SaveFilesToIsoStore(videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4", e.Result);
+                    currentDownVideo.IsLoading = false;
+                    currentDownVideo.IsLoaded = true;
+                    currentDownVideo.LocalDownloadUrl = videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
+                    DowningVideo.RemoveAt(0);
+                    DowningVideoids.Remove(currentDownVideo.VideoIndex);
+                    DownedVideo.Add(currentDownVideo);
+                    DownedVideoids.Add(currentDownVideo.VideoIndex);
+                    SaveVideoData();
+                    //进行下一个下载
+                    isDownding = false;
+                    BeginDownVideos();
+                });
+
+            }
+            catch
+            {
+
+            }
+
         }
         public void SaveVideoData() 
         {
@@ -154,10 +238,14 @@ namespace MangGuoTv.ViewModels
             video.VideoId = videoInfo.videoId;
             video.VideoIndex = videoInfo.videoIndex;
             video.Desc = videoInfo.desc;
+            video.IsLoading = false;
+            video.IsLoaded = false;
             // todo 
             video.DownUrl = videoInfo.downloadUrl[0].url;
             DowningVideo.Add(video);
             DowningVideoids.Add(video.VideoId);
+            SaveVideoData();
+            BeginDownVideos();
         }
         #region Property
         private HashSet<string> downingVideoids;
@@ -201,7 +289,8 @@ namespace MangGuoTv.ViewModels
             { 
                 downingVideo = value;
                 NotifyPropertyChanged("DowningVideo");
-                BeginDownVideos();
+                //if (!isDownding) isDownding = true;
+                //BeginDownVideos();
             }
         }
         private ObservableCollection<DownVideoInfoViewMoel> downedVideo { get; set; }
@@ -215,5 +304,6 @@ namespace MangGuoTv.ViewModels
             }
         }
         #endregion
+
     }
 }

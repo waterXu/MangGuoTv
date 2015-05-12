@@ -32,18 +32,20 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
-                                <Image Source="{Binding Image}" Width="130" Height="100" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
-                                <StackPanel Margin="140,0,0,0">
-                                    <TextBlock  Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
-                                    <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding Desc}"></TextBlock>
-                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter},ConverterParameter= IsLoading}" Maximum="{Binding MaxProgress}"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding Image}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
+                                <StackPanel VerticalAlignment="Center"  Grid.Column="1" Width="250" Margin="10,0,0,0">
+                                    <TextBlock  Foreground="Gray" FontSize="20" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter}}" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" Margin="0,10"/>
                                     <Grid>
-                                        <TextBlock FontSize="20" TextWrapping="Wrap" Text="下载中" HorizontalAlignment="Left"></TextBlock>
-                                        <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding Speed}" HorizontalAlignment="Center"></TextBlock>
+                                        <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding LoadStatus}" HorizontalAlignment="Left" Foreground="Gray" ></TextBlock>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <TextBlock Text="{Binding Loadsize}"/>
-                                            <TextBlock Text="/"/>
-                                            <TextBlock Text="{Binding Size}"/>
+                                            <TextBlock Text="{Binding Loadsize}" Foreground="Gray" />
+                                            <TextBlock Text="/" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter}}" Foreground="Gray"/>
+                                            <TextBlock Text="{Binding Size}" Foreground="Gray" />
                                         </StackPanel>
                                     </Grid>             
                                    
@@ -57,14 +59,14 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="已经缓存" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox Margin="5,0" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  >
+                <ListBox Margin="5,0" x:Name="DownVideoList" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid  Margin="10" CB:TiltEffect.IsTiltEnabled="true">
-                                <Image Source="{Binding LocalImage}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                <Image Source="{Binding Image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
                                 <StackPanel Margin="110,0,0,0">
-                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
-                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding Desc}"></TextBlock>
+                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}" Foreground="Gray"></TextBlock>
+                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding Size}"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

@@ -26,7 +26,7 @@ namespace MangGuoTv
         /// 视图用于进行绑定的静态 ViewModel。
         /// </summary>
         /// <returns>MainViewModel 对象。</returns>
-        public static MainViewModel ViewModel
+        public static MainViewModel MainViewModel
         {
             get
             {
@@ -122,6 +122,7 @@ namespace MangGuoTv
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             HttpHelper.LoadChannelList();
+            App.DownVideoModel.CheckLocalData();
             CommonData.informCallback = CallbackManager.CallBackTrigger;
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
             App.GetNetName();
@@ -319,6 +320,22 @@ namespace MangGuoTv
                 };
                 transition.Begin();
             });
+        }
+        private static ProgressIndicator progressIndicator = null;
+        public static void ShowLoading()
+        {
+            if (progressIndicator == null)
+            {
+                progressIndicator = new ProgressIndicator();
+            }
+            Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
+            //progressIndicator.Text = "                                   正在加载";
+            progressIndicator.IsIndeterminate = true;
+            progressIndicator.IsVisible = true;
+        }
+        public static void HideLoading()
+        {
+            progressIndicator.IsVisible = false;
         }
         // 激活应用程序(置于前台)时执行的代码
         // 此代码在首次启动应用程序时不执行

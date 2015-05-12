@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace MangGuoTv.ViewModels
 {
@@ -74,6 +77,7 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
+   
         private string localImage;
         public string LocalImage
         {
@@ -138,6 +142,20 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
+        private string loadStatus;
+         public string LoadStatus
+        {
+            get
+            {
+                return loadStatus;
+            }
+            set
+            {
+                loadStatus = value;
+                NotifyPropertyChanged("LoadStatus");
+            }
+        }
+        
         private bool isLoading;
         public bool IsLoading
         {
@@ -150,6 +168,14 @@ namespace MangGuoTv.ViewModels
                 if (value != isLoading)
                 {
                     isLoading = value;
+                    if (isLoading)
+                    {
+                        LoadStatus = "下载中";
+                    }
+                    else
+                    {
+                        LoadStatus = "等待中";
+                    }
                     NotifyPropertyChanged("IsLoading");
                 }
             }
@@ -167,6 +193,22 @@ namespace MangGuoTv.ViewModels
                 {
                     isLoaded = value;
                     NotifyPropertyChanged("IsLoaded");
+                }
+            }
+        }
+        private bool isLoadError;
+        public bool  IsLoadError
+        {
+            get
+            {
+                return isLoadError;
+            }
+            set
+            {
+                isLoadError = value;
+                if (isLoadError)
+                {
+                    LoadStatus = "缓存失败";
                 }
             }
         }
@@ -199,19 +241,7 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("MaxProgress");
             }
         }
-        private string speed;
-        public string Speed
-        {
-            get
-            {
-                return speed;
-            }
-            set
-            {
-                speed = value;
-                NotifyPropertyChanged("Speed");
-            }
-        }
+     
         private string size;
         public string Size
         {

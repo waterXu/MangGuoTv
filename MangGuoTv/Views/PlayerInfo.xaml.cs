@@ -160,6 +160,7 @@ namespace MangGuoTv
             if (myMediaElement.CurrentState == MediaElementState.Playing)
             {//播放视频时各菜单的状态
                 currentPosition.Start();
+                App.HideLoading();
                 PlayImg.Source = new BitmapImage(new Uri(pauseImg,UriKind.RelativeOrAbsolute));
             }
             else if (myMediaElement.CurrentState == MediaElementState.Paused)
@@ -201,6 +202,7 @@ namespace MangGuoTv
         private void MediaBufferChannged(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("正在加载");
+            App.ShowLoading();
         }
         private void pbVideo_GotFocus(object sender, RoutedEventArgs e)
         {

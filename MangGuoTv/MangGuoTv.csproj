@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="CallbackManager.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converts\BitmapConverter.cs" />
     <Compile Include="Converts\DetailConverter.cs" />
     <Compile Include="Converts\TextConverter.cs" />
     <Compile Include="CommonData.cs" />
@@ -147,6 +148,9 @@
     <Compile Include="Views\PivotItemControl.cs" />
     <Compile Include="Views\PlayerInfo.xaml.cs">
       <DependentUpon>PlayerInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +206,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
@@ -230,14 +238,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="channels.txt" />
+    <Content Include="ic_launcher.png" />
+    <Content Include="Images\ad.png" />
     <Content Include="Images\add.png" />
+    <Content Include="Images\bglogo.png" />
     <Content Include="Images\btn.png" />
     <Content Include="Images\btn_a.png" />
     <Content Include="Images\btn_a_on.png" />
     <Content Include="Images\btn_c.png" />
     <Content Include="Images\btn_on.png" />
+    <Content Include="Images\comment.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\full.png" />
+    <Content Include="Images\gread.png" />
     <Content Include="Images\Icons\cancel.png" />
     <Content Include="Images\Icons\check.png" />
     <Content Include="Images\forward.png" />
@@ -258,7 +271,11 @@
     <Content Include="Images\pause.png" />
     <Content Include="Images\play.png" />
     <Content Include="Images\reload.png" />
+    <Content Include="Images\setting.png" />
+    <Content Include="Images\showdown.png" />
     <Content Include="Images\start.png" />
+    <Content Include="Images\tuijian.png" />
+    <Content Include="Images\user.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

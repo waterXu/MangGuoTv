@@ -2,7 +2,7 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
   <App xmlns="" ProductID="{dc348f5c-13a0-44a9-a92b-c6ee36926280}" Title="MangGuoTv" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MangGuoTv author" Description="Sample description" Publisher="MangGuoTv" PublisherID="{251622b2-bf69-413c-8b0e-f328ba1d450e}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">ic_launcher.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -11,14 +11,14 @@
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage="Views/MainPage.xaml" />
+      <DefaultTask Name="_default" NavigationPage="Views/StartPage.xaml" />
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="MangGuoTvToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">ic_launcher.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">ic_launcher.png</BackgroundImageURI>
           <Title>MangGuoTv</Title>
           <BackContent>
           </BackContent>

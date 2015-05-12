@@ -12,13 +12,14 @@ namespace MangGuoTv.Converts
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            if (parameter is Boolean)
+            if (value is Boolean)
             {
                 bool val = (bool)value;
-                return val? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                return val ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
             else 
             {
+                //是否显示tag
                 string val = value.ToString();
                 return string.IsNullOrEmpty(val) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
             }
