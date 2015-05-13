@@ -28,7 +28,8 @@ namespace MangGuoTv.Models
         public string videoId{ get;set;}
         public string director{ get;set;}
         public string player{ get;set;}
-        public string typeName{ get;set;}
+        public string typeName { get; set; }
+        public string typeId { get; set; }
         public string image{ get;set;}
         public string desc{ get;set;}
         public string publishTime{ get;set;}

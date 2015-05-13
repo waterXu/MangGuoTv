@@ -15,20 +15,27 @@
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.Opacity="0"
     shell:SystemTray.ForegroundColor="White">
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MangGuoTv;component/Style/ListboxItemStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30*"/> 
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
-        <phone:Pivot x:Name="MainPivot" Grid.Row="1">
+        <phone:Pivot x:Name="MainPivot" Grid.Row="1" SelectionChanged="MainPivot_SelectionChanged">
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
                     <TextBlock Text="正在缓存" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox Margin="5,0" ItemsSource="{Binding DowningVideo}"  x:Name="RelatedVideos" >
+                <ListBox Margin="5,0" ItemsSource="{Binding DowningVideo}"  x:Name="DowningVideos" SelectionChanged="DowningVideos_SelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
@@ -59,14 +66,18 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="已经缓存" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox Margin="5,0" x:Name="DownVideoList" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged"  >
+                <ListBox Margin="5,0" x:Name="DownVideoList" ItemsSource="{Binding DownedVideo}" SelectionChanged="DownedVideo_SelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid  Margin="10" CB:TiltEffect.IsTiltEnabled="true">
-                                <Image Source="{Binding Image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
-                                <StackPanel Margin="110,0,0,0">
-                                    <TextBlock Grid.Row="0" FontSize="25" TextWrapping="Wrap" Text="{Binding Name}" Foreground="Gray"></TextBlock>
-                                    <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap"  Foreground="Gray"  Text="{Binding Size}"></TextBlock>
+                            <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding Image}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
+                                <StackPanel VerticalAlignment="Center"  Grid.Column="1" Width="250" Margin="10,0,0,0">
+                                    <TextBlock  Foreground="Gray" FontSize="20" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                                            <TextBlock Text="{Binding Size}" Foreground="Gray" />
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -74,5 +85,13 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20" VerticalAlignment="Center">
+            <TextBlock Text="剩余存储空间 ： " FontSize="15"/>
+            <TextBlock Text="{Binding IsoSize}" FontSize="15"/>
+        </StackPanel>
     </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

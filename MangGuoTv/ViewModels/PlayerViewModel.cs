@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MangGuoTv.ViewModels
 {
@@ -223,7 +224,7 @@ namespace MangGuoTv.ViewModels
                         {
                             VideoDetail = videosDetailResult.data.detail;
                             VideoName = videosDetailResult.data.detail.name;
-
+                            VideoStyleType = videosDetailResult.data.detail.typeId;
                             //VideoSources = videosDetailResult.data.videoSources;
                             //VideoDownloadUrl = videosDetailResult.data.downloadUrl; (CallbackManager.currentPage as PlayerInfo).PlayerVideo();
                         });
@@ -310,5 +311,67 @@ namespace MangGuoTv.ViewModels
             LoadedComment();
             LoadRrelatedVideo();
         }
+        private string videoStyleType;
+        public string VideoStyleType 
+        {
+            get { return videoStyleType; }
+            set 
+            {
+                videoStyleType = value;
+                if (videoStyleType == "1") 
+                {
+                    VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle"] as Style;
+                }
+                else if (videoStyleType == "2") 
+                {
+                    VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle2"] as Style;
+                }
+            }
+        }
+        private Style multipleVideoStyle = null;
+        public Style MultipleVideoStyle
+        {
+            get
+            {
+                if (VideoStyleType == null)
+                {
+                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                }
+                else if (VideoStyleType == "1")
+                {
+                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                }
+                else if (VideoStyleType == "2")
+                {
+                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle3"] as Style;
+                }
+
+                return multipleVideoStyle;
+            }
+            set
+            {
+                multipleVideoStyle = value;
+                NotifyPropertyChanged("MultipleVideoStyle");
+            }
+        }
+        private Style videoStyle = null;
+        public Style VideoStyle
+        {
+            get
+            {
+                if (videoStyle == null)
+                {
+                    videoStyle = new Style();
+                }
+            
+                return videoStyle;
+            }
+            set 
+            {
+                videoStyle = value;
+                NotifyPropertyChanged("VideoStyle");
+            }
+        }
+      
     }
 }

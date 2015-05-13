@@ -13,6 +13,7 @@ using MangGuoTv.Models;
 using Newtonsoft.Json;
 using System.IO;
 using MangGuoTv.Views;
+using MangGuoTv.ViewModels;
 
 namespace MangGuoTv
 {
@@ -122,19 +123,22 @@ namespace MangGuoTv
 
         }
 
-        private void UserImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-
-        }
-
         private void VideoRemember_Changed(object sender, SelectionChangedEventArgs e)
         {
-
+            DownVideoInfoViewMoel DownVideo = VideoRemember.SelectedItem as DownVideoInfoViewMoel;
+            if (DownVideo == null) return;
+            App.PlayerModel.VideoId = DownVideo.VideoId;
+            this.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
         }
 
         private void AllVideosRemember(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            this.NavigationService.Navigate(new Uri(CommonData.RememberPage, UriKind.Relative));
+        }
 
+        private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Terminate();
         }
 
     }

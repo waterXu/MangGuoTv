@@ -235,7 +235,7 @@ namespace MangGuoTv
                     grid = new Grid();
                     grid.Height = 50;
                     grid.Width = Application.Current.Host.Content.ActualWidth;
-                    grid.Background = new SolidColorBrush(Color.FromArgb(250, 242, 79, 91));
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 238, 98, 33));
                 }
                 grid.Opacity = 0;
                 grid.Children.Clear();

@@ -79,12 +79,25 @@ namespace MangGuoTv
         /// 主页
         /// </summary>
         public static string MianPage { get { return "/Views/MainPage.xaml"; } }
+        /// <summary>
+        /// 播放记录页面
+        /// </summary>
+        public static string RememberPage { get { return "/Views/RememberVideos.xaml"; } }
         
 
 
         #endregion
 
         #region IsolatedStorage FileName Or KeyName
+        /// <summary>
+        /// 播放记录存放位置
+        /// </summary>
+        public static string rememberVideoSavePath { get { return "RememberVideos\\"; } }
+        /// <summary>
+        /// 缓存文件存放位置
+        /// </summary>
+        public static string videoSavePath { get { return "DownVideos\\"; } }
+
         /// <summary>
         /// 是否第一次使用该App
         /// </summary>

@@ -44,9 +44,9 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("RememberVideos");
             }
         }
-        private string lastVideosRememberIso { get { return "lastVideosRemember.dat"; } }
-        private string VideosRememberIso {get {return "VideosRemember.dat";}}
-        private string videoSavePath { get { return "DownVideos\\"; } }
+        private string lastVideosRememberIso { get { return CommonData.rememberVideoSavePath +"lastVideosRemember.dat"; } }
+        private string VideosRememberIso { get { return CommonData.rememberVideoSavePath + "VideosRemember.dat"; } }
+        //private string rememberVideoSavePath { get { return "RememberVideos\\"; } }
         public void loadRememberVideoData()
         {
             //加载最近观看视频数据
@@ -74,23 +74,44 @@ namespace MangGuoTv.ViewModels
                 if (imgdata != null)
                 {
                     string imageType = video.Image.Remove(0, video.Image.Length - 4);
-                    WpStorage.SaveFilesToIsoStore(videoSavePath + video.VideoId.ToString() + imageType, imgdata);
-                    video.LocalImage = videoSavePath + video.VideoId.ToString() + imageType;
+                    WpStorage.SaveFilesToIsoStore(CommonData.rememberVideoSavePath + video.VideoId.ToString() + imageType, imgdata);
+                    video.LocalImage =CommonData.rememberVideoSavePath + video.VideoId.ToString() + imageType;
                 }
-                if (RememberVideos.Count > 20) 
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
-                    RememberVideos.RemoveAt(0);
-                }
-                RememberVideos.Add(video);
-                if (LastVideoRemember.Count > 1)
-                {
-                    LastVideoRemember.RemoveAt(0);
-                }
-                LastVideoRemember.Add(video);
-                SaveVideoData();
+                    //检查记录是否相同 相同则删除相同项
+                    for (int i = 0; i < RememberVideos.Count; i++)
+                    {
+                        if (RememberVideos[i].VideoId == video.VideoId)
+                        {
+                            RememberVideos.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    if (RememberVideos.Count > 20)
+                    {
+                        RememberVideos.RemoveAt(0);
+                    }
+                    RememberVideos.Add(video);
+                    //检查最近记录是否相同 相同则删除相同项
+                    for (int i = 0; i < LastVideoRemember.Count; i++)
+                    {
+                        if (LastVideoRemember[i].VideoId == video.VideoId)
+                        {
+                            LastVideoRemember.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    if (LastVideoRemember.Count > 1)
+                    {
+                        LastVideoRemember.RemoveAt(0);
+                    }
+                    LastVideoRemember.Add(video);
+                    SaveRememberVideoData();
+                });
             });
         }
-        public void SaveVideoData()
+        public void SaveRememberVideoData()
         {
             string lastVideoidData = null;
             if (LastVideoRemember.Count > 0)
@@ -193,6 +214,9 @@ namespace MangGuoTv.ViewModels
                             {
 
                             }
+                            break;
+                        case "6":
+                          
                             break;
                         default:
                             break;

@@ -214,6 +214,22 @@ namespace MangGuoTv
             }
            
         }
+        public static void DeleteDirectory(String root)
+        {
+            String dir = root;
+            //  delete file in current dir
+            foreach (String file in isoFile.GetFileNames(dir + "/*"))
+            {
+                isoFile.DeleteFile(dir + "/" + file);
+            }
+            //  delete sub-dir
+            foreach (String subdir in isoFile.GetDirectoryNames(dir + "/*"))
+            {
+                DeleteDirectory(dir + "/" + subdir);
+            }
+            //  delete current dir
+            isoFile.DeleteDirectory(dir);
+        }
 
     }
 }

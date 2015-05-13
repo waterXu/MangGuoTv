@@ -19,6 +19,7 @@
     shell:SystemTray.Opacity="0"
     shell:SystemTray.ForegroundColor="White"
     Loaded="PhoneApplicationPage_Loaded"
+    BackKeyPress="PhoneApplicationPage_BackKeyPress"
     >
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
@@ -57,11 +58,11 @@
             </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
-                    <TextBlock Text="个人" Width="150"  FontSize="35"></TextBlock>
+                    <TextBlock Text="个人中心" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
                 <StackPanel>
                     <TextBlock Text="播放记录          >>" Foreground="Gray" FontSize="30" Margin="20,10" Tap="AllVideosRemember"></TextBlock>
-                    <ListBox SelectionChanged="VideoRemember_Changed" ItemsSource="{Binding LastVideoRemember}" HorizontalAlignment="Center">
+                    <ListBox SelectionChanged="VideoRemember_Changed" ItemsSource="{Binding LastVideoRemember}" x:Name="VideoRemember">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -69,8 +70,8 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel  Margin="10" CB:TiltEffect.IsTiltEnabled="true"  Width="200">
-                                    <TextBlock Grid.Row="0" FontSize="15" TextWrapping="Wrap" Text="{Binding Name}" Foreground="Gray"/>
+                                <StackPanel  Margin="10" HorizontalAlignment="Center" CB:TiltEffect.IsTiltEnabled="true"  Width="200">
+                                    <TextBlock Grid.Row="0" FontSize="15" TextWrapping="Wrap" Text="{Binding Name}" HorizontalAlignment="Center" Foreground="Gray"/>
                                     <Image Source="{Binding Image}" Width="150" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -78,20 +79,23 @@
                     </ListBox>
                     <Grid CB:TiltEffect.IsTiltEnabled="true" HorizontalAlignment="Center" CacheMode="BitmapCache" Margin="0,10">
                         <tool:WrapPanel>
-                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="离线缓存">
-                                <Image Width="50" Height="50" Source="/Images/showdown.png" Stretch="Fill" Margin="0,0,0,40" />
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="离线缓存">
+                                <Image Width="50" Height="50" Source="/Images/showdown.png" Stretch="Fill" Margin="0,0,0,35" />
                             </coding4fun:Tile>
-                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="   设置">
-                                <Image Width="50" Height="50" Source="/Images/setting.png" Stretch="Fill" Margin="0,0,0,40" />
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="2" Title="   设置">
+                                <Image Width="50" Height="50" Source="/Images/setting.png" Stretch="Fill" Margin="0,0,0,35" />
                             </coding4fun:Tile>
-                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="为我打分">
-                                <Image Width="50" Height="50" Source="/Images/gread.png" Stretch="Fill" Margin="0,0,0,40" />
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="3" Title="为我打分">
+                                <Image Width="50" Height="50" Source="/Images/gread.png" Stretch="Fill" Margin="0,0,0,35" />
                             </coding4fun:Tile>
-                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="意见反馈">
-                                <Image Width="50" Height="50" Source="/Images/comment.png" Stretch="Fill" Margin="0,0,0,40" />
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="4" Title="意见反馈">
+                                <Image Width="50" Height="50" Source="/Images/comment.png" Stretch="Fill" Margin="0,0,0,35" />
                             </coding4fun:Tile>
-                            <coding4fun:Tile Margin="5" Background="#FFEE6E28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="推荐应用">
-                                <Image Width="50" Height="50" Source="/Images/tuijian.png" Stretch="Fill" Margin="0,0,0,40" />
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="5" Title="推荐应用">
+                                <Image Width="50" Height="50" Source="/Images/tuijian.png" Stretch="Fill" Margin="0,0,0,35" />
+                            </coding4fun:Tile>
+                            <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="6" Title="关于应用">
+                                <Image Width="50" Height="50" Source="/Images/about.png" Stretch="Fill" Margin="0,0,0,35" />
                             </coding4fun:Tile>
                         </tool:WrapPanel>
                     </Grid>

@@ -22,10 +22,16 @@ namespace MangGuoTv
     {
         private bool IsDownMode = false;
         private string pauseImg = "/Images/pause.png";
+        private string needSetSliderValueIso = "needSetSliderValue";
+        private string leaveSilderValueIso = "leaveSilderValue";
         private string playImg = "/Images/start.png";
         private bool playImgStatus = false;
         private double leaveSilderValue = 0;
-        private bool isLeaveApp = false;
+        public static bool needSetSliderValue
+        {
+            get;
+            set;
+        }
         public PlayerInfo()
         {
             InitializeComponent();
@@ -38,6 +44,8 @@ namespace MangGuoTv
             CallbackManager.currentPage = this;
             this.DataContext = App.PlayerModel;
             LoadDramaSeletedItem(App.PlayerModel.VideoId);
+            App.ShowLoading();
+            LoadTip.Visibility = Visibility.Visible;
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -48,9 +56,16 @@ namespace MangGuoTv
             this.DataContext = null;
             if (e.Content != null)
             {
-                 leaveSilderValue = pbVideo.Value;
-                 isLeaveApp = true;
+                leaveSilderValue = pbVideo.Value;
+                App.PlayerModel.AllDramas = null;
             }
+            else 
+            {
+                needSetSliderValue = true;
+            }
+            App.HideLoading();
+            WpStorage.SetIsoSetting(needSetSliderValueIso, needSetSliderValue);
+            WpStorage.SetIsoSetting(leaveSilderValueIso, leaveSilderValue);
         }
 
         private void DramaItem_Loaded(object sender, RoutedEventArgs e)
@@ -78,6 +93,7 @@ namespace MangGuoTv
             if (AllDramas.Items.Count > 0) 
             {
                 AllDramas.SelectedIndex = index;
+                AllDramas.ScrollIntoView(AllDramas.SelectedItem);
             }
         }
         private int currentDramaIndex = -1;
@@ -159,9 +175,27 @@ namespace MangGuoTv
         {
             if (myMediaElement.CurrentState == MediaElementState.Playing)
             {//播放视频时各菜单的状态
+                if (WpStorage.GetIsoSetting(needSetSliderValueIso) != null)
+                {
+                    needSetSliderValue = (bool)WpStorage.GetIsoSetting(needSetSliderValueIso);
+                    if (needSetSliderValue)
+                    {
+                        needSetSliderValue = false;
+                        WpStorage.SetIsoSetting(needSetSliderValueIso, needSetSliderValue);
+                        if (WpStorage.GetIsoSetting(leaveSilderValueIso) != null) 
+                        {
+                            leaveSilderValue = (double)WpStorage.GetIsoSetting(leaveSilderValueIso);
+                            pbVideo.Tag = "isFoucesed";
+                            pbVideo.Value = leaveSilderValue;
+                        }
+                     
+                    }
+                 
+                }
                 currentPosition.Start();
                 App.HideLoading();
-                PlayImg.Source = new BitmapImage(new Uri(pauseImg,UriKind.RelativeOrAbsolute));
+                LoadTip.Visibility = Visibility.Collapsed;
+                PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
             }
             else if (myMediaElement.CurrentState == MediaElementState.Paused)
             { //暂停视频时各菜单的状态
@@ -188,21 +222,25 @@ namespace MangGuoTv
             //获取多媒体视频的总时长来设置进度条的最大值
             pbVideo.Maximum = (int)myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
             string endtext = myMediaElement.NaturalDuration.TimeSpan.ToString();
-            EndTextBlock.Text = endtext.Substring(0,endtext.IndexOf("."));
+            if (endtext.IndexOf(".") != -1)
+            {
+                EndTextBlock.Text = endtext.Substring(0, endtext.IndexOf("."));
+            }
+            else 
+            {
+                EndTextBlock.Text = endtext;
+            }
             myMediaElement.BufferingProgressChanged += new RoutedEventHandler(MediaBufferChannged);
             //播放视频
             myMediaElement.Play();
-            if (isLeaveApp) 
-            {
-                isLeaveApp = false;
-                pbVideo.Value = leaveSilderValue;
-            }
+           
         }
 
         private void MediaBufferChannged(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("正在加载");
             App.ShowLoading();
+            LoadTip.Visibility = Visibility.Visible;
         }
         private void pbVideo_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -229,6 +267,7 @@ namespace MangGuoTv
                     TimeSpan newtimeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
                     myMediaElement.Position = timeSpan;
                     fullScreen.Focus();
+                    pbVideo.Tag = "loseFoucesed";
                     //myMediaElement.BufferingTime = timeSpan - newtimeSpan;
                 }
             }
@@ -295,9 +334,7 @@ namespace MangGuoTv
             startDownBtn.Click += new EventHandler(StartDownIcon_Click);
             this.ApplicationBar.Buttons.Add(startDownBtn);
 
-           
-            Style itemStyle = Resources["ListBoxItemStyle1"] as Style;
-            AllDramas.ItemContainerStyle = itemStyle;
+            AllDramas.ItemContainerStyle = App.PlayerModel.MultipleVideoStyle;
             AllDramas.SelectionMode = SelectionMode.Multiple;
             IsDownMode = true;
 
@@ -305,8 +342,7 @@ namespace MangGuoTv
         private void CloseIcon_Click(object sender, EventArgs e)
         {
             LoadDownIcon();
-            Style itemStyle = Resources["ListBoxItemStyle"] as Style;
-            AllDramas.ItemContainerStyle = itemStyle;
+            AllDramas.ItemContainerStyle = App.PlayerModel.VideoStyle;
             AllDramas.SelectionMode = SelectionMode.Single;
             IsDownMode = false;
             LoadDramaSeletedItem(App.PlayerModel.VideoId,true);
@@ -318,8 +354,7 @@ namespace MangGuoTv
                 App.DownVideoModel.AddDownVideo(videoInfo);
             }
             LoadDownIcon();
-            Style itemStyle = Resources["ListBoxItemStyle"] as Style;
-            AllDramas.ItemContainerStyle = itemStyle;
+            AllDramas.ItemContainerStyle = App.PlayerModel.VideoStyle;
             AllDramas.SelectionMode = SelectionMode.Single;
             IsDownMode = false;
             LoadDramaSeletedItem(App.PlayerModel.VideoId, true);

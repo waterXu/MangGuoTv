@@ -6,50 +6,11 @@
     mc:Ignorable="d"
     xmlns:CB="clr-namespace:MangGuoTv"
     xmlns:System="clr-namespace:System;assembly=mscorlib">
-    <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                    <Border  CB:TiltEffect.IsTiltEnabled="true"  x:Name="LayoutRoot" BorderThickness="0" Margin="15,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"  Background="Gray">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver"/>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="SelectionStates">
-                                <VisualState x:Name="Unselected">
-                                    <Storyboard>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Selected">
-                                    <Storyboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" Storyboard.TargetName="BorderStyle" Storyboard.TargetProperty="Opacity" To="1"></DoubleAnimation>
-                                        </Storyboard>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Grid>
-                                <Border  x:Name="BorderStyle"  Background="#FFFB8713"  BorderThickness="0" Opacity="0">
-                                </Border>
-                                <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Center"  Margin="5" VerticalContentAlignment="Center" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <Style x:Key="ListBoxItemStyle1" TargetType="ListBoxItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border  CB:TiltEffect.IsTiltEnabled="true"  x:Name="LayoutRoot" BorderThickness="0" Margin="15,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"  Background="Gray">
+                    <Border  CB:TiltEffect.IsTiltEnabled="true"  x:Name="LayoutRoot" BorderThickness="0" Margin="5,5" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
@@ -87,21 +48,6 @@
                                 <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="3" Opacity="0"/>
                                 <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Center"  Margin="5" VerticalContentAlignment="Center" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ListBoxItemStyle2" TargetType="ListBoxItem">
-        <Setter Property="Margin" Value="0,5"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="LayoutRoot" CB:TiltEffect.IsTiltEnabled="true"  HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                        <Grid>
-                            <Border Background="Gray" Opacity=".5"></Border>
-                                <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:LayoutOverrides="Width, Height" Grid.Column="1" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </ControlTemplate>
