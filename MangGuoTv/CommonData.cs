@@ -57,7 +57,7 @@ namespace MangGuoTv
         /// <summary>
         /// 获取更多频道信息
         /// </summary>
-        public static string GetMoreChannelInfo { get { return MangGuoHost + "list?" + CommonUrl; } }
+        public static string GetMoreChannelInfo { get { return MangGuoHost + "list?" + CommonUrl + "&pageSize=30"; } }
         
         /// <summary>
         /// 专题页面
@@ -83,20 +83,33 @@ namespace MangGuoTv
         /// 播放记录页面
         /// </summary>
         public static string RememberPage { get { return "/Views/RememberVideos.xaml"; } }
+        /// <summary>
+        /// 关于
+        /// </summary>
+        public static string AboutPage { get { return "/Views/About.xaml"; } }
+        /// <summary>
+        /// 设置
+        /// </summary>
+        public static string SettingPage { get { return "/Views/Setting.xaml"; } }
         
 
 
         #endregion
 
         #region IsolatedStorage FileName Or KeyName
+
         /// <summary>
         /// 播放记录存放位置
         /// </summary>
-        public static string rememberVideoSavePath { get { return "RememberVideos\\"; } }
+        public static string IsoRootPath { get { return "MangGuoData\\"; } }
+        /// <summary>
+        /// 播放记录存放位置
+        /// </summary>
+        public static string rememberVideoSavePath { get { return IsoRootPath + "RememberVideos\\"; } }
         /// <summary>
         /// 缓存文件存放位置
         /// </summary>
-        public static string videoSavePath { get { return "DownVideos\\"; } }
+        public static string videoSavePath { get { return IsoRootPath+"DownVideos\\"; } }
 
         /// <summary>
         /// 是否第一次使用该App

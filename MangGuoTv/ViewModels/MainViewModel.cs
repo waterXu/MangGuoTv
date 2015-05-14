@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.IO.IsolatedStorage;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -114,19 +115,21 @@ namespace MangGuoTv.ViewModels
         public void SaveRememberVideoData()
         {
             string lastVideoidData = null;
-            if (LastVideoRemember.Count > 0)
+            if (LastVideoRemember != null && LastVideoRemember.Count > 0)
             {
                 //把hashset表反序列化为字符串 存入独立存储
                 lastVideoidData = JsonConvert.SerializeObject(LastVideoRemember);
             }
             WpStorage.SaveStringToIsoStore(lastVideosRememberIso, lastVideoidData);
             string allReVideoidData = null;
-            if (RememberVideos.Count > 0)
+            if (RememberVideos != null && RememberVideos.Count > 0)
             {
                 //把hashset表反序列化为字符串 存入独立存储
                 allReVideoidData = JsonConvert.SerializeObject(RememberVideos);
             }
             WpStorage.SaveStringToIsoStore(VideosRememberIso, allReVideoidData);
+            App.DownVideoModel.UpdateIsoSize();
+
         }
         public void LoadChannels() 
         {
@@ -174,6 +177,7 @@ namespace MangGuoTv.ViewModels
                             break;
                         //设置
                         case "2":
+                            CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.SettingPage, UriKind.RelativeOrAbsolute));
                             break;
                         //打分
                         case "3":
@@ -216,7 +220,7 @@ namespace MangGuoTv.ViewModels
                             }
                             break;
                         case "6":
-                          
+                            CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.AboutPage,UriKind.RelativeOrAbsolute));
                             break;
                         default:
                             break;
@@ -224,6 +228,50 @@ namespace MangGuoTv.ViewModels
                 }));
             }
         }
+              //使用自定义主题
+        private DelegateCommand _cleanAllIsoCommand;
+        public DelegateCommand CleanAllIsoCommand
+        {
+            get
+            {
+                return _cleanAllIsoCommand ?? (_cleanAllIsoCommand = new DelegateCommand(() =>
+                {
+                    WpStorage.DeleteDirectory(CommonData.IsoRootPath);
+                    IsolatedStorageSettings.ApplicationSettings.Clear();
+                    NeedDownedTip = false;
+                }));
+            }
+        }
         #endregion
+         private bool _needDownedTip;
+        /// <summary>
+        /// wifi下自动下载当前播放的红心歌曲
+        /// </summary>
+         public bool NeedDownedTip
+
+        {
+            get 
+            {
+                if (WpStorage.GetIsoSetting("NeedDownedTip") != null)
+                {
+                    _needDownedTip = (bool)WpStorage.GetIsoSetting("NeedDownedTip");
+                }
+                else
+                {
+                    _needDownedTip = false;
+                }
+                return _needDownedTip; 
+            }
+            set
+            {
+                if (_needDownedTip != value)
+                {
+                    _needDownedTip = value;
+                    WpStorage.SetIsoSetting("NeedDownedTip", _needDownedTip);
+                    NotifyPropertyChanged("NeedDownedTip");
+                }
+            }
+        }
+       
     }
 }

@@ -161,6 +161,18 @@ namespace MangGuoTv.ViewModels
         {
             get
             {
+                if (isLoading)
+                {
+                    LoadStatus = "下载中";
+                }
+                else
+                {
+                    LoadStatus = "等待中";
+                }
+                if (isLoadError)
+                {
+                    LoadStatus = "缓存失败";
+                }
                 return isLoading;
             }
             set
@@ -251,8 +263,11 @@ namespace MangGuoTv.ViewModels
             }
             set
             {
-                size = value;
-                NotifyPropertyChanged("Size");
+                if (size != value) 
+                {
+                    size = value;
+                    NotifyPropertyChanged("Size");
+                }
             }
         }
         private string loadsize;

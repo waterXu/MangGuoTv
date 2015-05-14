@@ -38,10 +38,23 @@ namespace MangGuoTv.Views
         {
             DowningVideos.ItemContainerStyle = null;
             DowningVideos.SelectionMode = SelectionMode.Single;
+            DowningVideos.SelectedIndex = -1;
             DownVideoList.ItemContainerStyle = null;
             DownVideoList.SelectionMode = SelectionMode.Single;
+            DownVideoList.SelectedIndex = -1;
             IsEditMode = false;
             pvoitIndex = MainPivot.SelectedIndex;
+            if (pvoitIndex == 2) 
+            {
+                for (int i = this.ApplicationBar.Buttons.Count - 1; i >= 0; i--)
+                {
+                    this.ApplicationBar.Buttons.RemoveAt(i);
+                }
+            }
+            else 
+            {
+                LoadEditIcon();
+            }
         }
 
         private void DowningVideos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -137,7 +150,7 @@ namespace MangGuoTv.Views
             {
                 if (MessageBox.Show("确定要删除选中已经缓存的剧集吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    foreach (DownVideoInfoViewMoel Video in DowningVideos.SelectedItems)
+                    foreach (DownVideoInfoViewMoel Video in DownVideoList.SelectedItems)
                     {
                         App.DownVideoModel.DownedVideo.Remove(Video);
                         App.DownVideoModel.DownedVideoids.Remove(Video.VideoId);

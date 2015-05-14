@@ -36,8 +36,11 @@
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
         <MediaElement  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
-        <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" x:Name="LoadTip">
+        <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
             <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
+        </Border>
+        <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
+            <TextBlock Text="{Binding ErrMsg}" HorizontalAlignment="Center"></TextBlock>
         </Border>
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">

@@ -138,6 +138,7 @@ namespace MangGuoTv.Views
             {
                 this.ApplicationBar.Buttons.RemoveAt(i);
             }
+            RememberVideoList.SelectedIndex = -1;
             string closeIcon = "/Images/Icons/cancel.png";
             closeBtn = new ApplicationBarIconButton(new Uri(closeIcon, UriKind.Relative));
             closeBtn.Text = "取消";

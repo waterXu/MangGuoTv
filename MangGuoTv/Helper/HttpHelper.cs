@@ -73,6 +73,7 @@ namespace MangGuoTv
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误"+ex.Message);
+                        App.JsonError(result);
                     }
                     if (channels != null && channels.err_code == rightCode) 
                     {
@@ -122,32 +123,6 @@ namespace MangGuoTv
                 }
             }
             catch { }
-        }
-        /// <summary>
-        /// HttpPsot功能函数
-        /// </summary>
-        /// <param name="url">请求url</param>
-        /// <param name="asyncCallback">请求返回</param>
-        public static void httpPost(string url, AsyncCallback asyncCallback)
-        {
-            try
-            {
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
-                req.Method = "POST";
-                //req.Headers["Cache-Control"] = "no-cache";
-                //req.Headers["Pragma"] = "no-cache";
-                req.ContentType = "application/x-www-form-urlencoded";
-                req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36";
-                //req.Headers["Content-Type"] = "application/x-www-form-urlencoded";
-                req.AllowAutoRedirect = true;
-                IAsyncResult token = req.BeginGetResponse(asyncCallback, req);
-            }
-            catch { }
-        }
-
-        internal static bool LoginResultCodeInfo(IAsyncResult ar)
-        {
-            throw new NotImplementedException();
         }
     }
 }

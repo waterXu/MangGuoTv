@@ -20,7 +20,7 @@ namespace MangGuoTv.Views
     public class ChannelScrollView 
     {
         public ScrollViewer scrollView { set; get; }
-        private StackPanel stackPanel { get; set; }
+        public StackPanel stackPanel { get; set; }
         private ScrollViewer imageScroll { get; set; }
         private double scrollImageWidth = 250;
         /// <summary>

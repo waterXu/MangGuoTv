@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MangGuoTv.Models
 {
-    public class VideoInfoResult 
+    public class JsonError 
+    {
+        public string err_code { get; set; }
+        public string err_msg { get; set; }
+    }
+    public class VideoInfoResult
     {
         public string err_code { get; set; }
         public string err_msg { get; set; }

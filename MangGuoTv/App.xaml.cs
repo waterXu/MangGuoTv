@@ -15,6 +15,8 @@ using Microsoft.Phone.Net.NetworkInformation;
 using System.Net;
 using System.Windows.Media;
 using MangGuoTv.ViewModels;
+using Newtonsoft.Json;
+using MangGuoTv.Models;
 
 namespace MangGuoTv
 {
@@ -52,6 +54,10 @@ namespace MangGuoTv
                     playerModel = new PlayerViewModel();
 
                 return playerModel;
+            }
+             set
+            {
+                playerModel = value;
             }
         }
         private static DownVideoViewModel downVideoModel = null;
@@ -189,6 +195,7 @@ namespace MangGuoTv
                                 break;
                             case NetworkInterfaceType.Wireless80211:
                                 NetName = "WiFi";
+                                App.DownVideoModel.CheckLocalData();
                                 break;
                             default:
                                 NetName = "None";
@@ -207,6 +214,11 @@ namespace MangGuoTv
                     else
                     {
                         tip = AppResources.ShowNetwork.Replace("#name#", NetName);
+                    }
+
+                    if (NetName != "WiFi") 
+                    {
+                        App.DownVideoModel.StopDownVideo();
                     }
 
                     ShowToast(tip);
@@ -245,6 +257,17 @@ namespace MangGuoTv
                 PopupShowAnimation();
                 startTimer();
             });
+        }
+        public static void JsonError(string result) 
+        {
+            try 
+            {
+                JsonError jsonError = JsonConvert.DeserializeObject<JsonError>(result);
+                App.HideLoading();
+                App.ShowToast(jsonError.err_msg);
+            }
+            catch { }
+           
         }
         private static void startTimer()
         {

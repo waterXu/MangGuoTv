@@ -84,6 +84,21 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
+            <phone:PivotItem Margin="0,10,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="缓存说明" Width="150"  FontSize="35"></TextBlock>
+                </phone:PivotItem.Header>
+                <StackPanel>
+                    <TextBlock Text="1.在所有网络下都可以缓存吗？" Margin="10,10,0,0"></TextBlock>
+                    <TextBlock Text="本版本已强制在WiFi下才能进行缓存，如若有需要可以在意见反馈中提交反馈，根据反馈将增加在2G/3G缓存的功能开关" FontSize="15" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+                    <TextBlock Text="2.是否可以后台/锁屏下载？" Margin="10,10,0,0"></TextBlock>
+                    <TextBlock Text="本版本不支持后台和锁屏下载，并且建议下载过程中不要退出或切换应用，以上操作将会导致当前正在下载的视频重新开始下载" FontSize="15" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+                    <TextBlock Text="3.无法缓存的情况？" Margin="10,10,0,0"></TextBlock>
+                    <TextBlock Text="设备存储空间不足时(注意页面下方的剩余存储空间)，有些视频因为版权限制或者视频格式不支持缓存功能" FontSize="15" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+                    <TextBlock Text="4.缓存的视频无法播放？" Margin="10,10,0,0"></TextBlock>
+                    <TextBlock Text="建议删除该视频重新下载" FontSize="15" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+                </StackPanel>
+            </phone:PivotItem>
         </phone:Pivot>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20" VerticalAlignment="Center">
             <TextBlock Text="剩余存储空间 ： " FontSize="15"/>

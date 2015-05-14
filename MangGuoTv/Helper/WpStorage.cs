@@ -56,7 +56,10 @@ namespace MangGuoTv
             }
             catch { }
         }
-
+        public static void CleanAppSetting() 
+        {
+            IsolatedStorageSettings.ApplicationSettings.Clear();
+        }
         public static IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication();
 
         /// <summary>
@@ -217,19 +220,27 @@ namespace MangGuoTv
         public static void DeleteDirectory(String root)
         {
             String dir = root;
-            //  delete file in current dir
-            foreach (String file in isoFile.GetFileNames(dir + "/*"))
+            try 
             {
-                isoFile.DeleteFile(dir + "/" + file);
+                //  delete file in current dir
+                foreach (String file in isoFile.GetFileNames(dir + "/*"))
+                {
+                    isoFile.DeleteFile(dir + "/" + file);
+                }
+                //  delete sub-dir
+                foreach (String subdir in isoFile.GetDirectoryNames(dir + "/*"))
+                {
+                    DeleteDirectory(dir + "/" + subdir);
+                }
+                //  delete current dir
+                isoFile.DeleteDirectory(dir);
             }
-            //  delete sub-dir
-            foreach (String subdir in isoFile.GetDirectoryNames(dir + "/*"))
+            catch (Exception ex)
             {
-                DeleteDirectory(dir + "/" + subdir);
-            }
-            //  delete current dir
-            isoFile.DeleteDirectory(dir);
-        }
+                System.Diagnostics.Debug.WriteLine("DeleteDirectory exception = " + ex.Message);
 
+            }
+
+        }
     }
 }

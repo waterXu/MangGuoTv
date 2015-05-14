@@ -44,22 +44,28 @@ namespace MangGuoTv
             CallbackManager.currentPage = this;
             this.DataContext = App.PlayerModel;
             LoadDramaSeletedItem(App.PlayerModel.VideoId);
+            if (App.PlayerModel.MediaSource != null) 
+            {
+                App.PlayerModel.MediaSource = App.PlayerModel.MediaSource;
+            }
             App.ShowLoading();
-            LoadTip.Visibility = Visibility.Visible;
+            App.PlayerModel.LoadVisibility = Visibility.Visible;
+            App.PlayerModel.PayVisibility = Visibility.Collapsed;
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
             CallbackManager.currentPage = null;
             currentPosition.Stop();
-             //当用户按win键 或者长按返回键时  不清空 datacontext  否则从墓碑模式返回时会丢失当前数据
-            this.DataContext = null;
+            //当用户按win键 或者长按返回键时  不清空 datacontext  否则从墓碑模式返回时会丢失当前数据
             if (e.Content != null)
             {
                 leaveSilderValue = pbVideo.Value;
-                App.PlayerModel.AllDramas = null;
+                App.PlayerModel.ClearData();
+
+                this.DataContext = null;
             }
-            else 
+            else
             {
                 needSetSliderValue = true;
             }
@@ -194,7 +200,7 @@ namespace MangGuoTv
                 }
                 currentPosition.Start();
                 App.HideLoading();
-                LoadTip.Visibility = Visibility.Collapsed;
+                App.PlayerModel.LoadVisibility = Visibility.Collapsed;
                 PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
             }
             else if (myMediaElement.CurrentState == MediaElementState.Paused)
@@ -240,7 +246,7 @@ namespace MangGuoTv
         {
             System.Diagnostics.Debug.WriteLine("正在加载");
             App.ShowLoading();
-            LoadTip.Visibility = Visibility.Visible;
+            App.PlayerModel.LoadVisibility = Visibility.Visible;
         }
         private void pbVideo_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -318,6 +324,7 @@ namespace MangGuoTv
         private ApplicationBarIconButton startDownBtn;
         private void DownLoad_Click(object sender, EventArgs e)
         {
+            MainPivot.SelectedIndex = 0;
             for (int i = this.ApplicationBar.Buttons.Count - 1; i >= 0; i--)
             {
                 this.ApplicationBar.Buttons.RemoveAt(i);

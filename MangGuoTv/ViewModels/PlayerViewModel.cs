@@ -27,7 +27,14 @@ namespace MangGuoTv.ViewModels
         private List<VideoInfo> _AllDramas;
         public List<VideoInfo> AllDramas
         {
-            get { return _AllDramas; }
+            get 
+            {
+                if (_AllDramas == null) 
+                {
+                    _AllDramas = new List<VideoInfo>();
+                }
+                return _AllDramas;
+            }
             set
             {
                 _AllDramas = value;
@@ -37,7 +44,14 @@ namespace MangGuoTv.ViewModels
         private List<VideoInfo> _AllRelateds;
         public List<VideoInfo> AllRelateds
         {
-            get { return _AllRelateds; }
+            get 
+            {
+                if (_AllRelateds == null) 
+                {
+                    _AllRelateds = new List<VideoInfo>();
+                }
+                return _AllRelateds; 
+            }
             set
             {
                 _AllRelateds = value;
@@ -47,7 +61,14 @@ namespace MangGuoTv.ViewModels
         private List<Comment> _comments;
         public List<Comment> Comments
         {
-            get { return _comments; }
+            get 
+            {
+                if (_comments == null)
+                {
+                    _comments = new List<Comment>();
+                }
+                return _comments;
+            }
             set
             {
                 _comments = value;
@@ -57,7 +78,10 @@ namespace MangGuoTv.ViewModels
         private VideoDetail _videoDetail;
         public VideoDetail VideoDetail 
         {
-            get { return _videoDetail; }
+            get 
+            {
+                return _videoDetail; 
+            }
             set
             {
                 _videoDetail = value;
@@ -67,7 +91,14 @@ namespace MangGuoTv.ViewModels
         private List<VideoDefinition> _videoSources;
         public List<VideoDefinition> VideoSources
         {
-            get { return _videoSources; }
+            get
+            {
+                if (_videoSources == null) 
+                {
+                    _videoSources = new List<VideoDefinition>();
+                }
+                return _videoSources; 
+            }
             set
             {
                 _videoSources = value;
@@ -76,7 +107,14 @@ namespace MangGuoTv.ViewModels
         private List<VideoDefinition> _downloadUrl;
         public List<VideoDefinition> VideoDownloadUrl
         {
-            get { return _downloadUrl; }
+            get
+            {
+                if (_downloadUrl == null)
+                {
+                    _downloadUrl = new List<VideoDefinition>();
+                }
+                return _downloadUrl;
+            }
             set
             {
                 _downloadUrl = value;
@@ -92,7 +130,36 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("MediaSource");
             }
         }
-      
+        private Visibility loadVisibility = Visibility.Visible;
+        public Visibility LoadVisibility 
+        {
+            get { return loadVisibility; }
+            set 
+            {
+                loadVisibility = value;
+                NotifyPropertyChanged("LoadVisibility");
+            }
+        }
+        private Visibility payVisibility = Visibility.Collapsed;
+        public Visibility PayVisibility
+        {
+            get { return payVisibility; }
+            set
+            {
+                payVisibility = value;
+                NotifyPropertyChanged("PayVisibility");
+            }
+        }
+        private string errMsg;
+        public string ErrMsg
+        {
+            get { return errMsg; }
+            set 
+            {
+                errMsg = value;
+                NotifyPropertyChanged("ErrMsg");
+            }
+        }
         private string videoId;
         public string VideoId
         {
@@ -126,7 +193,12 @@ namespace MangGuoTv.ViewModels
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
                     }
-                    if (videosResult != null && videosResult.err_code == HttpHelper.rightCode)
+
+                    if (videosResult == null) 
+                    {
+                        JsonError(result);
+                    }
+                    else if ( videosResult.err_code == HttpHelper.rightCode)
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
@@ -137,7 +209,11 @@ namespace MangGuoTv.ViewModels
                             else
                             {
                                 AllDramas = videosResult.data;
-                                (CallbackManager.currentPage as PlayerInfo).LoadDramaSeletedItem(videoId);
+                                PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+                                if (player != null) 
+                                {
+                                    player.LoadDramaSeletedItem(videoId);
+                                }
                             }
                         });
                     }
@@ -178,8 +254,13 @@ namespace MangGuoTv.ViewModels
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                        App.JsonError(result);
                     }
-                    if (commentResult != null && commentResult.err_code == HttpHelper.rightCode && commentResult.data.Count > 0)
+                    if (commentResult == null)
+                    {
+                        JsonError(result);
+                    }
+                    else if ( commentResult.err_code == HttpHelper.rightCode && commentResult.data.Count > 0)
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
@@ -217,8 +298,13 @@ namespace MangGuoTv.ViewModels
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                        App.JsonError(result);
                     }
-                    if (videosDetailResult != null && videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
+                    if (videosDetailResult == null)
+                    {
+                        JsonError(result);
+                    }
+                    else if (videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
@@ -252,8 +338,13 @@ namespace MangGuoTv.ViewModels
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                        App.JsonError(result);
                     }
-                    if (videosResult != null && videosResult.err_code == HttpHelper.rightCode)
+                    if (videosResult == null)
+                    {
+                        JsonError(result);
+                    }
+                    else if ( videosResult.err_code == HttpHelper.rightCode)
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
@@ -272,6 +363,8 @@ namespace MangGuoTv.ViewModels
             //设置多媒体控件的网络视频资源
             if (info.downloadUrl.Count > 0)
             {
+                App.PlayerModel.PayVisibility = Visibility.Collapsed;
+                App.PlayerModel.LoadVisibility = Visibility.Visible;
                 string playUrl = info.downloadUrl[0].url;
                 System.Diagnostics.Debug.WriteLine("获取播放源：" + playUrl);
                 HttpHelper.httpGet(playUrl, (ar) =>
@@ -287,8 +380,13 @@ namespace MangGuoTv.ViewModels
                         catch (Exception ex)
                         {
                             System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                            App.JsonError(result);
                         }
-                        if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
+                        if (videosResult == null)
+                        {
+                            JsonError(result);
+                        }
+                        else if ( videosResult.status == "ok" && videosResult.info != null)
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
@@ -304,6 +402,83 @@ namespace MangGuoTv.ViewModels
                     }
                 });
             }
+            else 
+            {
+                //尝试获取数据源
+                string playSourceUrl = CommonData.GetVideoResourceUrl + "&videoId="+info.videoId;
+                System.Diagnostics.Debug.WriteLine("获取播放源2：" + playSourceUrl);
+                HttpHelper.httpGet(playSourceUrl, (ar) =>
+                {
+                    string result = HttpHelper.SyncResultTostring(ar);
+                    if (result != null)
+                    {
+                        VideoDetailResult videosDetailResult = null;
+                        try
+                        {
+                            videosDetailResult = JsonConvert.DeserializeObject<VideoDetailResult>(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                            App.JsonError(result);
+                        }
+                        if (videosDetailResult == null)
+                        {
+                            JsonError(result);
+                        }
+                        else if (videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
+                        {
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                //info.downloadUrl = videosDetailResult.data.downloadUrl;
+                                info.downloadUrl = videosDetailResult.data.videoSources;
+                                PlayerM3U8Video(videosDetailResult.data.videoSources);
+                            });
+                        }
+                        else if (videosDetailResult != null && videosDetailResult.err_code != HttpHelper.rightCode)
+                        {
+                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                App.HideLoading();
+                                LoadVisibility = Visibility.Collapsed;
+                                ErrMsg = videosDetailResult.err_msg;
+                                PayVisibility = Visibility.Visible;
+                            });
+                        }
+                    }
+                    else
+                    {
+                        App.HideLoading();
+                        LoadVisibility = Visibility.Collapsed;
+                        App.ShowToast("获取数据失败，请检查网络或重试");
+                    }
+                });
+            }
+        }
+        public  void JsonError(string result)
+        {
+            try
+            {
+                JsonError jsonError = JsonConvert.DeserializeObject<JsonError>(result);
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    App.HideLoading();
+                    App.ShowToast(jsonError.err_msg);
+                    App.JsonError(result);
+                    LoadVisibility = Visibility.Collapsed;
+                    PayVisibility = Visibility.Visible;
+                    ErrMsg = jsonError.err_msg;
+                });
+            }
+            catch 
+            { 
+
+            }
+
+        }
+        private void PlayerM3U8Video(List<VideoDefinition> list)
+        {
+
         }
         internal void ReloadNewVideo()
         {
@@ -333,11 +508,8 @@ namespace MangGuoTv.ViewModels
         {
             get
             {
-                if (VideoStyleType == null)
-                {
-                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
-                }
-                else if (VideoStyleType == "1")
+               
+                if (VideoStyleType == "1")
                 {
                     multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
                 }
@@ -345,7 +517,10 @@ namespace MangGuoTv.ViewModels
                 {
                     multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle3"] as Style;
                 }
-
+                else if (VideoStyleType == null)
+                {
+                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                }
                 return multipleVideoStyle;
             }
             set
@@ -359,11 +534,6 @@ namespace MangGuoTv.ViewModels
         {
             get
             {
-                if (videoStyle == null)
-                {
-                    videoStyle = new Style();
-                }
-            
                 return videoStyle;
             }
             set 
@@ -372,6 +542,16 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("VideoStyle");
             }
         }
-      
+
+
+        internal void ClearData()
+        {
+            AllDramas = null;
+            VideoStyle = null;
+            Comments = null;
+            MediaSource = null;
+            VideoDetail = null; 
+            AllRelateds = null;
+        }
     }
 }

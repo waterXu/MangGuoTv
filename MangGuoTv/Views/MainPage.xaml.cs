@@ -32,12 +32,12 @@ namespace MangGuoTv
                 pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
                 MainPivot.Items.Add(pivot.pivotItem);
             }
-            for (int i = 0; i < CommonData.NormalChannel.Count/2; i++)
-            {
-                PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
-                pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
-                MainPivot.Items.Add(pivot.pivotItem);
-            }
+            //for (int i = 0; i < CommonData.NormalChannel.Count/3; i++)
+            //{
+            //    PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
+            //    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
+            //    MainPivot.Items.Add(pivot.pivotItem);
+            //}
             MainPivot.SelectedIndex = 2;
         }
        

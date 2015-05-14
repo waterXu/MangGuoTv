@@ -21,10 +21,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--TitlePanel 包含应用程序的名称和页标题-->
-        <Grid Grid.Row="0">
-            <TextBlock Text="播放记录" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
-        </Grid>
-        <ListBox Margin="5,0" x:Name="RememberVideoList" ItemsSource="{Binding DownedVideo}" SelectionChanged="RememberVideos_SelectionChanged"  >
+        <TextBlock Text="播放记录" Margin="0,5" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
+        <ListBox Grid.Row="1" Margin="5,0" x:Name="RememberVideoList" ItemsSource="{Binding RememberVideos}" SelectionChanged="RememberVideos_SelectionChanged"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">

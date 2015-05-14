@@ -18,6 +18,7 @@ namespace MangGuoTv.Views
         public StartPage()
         {
             InitializeComponent();
+            versionText.Text = DeviceUtil.GetAppVersion();
             BgImgTimer.Interval = new TimeSpan(1000);
             BgImgTimer.Tick += new EventHandler(BgImgTimer_Tick);
             BgImgTimer.Start();
