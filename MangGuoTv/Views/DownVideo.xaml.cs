@@ -99,18 +99,21 @@ namespace MangGuoTv.Views
             }
             DownVideoInfoViewMoel DownVideo = DownVideoList.SelectedItem as DownVideoInfoViewMoel;
             if (DownVideo == null) return;
-            //创建一个多媒体的启动器
-            MediaPlayerLauncher mpl = new MediaPlayerLauncher();
-            //设置播放文件放置的位置属性 
-            mpl.Location = MediaLocationType.Data;
-            //设置所有控制纽都出现 
-            mpl.Controls = MediaPlaybackControls.All;
-            //设置出现停止按钮以及暂停按钮 
-            mpl.Controls = MediaPlaybackControls.Pause | MediaPlaybackControls.Stop;
-            //设置播放的文件 
-            mpl.Media = new Uri(DownVideo.LocalDownloadUrl, UriKind.Relative);
-            //启动播放
-            mpl.Show(); 
+            App.PlayerModel.VideoId = DownVideo.VideoId;
+            App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.LoaclType;
+            this.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
+            ////创建一个多媒体的启动器
+            //MediaPlayerLauncher mpl = new MediaPlayerLauncher();
+            ////设置播放文件放置的位置属性 
+            //mpl.Location = MediaLocationType.Data;
+            ////设置所有控制纽都出现 
+            //mpl.Controls = MediaPlaybackControls.All;
+            ////设置出现停止按钮以及暂停按钮 
+            //mpl.Controls = MediaPlaybackControls.Pause | MediaPlaybackControls.Stop;
+            ////设置播放的文件 
+            //mpl.Media = new Uri(DownVideo.LocalDownloadUrl, UriKind.Relative);
+            ////启动播放
+            //mpl.Show(); 
         }
 
         #region applicationBar method

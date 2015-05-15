@@ -332,6 +332,7 @@ namespace MangGuoTv.Views
             {
                 case "videoPlayer":
                     App.PlayerModel.VideoId = template.videoId;
+                    App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.VideoType;
                     CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
                     break;
                 case "subjectPage":

@@ -212,6 +212,7 @@ namespace MangGuoTv.Views
             MoreChannel template = (sender as Grid).DataContext as MoreChannel;
             if (template == null) return;
             App.PlayerModel.VideoId = template.videoId;
+            App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.VideoType;
             CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative));
         }
         #endregion

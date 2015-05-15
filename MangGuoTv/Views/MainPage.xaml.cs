@@ -128,6 +128,7 @@ namespace MangGuoTv
             DownVideoInfoViewMoel DownVideo = VideoRemember.SelectedItem as DownVideoInfoViewMoel;
             if (DownVideo == null) return;
             App.PlayerModel.VideoId = DownVideo.VideoId;
+            App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.VideoType;
             this.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
         }
 

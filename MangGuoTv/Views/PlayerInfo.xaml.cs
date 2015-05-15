@@ -15,11 +15,16 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Tasks;
 using MangGuoTv.PopUp;
+using MangGuoTv.ViewModels;
+using System.Windows.Data;
+using System.IO.IsolatedStorage;
+using System.IO;
 
 namespace MangGuoTv
 {
     public partial class PlayerInfo : PhoneApplicationPage
     {
+        
         private bool IsDownMode = false;
         private string pauseImg = "/Images/pause.png";
         private string needSetSliderValueIso = "needSetSliderValue";
@@ -35,7 +40,14 @@ namespace MangGuoTv
         public PlayerInfo()
         {
             InitializeComponent();
-            LoadDownIcon();
+            //if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
+            //{
+            //    fullScreen_Click(null,null);
+            //}
+            //else
+            //{
+                LoadDownIcon();
+            //}
         }
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -76,7 +88,42 @@ namespace MangGuoTv
 
         private void DramaItem_Loaded(object sender, RoutedEventArgs e)
         {
-            App.PlayerModel.LoadedDramaItem();
+            if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
+            {
+                LoadLocalVideoList();
+            }
+            else
+            {
+                Binding videos = new Binding();
+                videos.Path = new PropertyPath("AllDramas");
+                AllDramas.SetBinding(ListBox.ItemsSourceProperty, videos);
+                //AllDramas.ItemsSource = App.PlayerModel.AllDramas;
+                App.PlayerModel.LoadedDramaItem();
+            }
+        }
+
+        private void LoadLocalVideoList()
+        {
+            fullScreen_Click(null,null);
+            Binding videos = new Binding();
+            videos.Path = new PropertyPath("DownedVideo");
+            AllDramas.SetBinding(ListBox.ItemsSourceProperty, videos);
+            App.PlayerModel.VideoStyleType = "2";
+           // AllVideos.SetBinding(ListBox.ItemsPanelProperty, videos);
+            int index = -1;
+            for (int i = 0; i < AllDramas.Items.Count; i++)
+            {
+                DownVideoInfoViewMoel info = AllDramas.Items[i] as DownVideoInfoViewMoel;
+                if (info != null && info.VideoId == App.PlayerModel.VideoId)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (AllDramas.Items.Count > 0)
+            {
+                AllDramas.SelectedIndex = index;
+            }
         }
         /// <summary>
         /// 判断当前要选中哪一个video
@@ -99,7 +146,6 @@ namespace MangGuoTv
             if (AllDramas.Items.Count > 0) 
             {
                 AllDramas.SelectedIndex = index;
-                AllDramas.ScrollIntoView(AllDramas.SelectedItem);
             }
         }
         private int currentDramaIndex = -1;
@@ -109,7 +155,19 @@ namespace MangGuoTv
             {
                 if (IsDownMode) startDownBtn.IsEnabled = false;
                 return;
-            } 
+            }
+            if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
+            {
+                DownVideoInfoViewMoel info = AllDramas.SelectedItem as DownVideoInfoViewMoel;
+                if (info == null) return;
+                App.PlayerModel.VideoId = info.VideoId;
+                SetLocalMedia(info.LocalDownloadUrl);
+                currentDramaIndex = AllDramas.SelectedIndex;
+                 App.PlayerModel.NextVisibility = (AllDramas.Items.Count > currentDramaIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                App.PlayerModel.PreviousVisibility = (currentDramaIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                AllVideos.ScrollIntoView(AllVideos.SelectedItem);
+            }
+
             if (IsDownMode) 
             {
                 if (AllDramas.SelectedItems.Count == 0)
@@ -130,24 +188,28 @@ namespace MangGuoTv
                     App.PlayerModel.VideoId = info.videoId;
                     App.PlayerModel.ReloadNewVideo();
                     App.PlayerModel.PlayerVideo(info);
+                    currentDramaIndex = AllDramas.SelectedIndex;
+                    RelatedVideos.SelectedIndex = -1;
+                    App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.VideoType;
+                    App.PlayerModel.NextVisibility = (AllDramas.Items.Count > currentDramaIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    App.PlayerModel.PreviousVisibility = (currentDramaIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
                 }
-                currentDramaIndex = AllDramas.SelectedIndex;
-                RelatedVideos.SelectedIndex = -1;
+                AllDramas.ScrollIntoView(AllDramas.SelectedItem);
+                //currentDramaIndex = AllDramas.SelectedIndex;
             }
         }
-        private void CommentItem_Loaded(object sender, RoutedEventArgs e)
+        private void SetLocalMedia(string videoPath)
         {
-            //App.PlayerModel.LoadedComment();
+            if (WpStorage.isoFile.FileExists(videoPath))
+            {
+                using (IsolatedStorageFileStream isoFileStream = new IsolatedStorageFileStream(videoPath, FileMode.Open, FileAccess.Read, WpStorage.isoFile))
+                {
+                    myMediaElement.SetSource(isoFileStream);
+                    myMediaElement.Play();
+                }
+            }
         }
-
-        private void RelatedItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            //App.PlayerModel.LoadRrelatedVideo();
-        }
-        private void DetailItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            //App.PlayerModel.LoadedDetail();
-        }
+        private int currentRelatedIndex = -1;
         private void Related_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (RelatedVideos.SelectedIndex == -1) return;
@@ -156,6 +218,10 @@ namespace MangGuoTv
             App.PlayerModel.VideoId = info.videoId;
             AllDramas.SelectedIndex = -1;
             App.PlayerModel.PlayerVideo(info);
+            App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.RelateType;
+            currentRelatedIndex = RelatedVideos.SelectedIndex;
+            App.PlayerModel.NextVisibility = (RelatedVideos.Items.Count > currentRelatedIndex+1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            App.PlayerModel.PreviousVisibility = (currentRelatedIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
         #region 视频播放处理方法
@@ -163,7 +229,6 @@ namespace MangGuoTv
         DispatcherTimer currentPosition = new DispatcherTimer(); 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-
             //定义多媒体流可用并被打开时触发的事件
             myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
             //定义多媒体停止时触发的事件
@@ -172,10 +237,7 @@ namespace MangGuoTv
             myMediaElement.CurrentStateChanged += new RoutedEventHandler(myMediaElement_CurrentStateChanged);
             //定义定时器触发的事件
             currentPosition.Tick += new EventHandler(currentPosition_Tick);
-          
         }
-
-
         //视频状态改变时的处理事件
         void myMediaElement_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
@@ -194,9 +256,7 @@ namespace MangGuoTv
                             pbVideo.Tag = "isFoucesed";
                             pbVideo.Value = leaveSilderValue;
                         }
-                     
                     }
-                 
                 }
                 currentPosition.Start();
                 App.HideLoading();
@@ -212,6 +272,7 @@ namespace MangGuoTv
             {//停止视频时各菜单的状态
                 currentPosition.Stop();
                 PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+                //NextPlayerGrid_Tap(null,null);
             }
         }
         //多媒体停止时触发的事件
@@ -220,6 +281,7 @@ namespace MangGuoTv
             myMediaElement.BufferingProgressChanged -= new RoutedEventHandler(MediaBufferChannged);
             //停止播放
             myMediaElement.Stop();
+            NextPlayerGrid_Tap(null, null);
         }
         //多媒体流可用并被打开时触发的事件
         void myMediaElement_MediaOpened(object sender, RoutedEventArgs e)
@@ -239,9 +301,7 @@ namespace MangGuoTv
             myMediaElement.BufferingProgressChanged += new RoutedEventHandler(MediaBufferChannged);
             //播放视频
             myMediaElement.Play();
-           
         }
-
         private void MediaBufferChannged(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("正在加载");
@@ -285,6 +345,8 @@ namespace MangGuoTv
             pbVideo.Value = myMediaElement.Position.TotalMilliseconds;
             string start = myMediaElement.Position.ToString();
             StartTextBlock.Text = start.Substring(3, 5);
+            string[] time = DateTime.Now.ToString().Split(' ');
+            TimeNow.Text = time.Last();
         }
         //播放视频菜单事件
         private void Play_Click(object sender, EventArgs e)
@@ -386,21 +448,160 @@ namespace MangGuoTv
         }
         #endregion
 
+        #region Full Screen Method
         private void fullScreen_Click(object sender, RoutedEventArgs e)
         {
-            //myMediaElement.Height = PopupManager.screenWidth;
-            //myMediaElement.Width = PopupManager.screenHeight;
-            // RotateTransform rotateTransform = new RotateTransform();
-            // rotateTransform.Angle = 90;
-            // rotateTransform.CenterX = PopupManager.screenWidth / 2;
-            // rotateTransform.CenterY = PopupManager.screenHeight / 2;
-            // myMediaElement.RenderTransform = rotateTransform;
+            CloseIcon_Click(null,null);
+            Logo.Visibility = System.Windows.Visibility.Collapsed;
+            MainPivot.Visibility = System.Windows.Visibility.Collapsed;
+            playerGrid.Visibility = System.Windows.Visibility.Collapsed;
+            this.ApplicationBar.IsVisible = false;
+            Name.Visibility = System.Windows.Visibility.Collapsed;
+            RowDefinitionCollection rows =  LayoutRoot.RowDefinitions;
+            rows[2].Height = new GridLength(PopupManager.screenWidth);
+            myMediaElement.Height = PopupManager.screenWidth;
+            myMediaElement.Width = PopupManager.screenHeight;
+            SystemTray.IsVisible = false;
+            myMediaElement.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(myMediaElement_Tap);
+            this.SupportedOrientations = SupportedPageOrientation.Landscape;
         }
 
+        private void CancelFullScreen() 
+        {
+            Logo.Visibility = System.Windows.Visibility.Visible;
+            MainPivot.Visibility = System.Windows.Visibility.Visible;
+            playerGrid.Visibility = System.Windows.Visibility.Visible;
+            Name.Visibility = System.Windows.Visibility.Collapsed;
+            RowDefinitionCollection rows = LayoutRoot.RowDefinitions;
+            rows[2].Height = new GridLength(250);
+            myMediaElement.Height = 250;
+            myMediaElement.Width = PopupManager.screenWidth;
+            myMediaElement.Tap -= myMediaElement_Tap;
+            FullPlayerGrid.Visibility = System.Windows.Visibility.Collapsed;
+            this.SupportedOrientations = SupportedPageOrientation.Portrait;
 
+            SystemTray.IsVisible = true;
+            this.ApplicationBar.IsVisible = true;
+            LoadDownIcon();
 
+        }
+        // 使用定时器来处理菜单的显示
+        DispatcherTimer showMenu = new DispatcherTimer();
+        int showMenuTime = 20;
+        private void myMediaElement_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
 
-     
-       
+            if (FullAllDramas.Visibility == System.Windows.Visibility.Visible) 
+            {
+                FullAllDramas.Visibility = System.Windows.Visibility.Collapsed;
+                return;
+            }
+
+            FullPlayerGrid.Visibility = (FullPlayerGrid.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+            //showMenuTime = 20;
+            //if (FullPlayerGrid.Visibility == Visibility.Visible)
+            //{
+            //    showMenu.Interval = new TimeSpan(2000);
+            //    showMenu.Tick += new EventHandler(showMenuTick);
+            //    showMenu.Start();
+            //}
+            //else
+            //{
+            //    showMenu.Tick -= new EventHandler(showMenuTick);
+            //    showMenu.Stop();
+            //}
+        }
+
+        private void showMenuTick(object sender, EventArgs e)
+        {
+            if (showMenuTime > 0) 
+            {
+                showMenuTime--;
+            }
+            else
+            {
+                FullPlayerGrid.Visibility = System.Windows.Visibility.Collapsed;
+                showMenu.Stop();
+                showMenu.Tick -= new EventHandler(showMenuTick);
+            }
+        }
+        private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (this.SupportedOrientations == SupportedPageOrientation.Landscape) 
+            {
+                ///if (currentType == PlayType.LoaclType && CommonData.NetworkStatus != "WiFi")
+                if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
+                {
+                    if (this.NavigationService.CanGoBack) 
+                    {
+                        this.NavigationService.GoBack();
+                    }
+                }
+                else
+                {
+                    CancelFullScreen();
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void CheckAllVideoClick(object sender, RoutedEventArgs e)
+        {
+            FullAllDramas.Visibility = (FullAllDramas.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
+        }
+        private void ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void PreviousPlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            switch (App.PlayerModel.currentType)
+            {
+                case PlayerViewModel.PlayType.VideoType:
+                    if (currentDramaIndex - 1 >= 0)
+                    {
+                        AllDramas.SelectedIndex = currentDramaIndex - 1;
+                    }
+                    break;
+                case PlayerViewModel.PlayType.RelateType:
+                    if (currentRelatedIndex - 1 >= 0)
+                    {
+                        RelatedVideos.SelectedIndex = currentRelatedIndex - 1;
+                    }
+                    break;
+                case PlayerViewModel.PlayType.LoaclType:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void NextPlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            switch (App.PlayerModel.currentType) 
+            {
+                case PlayerViewModel.PlayType.VideoType:
+                    if (AllDramas.Items.Count > currentDramaIndex + 1)
+                    {
+                        AllDramas.SelectedIndex = currentDramaIndex + 1;
+                    }
+                    break;
+                case PlayerViewModel.PlayType.RelateType:
+                    if (RelatedVideos.Items.Count > currentRelatedIndex + 1)
+                    {
+                        RelatedVideos.SelectedIndex = currentRelatedIndex + 1;
+                    }
+                    break;
+                case PlayerViewModel.PlayType.LoaclType:
+                    if (AllDramas.Items.Count > currentDramaIndex + 1)
+                    {
+                        AllDramas.SelectedIndex = currentDramaIndex + 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
     }
 }

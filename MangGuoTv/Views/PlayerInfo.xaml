@@ -16,7 +16,8 @@
      shell:SystemTray.IsVisible="True"
     shell:SystemTray.Opacity="0"
     shell:SystemTray.ForegroundColor="White"
-    Loaded="PhoneApplicationPage_Loaded">
+    Loaded="PhoneApplicationPage_Loaded"
+    BackKeyPress="PhoneApplicationPage_BackKeyPress">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,19 +30,82 @@
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2.5*"/>
         </Grid.RowDefinitions>
-        <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
-        <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
-        <MediaElement  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
+        <Image Source="/Images/logo.png" x:Name="Logo" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
+        <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" x:Name="Name" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+        <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2"/>
         <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
             <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
         </Border>
         <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
             <TextBlock Text="{Binding ErrMsg}" HorizontalAlignment="Center"></TextBlock>
         </Border>
+        <Grid Grid.Row="2"  x:Name="FullPlayerGrid" Visibility="Collapsed">
+            <Canvas Height="40" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Top">
+            </Canvas>
+            <TextBlock FontSize="20" Text="{Binding VideoName}" Margin="20,0,80,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+            <TextBlock FontSize="15" x:Name="TimeNow"  Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextWrapping="Wrap"/>
+            <Canvas Height="180" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Bottom"></Canvas>
+            <Grid  VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+                    <Grid Tap="PreviousPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PreviousVisibility}">
+                        <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
+                            <Image Source="/Images/Icons/transport.rew.png"></Image>
+                        </Border>
+                    </Grid>
+                    <Grid  Margin="40,0" Tap="PlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border  BorderBrush="White" BorderThickness="3"  Height="80" Width="80" CornerRadius="60"  >
+                            <Image Source="{Binding ElementName=PlayImg,Path=Source}"></Image>
+                        </Border>
+                    </Grid>
+                    <Grid Tap="NextPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding NextVisibility}">
+                        <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
+                            <Image Source="/Images/Icons/transport.ff.png"></Image>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+
+                <tool:ListPicker Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
+                    <DataTemplate>
+                        <TextBlock x:Name="definitionName" Text="{Binding name}" Foreground="Green" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </tool:ListPicker>
+                <Grid Grid.Column="1" Grid.Row="1"  Margin="5,0,0,0">
+                    <Slider VerticalAlignment="Bottom" Value="{Binding ElementName=pbVideo,Path=Value,Mode=TwoWay}"  Foreground="#FFF88035" Background="#FF9A968B" Minimum="{Binding ElementName=pbVideo,Path=MinHeight}" Maximum="{Binding ElementName=pbVideo,Path=Maximum}" ValueChanged="pbVideo_ValueChanged" IsEnabled="{Binding ElementName=pbVideo,Path=IsEnabled}" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
+                    <TextBlock Text="{Binding ElementName=StartTextBlock,Path=Text}"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
+                    <TextBlock  Text="{Binding ElementName=EndTextBlock,Path=Text}" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
+                </Grid>
+                <Button Content="剧集" BorderBrush="#FFEE7C28" Height="70" Grid.Row="1"  Grid.Column="2" Click="CheckAllVideoClick"/>
+            </Grid>
+            <Grid  x:Name="FullAllDramas" Visibility="Collapsed" Width="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,80">
+                <Canvas Background="#FF5A4A3E" Opacity=".5" ></Canvas>
+                <ListBox x:Name="AllVideos" ItemsSource="{Binding ElementName=AllDramas,Path=ItemsSource}" SelectionChanged="AllDramas_SelectionChanged" SelectedIndex="{Binding ElementName=AllDramas,Path=SelectedIndex,Mode=TwoWay}"  ItemContainerStyle="{Binding VideoStyle}" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            
+        </Grid>
+      
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">
             <Grid.ColumnDefinitions>
@@ -73,7 +137,7 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="剧集" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                    <ListBox x:Name="AllDramas" ItemsSource="{Binding AllDramas}" SelectionChanged="AllDramas_SelectionChanged" HorizontalAlignment="Center" ItemContainerStyle="{Binding VideoStyle}">
+                    <ListBox x:Name="AllDramas" SelectionChanged="AllDramas_SelectionChanged" HorizontalAlignment="Center" ItemContainerStyle="{Binding VideoStyle}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -86,7 +150,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0" x:Name="DetailItem" Loaded="DetailItem_Loaded" DataContext="{Binding VideoDetail}">
+            <phone:PivotItem Margin="0,10,0,0" x:Name="DetailItem"  DataContext="{Binding VideoDetail}">
                 <phone:PivotItem.Header>
                     <TextBlock Text="详情" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
@@ -101,7 +165,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0" x:Name="CommentItem" Loaded="CommentItem_Loaded">
+            <phone:PivotItem Margin="0,10,0,0" x:Name="CommentItem" >
                 <phone:PivotItem.Header>
                     <TextBlock Text="评论" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
@@ -123,7 +187,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Margin="0,10,0,0" x:Name="SceneItem" Loaded="RelatedItem_Loaded">
+            <phone:PivotItem Margin="0,10,0,0" x:Name="SceneItem" >
                 <phone:PivotItem.Header>
                     <TextBlock Text="花絮" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>

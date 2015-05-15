@@ -195,7 +195,6 @@ namespace MangGuoTv
                                 break;
                             case NetworkInterfaceType.Wireless80211:
                                 NetName = "WiFi";
-                                App.DownVideoModel.CheckLocalData();
                                 break;
                             default:
                                 NetName = "None";
@@ -216,9 +215,13 @@ namespace MangGuoTv
                         tip = AppResources.ShowNetwork.Replace("#name#", NetName);
                     }
 
-                    if (NetName != "WiFi") 
+                    if (NetName != "WiFi")
                     {
                         App.DownVideoModel.StopDownVideo();
+                    }
+                    else 
+                    {
+                        App.DownVideoModel.CheckLocalData();
                     }
 
                     ShowToast(tip);
@@ -365,12 +368,14 @@ namespace MangGuoTv
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
+            App.DownVideoModel.BeginDownVideos();
         }
 
         // 停用应用程序(发送到后台)时执行的代码
         // 此代码在应用程序关闭时不执行
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            App.DownVideoModel.isDownding = false;
         }
 
         // 应用程序关闭(例如，用户点击“后退”)时执行的代码

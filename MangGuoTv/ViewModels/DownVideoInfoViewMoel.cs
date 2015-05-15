@@ -45,7 +45,7 @@ namespace MangGuoTv.ViewModels
         }
         public string DownUrl { get; set; }
 
-        private string name;
+        public string name { get; set; }
         public string Name
         {
             get
@@ -61,7 +61,7 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
-        private string image;
+        public string image { get; set; }
         public string Image
         {
             get
@@ -94,7 +94,7 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
-        private string desc;
+        public string desc { get; set; }
         public string Desc
         {
             get
@@ -167,12 +167,16 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    LoadStatus = "等待中";
+                    if (isLoadError)
+                    {
+                        LoadStatus = "缓存失败";
+                    }
+                    else
+                    {
+                        LoadStatus = "等待中";
+                    }
                 }
-                if (isLoadError)
-                {
-                    LoadStatus = "缓存失败";
-                }
+              
                 return isLoading;
             }
             set
@@ -188,6 +192,7 @@ namespace MangGuoTv.ViewModels
                     {
                         LoadStatus = "等待中";
                     }
+                  
                     NotifyPropertyChanged("IsLoading");
                 }
             }

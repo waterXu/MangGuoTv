@@ -21,7 +21,7 @@ namespace MangGuoTv.ViewModels
         private string downedVideosIso { get { return CommonData.IsoRootPath + "DownedVideos.dat"; } }
        // private string videoSavePath { get { return "DownVideos\\"; } }
 
-        private bool isDownding = false;
+        public bool isDownding = false;
         private WebClient webClient;
         public DownVideoViewModel()
         {

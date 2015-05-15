@@ -25,7 +25,7 @@
         <TextBlock Grid.Row="1" Text="关于" FontSize="30" HorizontalAlignment="Center"/>
         <StackPanel Grid.Row="2">
             <TextBlock Text="芒果TV是一款第三方的芒果TV的WP客户端，一切数据资源来自Android版本的解析，在网络良好的情况下若有大量资源获取失败请帮忙及时反馈，有可能是官方有大版本更新" FontSize="20" TextWrapping="Wrap"  Margin="30,10"></TextBlock>
-            <TextBlock Text="PS:开发者是个软妹纸(开发软件的妹纸？)，评论请手下留情" FontSize="20" TextWrapping="Wrap"  Margin="40,10"></TextBlock>
+            <TextBlock Text="PS:开发者是个软妹纸(开发软件的妹纸？)，评论请手下留情哦" FontSize="20" Foreground="Gray" TextWrapping="Wrap"  Margin="40,10"></TextBlock>
             <TextBlock Text="1.0.0.0版本" Margin="10,10,0,0"></TextBlock>
             <TextBlock Text="该版本有很多细节上的优化没有做到位，还在继续努力中，推进速度要看业余的时间" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="功能：" FontSize="20" Margin="20,0,10,0"></TextBlock>

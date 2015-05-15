@@ -30,7 +30,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding Image}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
+                        <Image Source="{Binding LocalImage,Converter={StaticResource BitmapImageConverter}}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
                         <StackPanel VerticalAlignment="Center"  Grid.Column="1" Width="250" Margin="10,0,0,0">
                             <TextBlock  Foreground="Gray" FontSize="20" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
                             <TextBlock Text="{Binding Desc}" TextWrapping="Wrap" Margin="0,10,0,0" Foreground="Gray" />

@@ -60,9 +60,14 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="个人中心" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <StackPanel>
-                    <TextBlock Text="播放记录          >>" Foreground="Gray" FontSize="30" Margin="20,10" Tap="AllVideosRemember"></TextBlock>
-                    <ListBox SelectionChanged="VideoRemember_Changed" ItemsSource="{Binding LastVideoRemember}" x:Name="VideoRemember">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="播放记录          >>" Foreground="Gray" FontSize="30" Margin="20,10" Tap="AllVideosRemember" Grid.Row="0"></TextBlock>
+                    <ListBox SelectionChanged="VideoRemember_Changed" ItemsSource="{Binding LastVideoRemember}" x:Name="VideoRemember" Grid.Row="1">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -72,12 +77,12 @@
                             <DataTemplate>
                                 <StackPanel  Margin="10" HorizontalAlignment="Center" CB:TiltEffect.IsTiltEnabled="true"  Width="200">
                                     <TextBlock Grid.Row="0" FontSize="15" TextWrapping="Wrap" Text="{Binding Name}" HorizontalAlignment="Center" Foreground="Gray"/>
-                                    <Image Source="{Binding Image}" Width="150" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+                                    <Image Source="{Binding LocalImage,Converter={StaticResource BitmapImageConverter}}" Width="150" Height="120" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid CB:TiltEffect.IsTiltEnabled="true" HorizontalAlignment="Center" CacheMode="BitmapCache" Margin="0,30,0,0">
+                    <Grid Grid.Row="2" CB:TiltEffect.IsTiltEnabled="true" HorizontalAlignment="Center" CacheMode="BitmapCache" Margin="0,30,0,0">
                         <tool:WrapPanel>
                             <coding4fun:Tile Margin="5" Background="#FFEE7C28" Command="{Binding AppSettingCommand}" Height="90" Width="100"  CommandParameter="1" Title="离线缓存">
                                 <Image Width="50" Height="50" Source="/Images/showdown.png" Stretch="Fill" Margin="0,0,0,35" />
@@ -99,7 +104,7 @@
                             </coding4fun:Tile>
                         </tool:WrapPanel>
                     </Grid>
-                </StackPanel>
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
