@@ -205,6 +205,10 @@ namespace MangGuoTv.ViewModels
                     DownedVideo.Add(currentDownVideo);
                     DownedVideoids.Add(currentDownVideo.VideoIndex);
                     SaveVideoData();
+                    if (App.MainViewModel.NeedDownedTip)
+                    {
+                        App.ShowToast( currentDownVideo.name+ "  下载完成");
+                    }
                     //进行下一个下载
                     isDownding = false;
                     BeginDownVideos();
@@ -232,7 +236,7 @@ namespace MangGuoTv.ViewModels
                 //把hashset表反序列化为字符串 存入独立存储
                 downedVideoidData = JsonConvert.SerializeObject(DownedVideoids);
             }
-            WpStorage.SetIsoSetting(downingIdsIso, downedVideoidData);
+            WpStorage.SetIsoSetting(downedIdsIso, downedVideoidData);
 
             string downingVideosData = null;
             if (DowningVideo != null &&　DowningVideo.Count > 0)

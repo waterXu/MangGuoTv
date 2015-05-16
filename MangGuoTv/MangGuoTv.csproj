@@ -156,6 +156,9 @@
     <Compile Include="Views\RememberVideos.xaml.cs">
       <DependentUpon>RememberVideos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Setting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -303,11 +310,13 @@
     <Content Include="Images\pause.png" />
     <Content Include="Images\play.png" />
     <Content Include="Images\reload.png" />
+    <Content Include="Images\search.png" />
     <Content Include="Images\setting.png" />
     <Content Include="Images\showdown.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\tuijian.png" />
     <Content Include="Images\user.png" />
+    <Content Include="Images\voice.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

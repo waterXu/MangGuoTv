@@ -24,7 +24,7 @@ namespace MangGuoTv.Views
         public static string typeId { get; set; }
         public static string name { get; set; }
         public Grid addTipGrid = null;
-        private int pageCount = 0;
+        private int pageCount = 1;
         public MoreChannelInfo()
         {
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace MangGuoTv.Views
         }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            pageCount = 0;
+            pageCount = 1;
             this.channelName.Text = name;
             string channelInfoUrl = CommonData.GetMoreChannelInfo + "&typeId=" + typeId + "&pageCount=" + pageCount;
             App.ShowLoading();
@@ -94,7 +94,7 @@ namespace MangGuoTv.Views
             }
             else
             {
-                App.ShowToast("获取数据失败，请检查网络或重试");
+                //App.ShowToast("获取数据失败，请检查网络或重试");
                 App.HideLoading();
                 loadGrid.Visibility = Visibility.Visible;
             }

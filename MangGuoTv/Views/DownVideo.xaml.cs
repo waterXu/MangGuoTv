@@ -128,7 +128,12 @@ namespace MangGuoTv.Views
             {
                 if (MessageBox.Show("确定要删除选中正在缓存的剧集吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
+                    List<DownVideoInfoViewMoel> videos = new List<DownVideoInfoViewMoel>();
                     foreach (DownVideoInfoViewMoel Video in DowningVideos.SelectedItems)
+                    {
+                        videos.Add(Video);
+                    }
+                    foreach (DownVideoInfoViewMoel Video in videos)
                     {
                         if (App.DownVideoModel.currentDownVideo != null && App.DownVideoModel.currentDownVideo.VideoId == Video.VideoId) 
                         {
@@ -143,9 +148,8 @@ namespace MangGuoTv.Views
                                 WpStorage.isoFile.DeleteFile(Video.LocalImage);
                             }
                         }
-                       
+                        App.DownVideoModel.SaveVideoData();
                     }
-                    App.DownVideoModel.SaveVideoData();
                     LoadEditIcon();
                 }
             }
@@ -153,11 +157,16 @@ namespace MangGuoTv.Views
             {
                 if (MessageBox.Show("确定要删除选中已经缓存的剧集吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    foreach (DownVideoInfoViewMoel Video in DownVideoList.SelectedItems)
+                    List<DownVideoInfoViewMoel> videos = new List<DownVideoInfoViewMoel>();
+                    foreach (DownVideoInfoViewMoel Video in DownVideoList.SelectedItems) 
+                    {
+                        videos.Add(Video);
+                    }
+                    foreach (DownVideoInfoViewMoel Video in videos)
                     {
                         App.DownVideoModel.DownedVideo.Remove(Video);
                         App.DownVideoModel.DownedVideoids.Remove(Video.VideoId);
-
+                        DownVideoList.SelectedItems.Remove(Video);
                         if (Video.LocalImage != null)
                         {
                             if (WpStorage.isoFile.FileExists(Video.LocalImage))
@@ -172,8 +181,8 @@ namespace MangGuoTv.Views
                                 WpStorage.isoFile.DeleteFile(Video.LocalDownloadUrl);
                             }
                         }
+                        App.DownVideoModel.SaveVideoData();
                     }
-                    App.DownVideoModel.SaveVideoData();
                     LoadEditIcon();
                 }
             }

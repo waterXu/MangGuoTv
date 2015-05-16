@@ -38,6 +38,7 @@ namespace MangGuoTv.Views
             textBlock.Width = (channelInfo.channelName.Length == 2) ? 80 : 110;
             pivotItem.Header = textBlock;
             scrollView = new ChannelScrollView();
+            scrollView.channel = channel;
             pivotItem.Content = scrollView.scrollView;
         }
         private void PivotItem_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -81,10 +82,10 @@ namespace MangGuoTv.Views
             }
             else
             {
-                if (CommonData.NetworkStatus != "None") 
-                {
-                    App.ShowToast("获取数据失败，请检查网络或重试");
-                }
+                //if (CommonData.NetworkStatus != "None") 
+                //{
+                //    App.ShowToast("获取数据失败，请检查网络或重试");
+                //}
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     scrollView.loadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadData);

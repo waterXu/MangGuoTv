@@ -33,7 +33,7 @@ namespace MangGuoTv
         /// <summary>
         ///获取节目列表
         /// </summary>
-        public static string GetVideoListUrl { get { return MangGuoHost + "video/getList?" + CommonUrl + "&pageSize=50"; } }
+        public static string GetVideoListUrl { get { return MangGuoHost + "video/getList?" + CommonUrl + "&pageSize=30"; } }
         /// <summary>
         /// 获取视频详情
         /// </summary>
@@ -58,7 +58,14 @@ namespace MangGuoTv
         /// 获取更多频道信息
         /// </summary>
         public static string GetMoreChannelInfo { get { return MangGuoHost + "list?" + CommonUrl + "&pageSize=30"; } }
-        
+        /// <summary>
+        /// 热搜
+        /// </summary>
+        public static string HotSearch { get { return MangGuoHost + "search/hotWords"; } }
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        public static string SearchUrl { get { return MangGuoHost + "search/autocomplete?"; } }
         /// <summary>
         /// 专题页面
         /// </summary>
@@ -91,6 +98,10 @@ namespace MangGuoTv
         /// 设置
         /// </summary>
         public static string SettingPage { get { return "/Views/Setting.xaml"; } }
+        /// <summary>
+        /// 搜索页面
+        /// </summary>
+        public static string SearchPage { get { return "/Views/Search.xaml"; } }
         
 
 

@@ -26,13 +26,17 @@ namespace MangGuoTv
             InitializeComponent();
             this.DataContext = App.MainViewModel;
             App.MainViewModel.LoadChannels();
-            for (int i = 0; i < CommonData.LockedChannel.Count; i++)
+            int maxIndex = 3;
+            if(CommonData.LockedChannel.Count <3){
+                maxIndex = CommonData.LockedChannel.Count;
+            }
+            for (int i = 0; i < maxIndex; i++)
             {
                 PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
                 pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
                 MainPivot.Items.Add(pivot.pivotItem);
             }
-            //for (int i = 0; i < CommonData.NormalChannel.Count/3; i++)
+            //for (int i = 0; i < CommonData.NormalChannel.Count / 3; i++)
             //{
             //    PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
             //    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
@@ -120,7 +124,7 @@ namespace MangGuoTv
 
         private void Search_Click(object sender, EventArgs e)
         {
-
+            this.NavigationService.Navigate(new Uri(CommonData.SearchPage,UriKind.RelativeOrAbsolute));
         }
 
         private void VideoRemember_Changed(object sender, SelectionChangedEventArgs e)

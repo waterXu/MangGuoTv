@@ -35,6 +35,14 @@ namespace MangGuoTv
             {
                 System.Diagnostics.Debug.WriteLine("SyncResultTostring" + e.Message);
                 // todo   show  tip server not conn  如何检测是否联网
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                else
+                {
+                    App.ShowToast("亲，没有联网啊");
+                }
                 return null;
             }
            

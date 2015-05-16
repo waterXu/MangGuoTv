@@ -23,6 +23,7 @@ namespace MangGuoTv.Views
         public StackPanel stackPanel { get; set; }
         private ScrollViewer imageScroll { get; set; }
         private double scrollImageWidth = 250;
+        public ChannelInfo channel { get; set; }
         /// <summary>
         ///图片滚动计时器
         /// </summary>
@@ -50,10 +51,14 @@ namespace MangGuoTv.Views
                         CreateNorLandscapeImages(channeldetail.templateData,180,4);
                         break;
                     case "largeLandScapeNodesc":
+                    case "largeLandScape":
                     case "normalLandScapeNodesc":
+                    case "aceSeason":
                         CreateLandscapeImage(channeldetail.templateData);
                         break;
                     case "normalLandScape":
+                    case "roundAvatorText":
+                    case "tvPortrait":
                         CreateNorLandscapeImages(channeldetail.templateData,210,2);
                         break;
                     case "title":
@@ -340,6 +345,14 @@ namespace MangGuoTv.Views
                     MoreSubject.speicalName = template.name;
                     MoreSubject.isMoreChannel = false;
                     CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.SpecialPageName, UriKind.Relative));
+                    break;
+                case "videoLibrary":
+                    if (channel != null)
+                    {
+                        MoreChannelInfo.typeId = channel.libId;
+                        MoreChannelInfo.name = channel.channelName;
+                        CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.MoreChannelPageName, UriKind.Relative));
+                    }
                     break;
                 case "webView":
                     break;

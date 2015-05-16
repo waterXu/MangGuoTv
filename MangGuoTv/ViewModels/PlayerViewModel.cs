@@ -200,6 +200,41 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("NextVisibility");
             }
         }
+        //触摸快进是否显示
+        private Visibility valueChangeVisibility = Visibility.Collapsed;
+        public Visibility ValueChangeVisibility
+        {
+            get { return valueChangeVisibility; }
+            set
+            {
+                valueChangeVisibility = value;
+                NotifyPropertyChanged("ValueChangeVisibility");
+            }
+        }
+        //触摸快进是否显示
+        private Visibility volumeChangeVisibility = Visibility.Collapsed;
+        public Visibility VolumeChangeVisibility
+        {
+            get { return volumeChangeVisibility; }
+            set
+            {
+                volumeChangeVisibility = value;
+                NotifyPropertyChanged("VolumeChangeVisibility");
+            }
+        }
+        private double volume = 1;
+        public double Volume
+        {
+            get
+            {
+                return volume;
+            }
+            set
+            {
+                volume = value;
+                NotifyPropertyChanged("Volume");
+            }
+        }
         private string errMsg;
         public string ErrMsg
         {
@@ -208,6 +243,17 @@ namespace MangGuoTv.ViewModels
             {
                 errMsg = value;
                 NotifyPropertyChanged("ErrMsg");
+            }
+        }
+
+        private string valueChangeMsg;
+        public string ValueChangeMsg
+        {
+            get { return valueChangeMsg; }
+            set 
+            {
+                valueChangeMsg = value;
+                NotifyPropertyChanged("ValueChangeMsg");
             }
         }
         private string videoId;
@@ -219,7 +265,7 @@ namespace MangGuoTv.ViewModels
                 videoId = value;
             }
         }
-        private int dramaPageCount = 0;
+        private int dramaPageCount = 1;
         public int DramaPageCount 
         {
             get { return dramaPageCount; }
@@ -252,7 +298,7 @@ namespace MangGuoTv.ViewModels
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
-                            if (DramaPageCount > 0)
+                            if (DramaPageCount > 1)
                             {
                                 AllDramas.AddRange(videosResult.data);
                             }
@@ -270,11 +316,11 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    App.ShowToast("获取数据失败，请检查网络或重试");
+                    //App.ShowToast("获取数据失败，请检查网络或重试");
                 }
             });
         }
-        private int _commentPageCount = 0;
+        private int _commentPageCount = 1;
         public int CommentPageCount 
         {
             get { return _commentPageCount; }
@@ -314,11 +360,11 @@ namespace MangGuoTv.ViewModels
                     {
                         CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                         {
-                            if (CommentPageCount == 0)
+                            if (CommentPageCount == 1)
                             {
                                 Comments = commentResult.data;
                             }
-                            else if (CommentPageCount > 0)
+                            else if (CommentPageCount > 1)
                             {
                                 Comments.AddRange(commentResult.data);
                             }
@@ -327,7 +373,7 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    App.ShowToast("获取数据失败，请检查网络或重试");
+                    //App.ShowToast("获取数据失败，请检查网络或重试");
                 }
             });
         }
@@ -368,7 +414,7 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    App.ShowToast("获取数据失败，请检查网络或重试");
+                   // App.ShowToast("获取数据失败，请检查网络或重试");
                 }
             });
         }
@@ -404,7 +450,7 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    App.ShowToast("获取数据失败，请检查网络或重试");
+                    //App.ShowToast("获取数据失败，请检查网络或重试");
                 }
             });
         }
@@ -466,7 +512,7 @@ namespace MangGuoTv.ViewModels
                     {
                         App.HideLoading();
                         LoadVisibility = Visibility.Collapsed;
-                        App.ShowToast("获取数据失败，请检查网络或重试");
+                       // App.ShowToast("获取数据失败，请检查网络或重试");
                     }
                 });
             }
@@ -506,10 +552,10 @@ namespace MangGuoTv.ViewModels
                         });
                     }
                 }
-                else
-                {
-                    App.ShowToast("获取视频数据失败，请检查网络或重试");
-                }
+                //else
+                //{
+                //    App.ShowToast("获取视频数据失败，请检查网络或重试");
+                //}
             });
         }
         private void PlayerM3U8Video(List<VideoDefinition> list)

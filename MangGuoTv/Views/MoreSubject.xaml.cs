@@ -75,7 +75,7 @@ namespace MangGuoTv.Views
             }
             else
             {
-                App.ShowToast("获取数据失败，请检查网络或重试");
+               // App.ShowToast("获取数据失败，请检查网络或重试");
             }
         }
 
