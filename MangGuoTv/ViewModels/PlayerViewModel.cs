@@ -146,8 +146,11 @@ namespace MangGuoTv.ViewModels
             }
             set
             {
-                _downloadUrl = value;
-                NotifyPropertyChanged("VideoDownloadUrl");
+                if (_downloadUrl != value)
+                {
+                    _downloadUrl = value;
+                    NotifyPropertyChanged("VideoDownloadUrl");
+                }
             }
         }
         private Uri _mediaSource;
@@ -263,6 +266,18 @@ namespace MangGuoTv.ViewModels
             set
             {
                 videoId = value;
+            }
+        }
+        private bool isChangeDefinition;
+        public bool IsChangeDefinition
+        {
+            get
+            {
+                return isChangeDefinition;
+            }
+            set
+            {
+                isChangeDefinition = value;
             }
         }
         private int dramaPageCount = 1;
@@ -454,8 +469,10 @@ namespace MangGuoTv.ViewModels
                 }
             });
         }
+        public VideoInfo currentVideo;
         public void PlayerVideo(VideoInfo info)
         {
+            currentVideo = info;
             //设置多媒体控件的网络视频资源
             if (info.downloadUrl.Count > 0)
             {
@@ -517,10 +534,11 @@ namespace MangGuoTv.ViewModels
                 });
             }
         }
-
-        private void GetVideoSource(VideoDefinition definition, VideoInfo info)
+        private string currentDefinitionUrl;
+        public void GetVideoSource(VideoDefinition definition, VideoInfo info)
         {
-            if (definition == null || string.IsNullOrEmpty(definition.url)) return;
+            if (definition == null || string.IsNullOrEmpty(definition.url) || currentDefinitionUrl==definition.url) return;
+            currentDefinitionUrl = definition.url;
             System.Diagnostics.Debug.WriteLine("获取播放源：" + definition.url);
             HttpHelper.httpGet(definition.url, (ar) =>
             {
@@ -547,7 +565,7 @@ namespace MangGuoTv.ViewModels
                         {
                             MediaSource = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
                             App.MainViewModel.AddRememberVideo(info);
-                            VideoDownloadUrl = info.downloadUrl;
+                            //VideoDownloadUrl = info.downloadUrl;
                             System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
                         });
                     }
@@ -654,11 +672,8 @@ namespace MangGuoTv.ViewModels
             VideoDetail = null; 
             AllRelateds = null;
             VideoDownloadUrl = null;
+            currentDefinitionUrl = null;
         }
 
-        internal void LoadLocalVideos()
-        {
-            
-        }
     }
 }

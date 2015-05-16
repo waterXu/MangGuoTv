@@ -65,7 +65,7 @@ namespace MangGuoTv
         /// <summary>
         /// 搜索
         /// </summary>
-        public static string SearchUrl { get { return MangGuoHost + "search/autocomplete?"; } }
+        public static string SearchUrl { get { return MangGuoHost + "search/autocomplete?" + CommonUrl; } }
         /// <summary>
         /// 专题页面
         /// </summary>

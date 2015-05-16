@@ -19,13 +19,12 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Image Source="/Images/logo.png" Margin="10,10,0,0" HorizontalAlignment="Left"></Image>
-            <TextBlock x:Name="subjectName" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
-        </Grid>
-        <Grid  Margin="0,20,0,0" x:Name="MainGrid" Grid.Row="1" Loaded="MainGrid_Loaded"></Grid>     
+        <Image Source="/Images/logo.png" Margin="10,10,0,0" HorizontalAlignment="Left"></Image>
+        <TextBlock Grid.Row="1" x:Name="subjectName" FontSize="20" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+        <Grid  Margin="0,20,0,0" x:Name="MainGrid" Grid.Row="2" Loaded="MainGrid_Loaded"></Grid>     
     </Grid>
 
 

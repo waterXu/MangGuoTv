@@ -41,16 +41,10 @@ namespace MangGuoTv
         public PlayerInfo()
         {
             InitializeComponent();
-            //if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
-            //{
-            //    fullScreen_Click(null,null);
-            //}
-            //else
-            //{
-                LoadDownIcon();
-            //}
+          
+            LoadDownIcon();
         }
-        
+        #region event method
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -120,6 +114,7 @@ namespace MangGuoTv
                 //AllDramas.ItemsSource = App.PlayerModel.AllDramas;
                 App.PlayerModel.LoadedDramaItem();
             }
+            //UrlList.
         }
 
         private void LoadLocalVideoList()
@@ -129,6 +124,12 @@ namespace MangGuoTv
             videos.Path = new PropertyPath("DownedVideo");
             AllDramas.SetBinding(ListBox.ItemsSourceProperty, videos);
             App.PlayerModel.VideoStyleType = "2";
+            VideoDefinition videoDefinition = new VideoDefinition();
+            videoDefinition.name = "本地";
+            List<VideoDefinition> videoDefinitons = new List<VideoDefinition>();
+            videoDefinitons.Add(videoDefinition);
+            App.PlayerModel.VideoDownloadUrl = videoDefinitons;
+            UrlList.IsEnabled = false;
            // AllVideos.SetBinding(ListBox.ItemsPanelProperty, videos);
             int index = -1;
             for (int i = 0; i < AllDramas.Items.Count; i++)
@@ -211,6 +212,8 @@ namespace MangGuoTv
                         App.PlayerModel.VideoId = info.videoId;
                         App.PlayerModel.ReloadNewVideo();
                         App.PlayerModel.PlayerVideo(info);
+                        App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
+
                         //currentDramaIndex = AllDramas.SelectedIndex;
                         RelatedVideos.SelectedIndex = -1;
                         App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.VideoType;
@@ -242,11 +245,13 @@ namespace MangGuoTv
             App.PlayerModel.VideoId = info.videoId;
             AllDramas.SelectedIndex = -1;
             App.PlayerModel.PlayerVideo(info);
+            App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
             App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.RelateType;
             currentRelatedIndex = RelatedVideos.SelectedIndex;
             App.PlayerModel.NextVisibility = (RelatedVideos.Items.Count > currentRelatedIndex+1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             App.PlayerModel.PreviousVisibility = (currentRelatedIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
+        #endregion
 
         #region 视频播放处理方法
         // 使用定时器来处理视频播放的进度条
@@ -281,6 +286,14 @@ namespace MangGuoTv
                             pbVideo.Value = leaveSilderValue;
                         }
                     }
+                }
+                //更换清晰度  
+                if(App.PlayerModel.IsChangeDefinition)
+                {
+                    App.PlayerModel.IsChangeDefinition = false;
+                    pbVideo.Tag = "isFoucesed";
+                    //pbVideo.Value = leaveSilderValue;
+                    myMediaElement.Position = new TimeSpan(0, 0, 0, (int)leaveSilderValue);
                 }
                 currentPosition.Start();
                 App.HideLoading();
@@ -412,32 +425,54 @@ namespace MangGuoTv
         }
         Point startPosition;
         Point endPosition;
-        int minOffset = 100; //阀值
+        int minOffset = 50; //阀值
+        int maxOffset = 200;
         private void myMediaElement_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            string a = "Move";
             Point endPosition = e.GetPosition(sender as UIElement);
-            if (endPosition.X - startPosition.X >= minOffset)
+            System.Diagnostics.Debug.WriteLine("操作x : " + endPosition.X + " Y : " + endPosition.Y);
+            double offX = endPosition.X - startPosition.X;
+            double offY = endPosition.Y - startPosition.Y;
+            if (offX >= minOffset)
             {
                 //To do, 右滑操作 
+                if (offX > maxOffset) offX = maxOffset;
+                App.PlayerModel.ValueChangeMsg = "快进  +" + ((int)offX / 5).ToString() + "s";
+                App.PlayerModel.ValueChangeVisibility = System.Windows.Visibility.Visible;
+                pbVideo.Tag = "isFoucesed";
+                TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, (int)offX*200);
+                myMediaElement.Position += timeSpan;
                 System.Diagnostics.Debug.WriteLine("右滑操作");
             }
-            else if (endPosition.X - startPosition.X <= -1 * minOffset)
+            else if (offX <= -1 * minOffset)
             {
                 //To do, 左滑操作 
+                if (offX < -1 * maxOffset) offX = -maxOffset;
+                App.PlayerModel.ValueChangeMsg = "快退  +" + (-(int)offX / 5).ToString() + "s";
+                App.PlayerModel.ValueChangeVisibility = System.Windows.Visibility.Visible;
+                pbVideo.Tag = "isFoucesed";
+                TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, (int)-offX * 200);
+                myMediaElement.Position -= timeSpan;
                 System.Diagnostics.Debug.WriteLine("左滑操作");
             }
 
-            if (endPosition.Y - startPosition.Y >= minOffset)
+            if (offY >= minOffset)
             {
+                if (offY > maxOffset) offY = 100;
+                App.PlayerModel.VolumeChangeVisibility = System.Windows.Visibility.Visible;
+                App.PlayerModel.Volume -= offY / 800;
                 //To do, 下滑操作 
                 System.Diagnostics.Debug.WriteLine("下滑操作");
             }
-            else if (endPosition.Y - startPosition.Y <= -1 * minOffset)
+            else if (offY <= -1 * minOffset)
             {
                 //To do, 上滑操作 
+                if (offY < -1 * maxOffset) offY = -100;
+                App.PlayerModel.VolumeChangeVisibility = System.Windows.Visibility.Visible;
+                App.PlayerModel.Volume += -offY / 800;
                 System.Diagnostics.Debug.WriteLine("上滑操作");
             }
+            //startPosition = endPosition;
         }
 
         private void myMediaElement_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -450,6 +485,9 @@ namespace MangGuoTv
         {
             endPosition = e.GetPosition(sender as UIElement);
             System.Diagnostics.Debug.WriteLine("操作x : " + endPosition.X + " Y : " + endPosition.Y);
+            App.PlayerModel.ValueChangeVisibility = System.Windows.Visibility.Collapsed;
+            App.PlayerModel.VolumeChangeVisibility = System.Windows.Visibility.Collapsed;
+
         }
         #endregion
 
@@ -486,16 +524,12 @@ namespace MangGuoTv
                     //todo
                     if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
                     {
-
-                        this.Dispatcher.BeginInvoke(() =>
-{
-    ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-    DependencyObject items = AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-    if (item != null)
-    {
-        item.IsEnabled = false;
-    }
-});
+                        ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
+                        DependencyObject items = AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
+                        if (item != null)
+                        {
+                            item.IsEnabled = false;
+                        }
                     }
                 }
             }
@@ -644,7 +678,13 @@ namespace MangGuoTv
         }
         private void ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            VideoDefinition definition = UrlList.SelectedItem as VideoDefinition;
+            if (definition != null)
+            {
+                App.PlayerModel.IsChangeDefinition = true;
+                leaveSilderValue = pbVideo.Value;
+                App.PlayerModel.GetVideoSource(definition, App.PlayerModel.currentVideo);
+            }
         }
         private void PreviousPlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {

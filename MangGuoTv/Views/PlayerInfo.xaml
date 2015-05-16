@@ -47,7 +47,7 @@
         <Border Grid.Row="2" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding ValueChangeVisibility}">
             <TextBlock Text="{Binding ValueChangeMsg}" HorizontalAlignment="Center"></TextBlock>
         </Border>
-        <StackPanel HorizontalAlignment="Right" Grid.Row="2" Visibility="{Binding VolumeChangeVisibility}" >
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding VolumeChangeVisibility}" >
             <Slider Orientation="Vertical" Maximum="1" Minimum="0" Value="{Binding Volume,Mode=TwoWay}" Foreground="#FFF88035" Height="180" Background="#FF9A968B"></Slider>
             <Image Width="50" Height="50" Source="/Images/voice.png"></Image>
         </StackPanel>
@@ -85,10 +85,12 @@
                     </Grid>
                 </StackPanel>
 
-                <tool:ListPicker Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
-                    <DataTemplate>
-                        <TextBlock x:Name="definitionName" Text="{Binding name}" Foreground="Green" VerticalAlignment="Center"/>
-                    </DataTemplate>
+                <tool:ListPicker x:Name="UrlList"  Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
+                    <tool:ListPicker.FullModeItemTemplate >
+                        <DataTemplate>
+                            <TextBlock Text="{Binding name}" Foreground="Green" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </tool:ListPicker.FullModeItemTemplate>
                 </tool:ListPicker>
                 <Grid Grid.Column="1" Grid.Row="1"  Margin="5,0,0,0">
                     <Slider VerticalAlignment="Bottom" Value="{Binding ElementName=pbVideo,Path=Value,Mode=TwoWay}"  Foreground="#FFF88035" Background="#FF9A968B" Minimum="{Binding ElementName=pbVideo,Path=MinHeight}" Maximum="{Binding ElementName=pbVideo,Path=Maximum}" ValueChanged="pbVideo_ValueChanged" IsEnabled="{Binding ElementName=pbVideo,Path=IsEnabled}" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
