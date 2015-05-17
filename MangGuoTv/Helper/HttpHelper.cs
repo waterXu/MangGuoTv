@@ -43,6 +43,7 @@ namespace MangGuoTv
                 {
                     App.ShowToast("亲，没有联网啊");
                 }
+                App.HideLoading();
                 return null;
             }
            

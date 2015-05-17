@@ -55,7 +55,7 @@ namespace MangGuoTv
 
                 return playerModel;
             }
-             set
+            set
             {
                 playerModel = value;
             }
@@ -77,7 +77,7 @@ namespace MangGuoTv
                 return downVideoModel;
             }
         }
-        
+
         /// <summary>
         ///提供对电话应用程序的根框架的轻松访问。
         /// </summary>
@@ -219,7 +219,7 @@ namespace MangGuoTv
                     {
                         App.DownVideoModel.StopDownVideo();
                     }
-                    else 
+                    else
                     {
                         App.DownVideoModel.CheckLocalData();
                     }
@@ -261,16 +261,16 @@ namespace MangGuoTv
                 startTimer();
             });
         }
-        public static void JsonError(string result) 
+        public static void JsonError(string result)
         {
-            try 
+            try
             {
                 JsonError jsonError = JsonConvert.DeserializeObject<JsonError>(result);
                 App.HideLoading();
                 App.ShowToast(jsonError.err_msg);
             }
             catch { }
-           
+
         }
         private static void startTimer()
         {
@@ -350,18 +350,24 @@ namespace MangGuoTv
         private static ProgressIndicator progressIndicator = null;
         public static void ShowLoading()
         {
-            if (progressIndicator == null)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                progressIndicator = new ProgressIndicator();
-            }
-            Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
-            //progressIndicator.Text = "                                   正在加载";
-            progressIndicator.IsIndeterminate = true;
-            progressIndicator.IsVisible = true;
+                if (progressIndicator == null)
+                {
+                    progressIndicator = new ProgressIndicator();
+                }
+                Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
+                //progressIndicator.Text = "                                   正在加载";
+                progressIndicator.IsIndeterminate = true;
+                progressIndicator.IsVisible = true;
+            });
         }
         public static void HideLoading()
         {
-            progressIndicator.IsVisible = false;
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                progressIndicator.IsVisible = false;
+            });
         }
         // 激活应用程序(置于前台)时执行的代码
         // 此代码在首次启动应用程序时不执行

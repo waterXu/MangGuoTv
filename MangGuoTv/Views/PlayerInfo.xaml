@@ -37,7 +37,7 @@
         <Image Source="/Images/logo.png" x:Name="Logo" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" x:Name="Name" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
         <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2" MouseMove="myMediaElement_MouseMove" MouseEnter="myMediaElement_MouseEnter" MouseLeave="myMediaElement_MouseLeave" Volume="{Binding Volume}"/>
-        
+
         <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
             <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
         </Border>
@@ -60,7 +60,7 @@
             <Grid  VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -84,20 +84,22 @@
                         </Border>
                     </Grid>
                 </StackPanel>
-
-                <tool:ListPicker x:Name="UrlList"  Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
+                <StackPanel x:Name="DefinitionList" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"  Visibility="Collapsed">
+                </StackPanel>
+                <Button Content="{Binding CurrentDefinitionName}" BorderBrush="#FFEE7C28" Height="70" Width="120" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Click="DefinitionListClick"/>
+                <!--<tool:ListPicker x:Name="UrlList"  Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
                     <tool:ListPicker.FullModeItemTemplate >
                         <DataTemplate>
                             <TextBlock Text="{Binding name}" Foreground="Green" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </tool:ListPicker.FullModeItemTemplate>
-                </tool:ListPicker>
+                </tool:ListPicker>-->
                 <Grid Grid.Column="1" Grid.Row="1"  Margin="5,0,0,0">
                     <Slider VerticalAlignment="Bottom" Value="{Binding ElementName=pbVideo,Path=Value,Mode=TwoWay}"  Foreground="#FFF88035" Background="#FF9A968B" Minimum="{Binding ElementName=pbVideo,Path=MinHeight}" Maximum="{Binding ElementName=pbVideo,Path=Maximum}" ValueChanged="pbVideo_ValueChanged" IsEnabled="{Binding ElementName=pbVideo,Path=IsEnabled}" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
                     <TextBlock Text="{Binding ElementName=StartTextBlock,Path=Text}"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
                     <TextBlock  Text="{Binding ElementName=EndTextBlock,Path=Text}" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
                 </Grid>
-                <Button Content="剧集" BorderBrush="#FFEE7C28" Height="70" Grid.Row="1"  Grid.Column="2" Click="CheckAllVideoClick"/>
+                <Button Content="剧集" BorderBrush="#FFEE7C28" Height="70"  Grid.Row="1" Grid.Column="2" Width="120" VerticalAlignment="Bottom" Click="CheckAllVideoClick"/>
             </Grid>
             <Grid  x:Name="FullAllDramas" Visibility="Collapsed" Width="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,80">
                 <Canvas Background="#FF5A4A3E" Opacity=".5" ></Canvas>
@@ -113,9 +115,9 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            
+
         </Grid>
-      
+
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">
             <Grid.ColumnDefinitions>
@@ -129,7 +131,7 @@
                     <Image Source="/Images/start.png" x:Name="PlayImg"></Image>
                 </Border>
             </Grid>
-            
+
             <Grid Grid.Column="1" Margin="5,0,0,0">
                 <Slider Name="pbVideo" VerticalAlignment="Bottom"  Value="0" Minimum="0" Maximum="100" Foreground="#FFF88035" Background="#FF9A968B"  ValueChanged="pbVideo_ValueChanged" IsEnabled="False" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
                 <TextBlock x:Name="StartTextBlock" Text="00:00"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
@@ -161,7 +163,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-                  
+
             </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0" x:Name="DetailItem"  DataContext="{Binding VideoDetail}">
                 <phone:PivotItem.Header>
@@ -174,7 +176,7 @@
                         <TextBlock Text="{Binding director,Converter={StaticResource detailConverter},ConverterParameter= director}" TextWrapping="Wrap" Margin="0,5,0,0"></TextBlock>
                         <TextBlock Text="{Binding player,Converter={StaticResource detailConverter},ConverterParameter= player}" TextWrapping="Wrap" Margin="0,5,0,0"></TextBlock>
                         <TextBlock Text="{Binding desc,Converter={StaticResource detailConverter},ConverterParameter= desc}" TextWrapping="Wrap" Foreground="Gray" FontSize="18" Margin="0,20,0,0"></TextBlock>
-                      
+
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
@@ -188,14 +190,14 @@
                             <Grid  Margin="10">
                                 <Ellipse Width="60" Height="60" Stroke="Gray"  StrokeThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left">
                                     <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding commentAvatar}" Stretch="UniformToFill" />
+                                        <ImageBrush ImageSource="{Binding commentAvatar}" Stretch="UniformToFill" />
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <StackPanel Margin="70,0,0,0">
                                     <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding commentBy}" TextWrapping="Wrap"></TextBlock>
                                     <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding comment}"></TextBlock>
                                 </StackPanel>
-                            </Grid>                        
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -227,5 +229,5 @@
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-    
+
 </phone:PhoneApplicationPage>

@@ -25,7 +25,7 @@ namespace MangGuoTv
 {
     public partial class PlayerInfo : PhoneApplicationPage
     {
-        
+
         private bool IsDownMode = false;
         private string pauseImg = "/Images/pause.png";
         private string needSetSliderValueIso = "needSetSliderValue";
@@ -41,7 +41,7 @@ namespace MangGuoTv
         public PlayerInfo()
         {
             InitializeComponent();
-          
+
             LoadDownIcon();
         }
         #region event method
@@ -50,7 +50,7 @@ namespace MangGuoTv
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
             this.DataContext = App.PlayerModel;
-            if (App.PlayerModel.MediaSource != null) 
+            if (App.PlayerModel.MediaSource != null)
             {
                 App.PlayerModel.MediaSource = App.PlayerModel.MediaSource;
                 myMediaElement.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(myMediaElement_Tap);
@@ -111,7 +111,6 @@ namespace MangGuoTv
                 Binding videos = new Binding();
                 videos.Path = new PropertyPath("AllDramas");
                 AllDramas.SetBinding(ListBox.ItemsSourceProperty, videos);
-                //AllDramas.ItemsSource = App.PlayerModel.AllDramas;
                 App.PlayerModel.LoadedDramaItem();
             }
             //UrlList.
@@ -119,18 +118,12 @@ namespace MangGuoTv
 
         private void LoadLocalVideoList()
         {
-            fullScreen_Click(null,null);
+            fullScreen_Click(null, null);
             Binding videos = new Binding();
             videos.Path = new PropertyPath("DownedVideo");
             AllDramas.SetBinding(ListBox.ItemsSourceProperty, videos);
             App.PlayerModel.VideoStyleType = "2";
-            VideoDefinition videoDefinition = new VideoDefinition();
-            videoDefinition.name = "本地";
-            List<VideoDefinition> videoDefinitons = new List<VideoDefinition>();
-            videoDefinitons.Add(videoDefinition);
-            App.PlayerModel.VideoDownloadUrl = videoDefinitons;
-            UrlList.IsEnabled = false;
-           // AllVideos.SetBinding(ListBox.ItemsPanelProperty, videos);
+            App.PlayerModel.CurrentDefinitionName = "本地";
             int index = -1;
             for (int i = 0; i < AllDramas.Items.Count; i++)
             {
@@ -150,21 +143,21 @@ namespace MangGuoTv
         /// 判断当前要选中哪一个video
         /// </summary>
         /// <param name="p"></param>
-        public void LoadDramaSeletedItem(string videoId,bool fromDown = false)
+        public void LoadDramaSeletedItem(string videoId, bool fromDown = false)
         {
             int index = 0;
             //如果是切换下载模式 默认置为 -1
             if (fromDown) index = -1;
-            for (int i = 0; i < AllDramas.Items.Count; i++) 
+            for (int i = 0; i < AllDramas.Items.Count; i++)
             {
                 VideoInfo info = AllDramas.Items[i] as VideoInfo;
-                if (info != null && info.videoId == videoId) 
+                if (info != null && info.videoId == videoId)
                 {
                     index = i;
                     break;
-                } 
+                }
             }
-            if (AllDramas.Items.Count > 0) 
+            if (AllDramas.Items.Count > 0)
             {
                 AllDramas.SelectedIndex = index;
             }
@@ -213,8 +206,7 @@ namespace MangGuoTv
                         App.PlayerModel.ReloadNewVideo();
                         App.PlayerModel.PlayerVideo(info);
                         App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
-
-                        //currentDramaIndex = AllDramas.SelectedIndex;
+                        CreateDefinitonList(info.downloadUrl);
                         RelatedVideos.SelectedIndex = -1;
                         App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.VideoType;
                         App.PlayerModel.NextVisibility = (AllDramas.Items.Count > currentDramaIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
@@ -225,6 +217,22 @@ namespace MangGuoTv
                 }
             }
         }
+
+        private void CreateDefinitonList(List<VideoDefinition> list)
+        {
+            DefinitionList.Children.Clear();
+            foreach (VideoDefinition video in list)
+            {
+                TextBlock textblock = new TextBlock();
+                textblock.Text = video.name;
+                textblock.DataContext = video;
+                textblock.FontSize = 25;
+                textblock.Margin = new Thickness(0, 7, 0, 7);
+                textblock.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(DefinitionChange);
+                DefinitionList.Children.Add(textblock);
+            }
+        }
+
         private void SetLocalMedia(string videoPath)
         {
             if (WpStorage.isoFile.FileExists(videoPath))
@@ -245,17 +253,17 @@ namespace MangGuoTv
             App.PlayerModel.VideoId = info.videoId;
             AllDramas.SelectedIndex = -1;
             App.PlayerModel.PlayerVideo(info);
-            App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
+            // App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
             App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.RelateType;
             currentRelatedIndex = RelatedVideos.SelectedIndex;
-            App.PlayerModel.NextVisibility = (RelatedVideos.Items.Count > currentRelatedIndex+1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            App.PlayerModel.NextVisibility = (RelatedVideos.Items.Count > currentRelatedIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             App.PlayerModel.PreviousVisibility = (currentRelatedIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
         #endregion
 
         #region 视频播放处理方法
         // 使用定时器来处理视频播放的进度条
-        DispatcherTimer currentPosition = new DispatcherTimer(); 
+        DispatcherTimer currentPosition = new DispatcherTimer();
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //定义多媒体流可用并被打开时触发的事件
@@ -279,7 +287,7 @@ namespace MangGuoTv
                     {
                         needSetSliderValue = false;
                         WpStorage.SetIsoSetting(needSetSliderValueIso, needSetSliderValue);
-                        if (WpStorage.GetIsoSetting(leaveSilderValueIso) != null) 
+                        if (WpStorage.GetIsoSetting(leaveSilderValueIso) != null)
                         {
                             leaveSilderValue = (double)WpStorage.GetIsoSetting(leaveSilderValueIso);
                             pbVideo.Tag = "isFoucesed";
@@ -288,13 +296,13 @@ namespace MangGuoTv
                     }
                 }
                 //更换清晰度  
-                if(App.PlayerModel.IsChangeDefinition)
-                {
-                    App.PlayerModel.IsChangeDefinition = false;
-                    pbVideo.Tag = "isFoucesed";
-                    //pbVideo.Value = leaveSilderValue;
-                    myMediaElement.Position = new TimeSpan(0, 0, 0, (int)leaveSilderValue);
-                }
+                //if (App.PlayerModel.IsChangeDefinition)
+                //{
+                //    App.PlayerModel.IsChangeDefinition = false;
+                //    pbVideo.Tag = "isFoucesed";
+                //    pbVideo.Value = leaveSilderValue;
+                //    //myMediaElement.Position = new TimeSpan(0, 0, 0, (int)leaveSilderValue);
+                //}
                 currentPosition.Start();
                 App.HideLoading();
                 App.PlayerModel.LoadVisibility = Visibility.Collapsed;
@@ -331,7 +339,7 @@ namespace MangGuoTv
             {
                 EndTextBlock.Text = endtext.Substring(0, endtext.IndexOf("."));
             }
-            else 
+            else
             {
                 EndTextBlock.Text = endtext;
             }
@@ -417,7 +425,7 @@ namespace MangGuoTv
                 PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
 
             }
-            else 
+            else
             {
                 myMediaElement.Pause();
                 PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
@@ -440,7 +448,7 @@ namespace MangGuoTv
                 App.PlayerModel.ValueChangeMsg = "快进  +" + ((int)offX / 5).ToString() + "s";
                 App.PlayerModel.ValueChangeVisibility = System.Windows.Visibility.Visible;
                 pbVideo.Tag = "isFoucesed";
-                TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, (int)offX*200);
+                TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, (int)offX * 200);
                 myMediaElement.Position += timeSpan;
                 System.Diagnostics.Debug.WriteLine("右滑操作");
             }
@@ -541,11 +549,11 @@ namespace MangGuoTv
             AllDramas.ItemContainerStyle = App.PlayerModel.VideoStyle;
             AllDramas.SelectionMode = SelectionMode.Single;
             IsDownMode = false;
-            LoadDramaSeletedItem(App.PlayerModel.VideoId,true);
+            LoadDramaSeletedItem(App.PlayerModel.VideoId, true);
         }
         private void StartDownIcon_Click(object sender, EventArgs e)
         {
-            foreach (VideoInfo videoInfo in AllDramas.SelectedItems) 
+            foreach (VideoInfo videoInfo in AllDramas.SelectedItems)
             {
                 App.DownVideoModel.AddDownVideo(videoInfo);
             }
@@ -555,7 +563,7 @@ namespace MangGuoTv
             IsDownMode = false;
             LoadDramaSeletedItem(App.PlayerModel.VideoId, true);
         }
-       
+
         private void LoadDownIcon()
         {
             for (int i = this.ApplicationBar.Buttons.Count - 1; i >= 0; i--)
@@ -578,13 +586,13 @@ namespace MangGuoTv
         #region Full Screen Method
         private void fullScreen_Click(object sender, RoutedEventArgs e)
         {
-            CloseIcon_Click(null,null);
+            CloseIcon_Click(null, null);
             Logo.Visibility = System.Windows.Visibility.Collapsed;
             MainPivot.Visibility = System.Windows.Visibility.Collapsed;
             playerGrid.Visibility = System.Windows.Visibility.Collapsed;
             this.ApplicationBar.IsVisible = false;
             Name.Visibility = System.Windows.Visibility.Collapsed;
-            RowDefinitionCollection rows =  LayoutRoot.RowDefinitions;
+            RowDefinitionCollection rows = LayoutRoot.RowDefinitions;
             rows[2].Height = new GridLength(PopupManager.screenWidth);
             myMediaElement.Height = PopupManager.screenWidth;
             myMediaElement.Width = PopupManager.screenHeight;
@@ -593,12 +601,12 @@ namespace MangGuoTv
             this.SupportedOrientations = SupportedPageOrientation.Landscape;
         }
 
-        private void CancelFullScreen() 
+        private void CancelFullScreen()
         {
             Logo.Visibility = System.Windows.Visibility.Visible;
             MainPivot.Visibility = System.Windows.Visibility.Visible;
             playerGrid.Visibility = System.Windows.Visibility.Visible;
-            Name.Visibility = System.Windows.Visibility.Collapsed;
+            Name.Visibility = System.Windows.Visibility.Visible;
             RowDefinitionCollection rows = LayoutRoot.RowDefinitions;
             rows[2].Height = new GridLength(250);
             myMediaElement.Height = 250;
@@ -618,7 +626,7 @@ namespace MangGuoTv
         private void myMediaElement_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
-            if (FullAllDramas.Visibility == System.Windows.Visibility.Visible) 
+            if (FullAllDramas.Visibility == System.Windows.Visibility.Visible)
             {
                 FullAllDramas.Visibility = System.Windows.Visibility.Collapsed;
                 return;
@@ -641,7 +649,7 @@ namespace MangGuoTv
 
         private void showMenuTick(object sender, EventArgs e)
         {
-            if (showMenuTime > 0) 
+            if (showMenuTime > 0)
             {
                 showMenuTime--;
             }
@@ -654,12 +662,12 @@ namespace MangGuoTv
         }
         private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (this.SupportedOrientations == SupportedPageOrientation.Landscape) 
+            if (this.SupportedOrientations == SupportedPageOrientation.Landscape)
             {
                 ///if (currentType == PlayType.LoaclType && CommonData.NetworkStatus != "WiFi")
                 if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
                 {
-                    if (this.NavigationService.CanGoBack) 
+                    if (this.NavigationService.CanGoBack)
                     {
                         this.NavigationService.GoBack();
                     }
@@ -676,15 +684,23 @@ namespace MangGuoTv
         {
             FullAllDramas.Visibility = (FullAllDramas.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
         }
-        private void ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DefinitionListClick(object sender, RoutedEventArgs e)
         {
-            VideoDefinition definition = UrlList.SelectedItem as VideoDefinition;
+            DefinitionList.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void DefinitionChange(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TextBlock textBlock = sender as TextBlock;
+            VideoDefinition definition = textBlock.DataContext as VideoDefinition;
             if (definition != null)
             {
+                App.PlayerModel.CurrentDefinitionName = definition.name;
                 App.PlayerModel.IsChangeDefinition = true;
                 leaveSilderValue = pbVideo.Value;
                 App.PlayerModel.GetVideoSource(definition, App.PlayerModel.currentVideo);
             }
+            DefinitionList.Visibility = System.Windows.Visibility.Collapsed;
         }
         private void PreviousPlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -711,7 +727,7 @@ namespace MangGuoTv
 
         private void NextPlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            switch (App.PlayerModel.currentType) 
+            switch (App.PlayerModel.currentType)
             {
                 case PlayerViewModel.PlayType.VideoType:
                     if (AllDramas.Items.Count > currentDramaIndex + 1)
@@ -736,6 +752,9 @@ namespace MangGuoTv
             }
         }
         #endregion
-      
+
+
+
+
     }
 }
