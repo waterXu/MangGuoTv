@@ -374,7 +374,7 @@ namespace MangGuoTv
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
-            App.DownVideoModel.BeginDownVideos();
+            //.DownVideoModel.BeginDownVideos();
         }
 
         // 停用应用程序(发送到后台)时执行的代码

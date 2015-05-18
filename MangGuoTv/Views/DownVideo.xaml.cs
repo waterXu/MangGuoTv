@@ -25,7 +25,7 @@ namespace MangGuoTv.Views
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
             this.DataContext = App.DownVideoModel;
-            App.DownVideoModel.BeginDownVideos();
+            //App.DownVideoModel.BeginDownVideos();
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -102,18 +102,6 @@ namespace MangGuoTv.Views
             App.PlayerModel.VideoId = DownVideo.VideoId;
             App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.LoaclType;
             this.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
-            ////创建一个多媒体的启动器
-            //MediaPlayerLauncher mpl = new MediaPlayerLauncher();
-            ////设置播放文件放置的位置属性 
-            //mpl.Location = MediaLocationType.Data;
-            ////设置所有控制纽都出现 
-            //mpl.Controls = MediaPlaybackControls.All;
-            ////设置出现停止按钮以及暂停按钮 
-            //mpl.Controls = MediaPlaybackControls.Pause | MediaPlaybackControls.Stop;
-            ////设置播放的文件 
-            //mpl.Media = new Uri(DownVideo.LocalDownloadUrl, UriKind.Relative);
-            ////启动播放
-            //mpl.Show(); 
         }
 
         #region applicationBar method
@@ -267,7 +255,7 @@ namespace MangGuoTv.Views
             closeBtn.Click += new EventHandler(CloseIcon_Click);
             this.ApplicationBar.Buttons.Add(closeBtn);
 
-            string deleteAllIcon = "/Images/Icons/delete.png";
+            string deleteAllIcon = "/Images/Icons/deleteall.png";
             deleteAllBtn = new ApplicationBarIconButton(new Uri(deleteAllIcon, UriKind.Relative));
             deleteAllBtn.Text = "全部删除";
             deleteAllBtn.Click += new EventHandler(DeleteAllIcon_Click);

@@ -130,8 +130,8 @@ namespace MangGuoTv.ViewModels
                 webClient.CancelAsync();
                 currentDownVideo.IsLoadError = true;
                 currentDownVideo.IsLoading = false;
-                isDownding = false;
             }
+            isDownding = false;
         }
         private long siz;
         private long speed;

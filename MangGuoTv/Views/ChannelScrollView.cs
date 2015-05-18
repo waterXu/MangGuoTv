@@ -14,6 +14,7 @@ using System.Windows.Markup;
 using Windows.Storage.Pickers;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Microsoft.Phone.Tasks;
 
 namespace MangGuoTv.Views
 {
@@ -388,12 +389,23 @@ namespace MangGuoTv.Views
                     }
                     break;
                 case "webView":
+                    WebBrowserTask task = new WebBrowserTask();
+                    task.Uri = new Uri(template.playUrl, UriKind.Absolute);
+                    try
+                    {
+                        task.Show();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     break;
                 case "livePlayer":
-                    LivePlayer.liveUrl = template.playUrl;
-                    CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
-                    break;
+                    //LivePlayer.liveUrl = template.playUrl;
+                    //CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
+                   // break;
                 case "concertLivePlayer":
+                    App.ShowToast("抱歉，暂时不支持直播功能，正在开发中");
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine("该播放类型暂时未实现"+template.jumpType);

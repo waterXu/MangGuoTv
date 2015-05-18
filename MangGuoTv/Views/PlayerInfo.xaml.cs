@@ -207,6 +207,7 @@ namespace MangGuoTv
                         App.PlayerModel.VideoDownloadUrl = info.downloadUrl;
                         CreateDefinitonList(info.downloadUrl);
                         RelatedVideos.SelectedIndex = -1;
+                        currentDramaIndex = AllDramas.SelectedIndex;
                         App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.VideoType;
                         App.PlayerModel.NextVisibility = (AllDramas.Items.Count > currentDramaIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
                         App.PlayerModel.PreviousVisibility = (currentDramaIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
@@ -214,7 +215,6 @@ namespace MangGuoTv
                         App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
                     }
                     AllDramas.ScrollIntoView(AllDramas.SelectedItem);
-                    currentDramaIndex = AllDramas.SelectedIndex;
                 }
             }
         }
@@ -726,6 +726,10 @@ namespace MangGuoTv
                     }
                     break;
                 case PlayerViewModel.PlayType.LoaclType:
+                    if (currentDramaIndex - 1 >= 0)
+                    {
+                        AllDramas.SelectedIndex = currentDramaIndex - 1;
+                    }
                     break;
                 default:
                     break;

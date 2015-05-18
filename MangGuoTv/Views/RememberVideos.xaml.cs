@@ -146,7 +146,7 @@ namespace MangGuoTv.Views
             closeBtn.Click += new EventHandler(CloseIcon_Click);
             this.ApplicationBar.Buttons.Add(closeBtn);
 
-            string deleteAllIcon = "/Images/Icons/delete.png";
+            string deleteAllIcon = "/Images/Icons/deleteall.png";
             deleteAllBtn = new ApplicationBarIconButton(new Uri(deleteAllIcon, UriKind.Relative));
             deleteAllBtn.Text = "全部删除";
             deleteAllBtn.Click += new EventHandler(DeleteAllIcon_Click);

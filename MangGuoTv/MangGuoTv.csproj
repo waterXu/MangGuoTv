@@ -31,7 +31,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WIND</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -283,6 +283,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="channels.txt" />
+    <Content Include="icon.png" />
     <Content Include="ic_launcher.png" />
     <Content Include="Images\about.png" />
     <Content Include="Images\ad.png" />
@@ -294,7 +295,9 @@
     <Content Include="Images\btn_c.png" />
     <Content Include="Images\btn_on.png" />
     <Content Include="Images\comment.png" />
+    <Content Include="Images\delAll.jpg" />
     <Content Include="Images\Icons\delete.png" />
+    <Content Include="Images\Icons\deleteall.png" />
     <Content Include="Images\Icons\edit.png" />
     <Content Include="Images\full.png" />
     <Content Include="Images\gread.png" />
@@ -325,6 +328,9 @@
     <Content Include="Images\tuijian.png" />
     <Content Include="Images\user.png" />
     <Content Include="Images\voice.png" />
+    <Content Include="logo1.png" />
+    <Content Include="logo2.png" />
+    <Content Include="logo3.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
