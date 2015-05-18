@@ -144,7 +144,7 @@
                 </Button.Background>
             </Button>
         </Grid>
-        <phone:Pivot x:Name="MainPivot" Grid.Row="4" >
+        <phone:Pivot x:Name="MainPivot" Grid.Row="4" SelectionChanged="MainPivot_SelectionChanged">
             <phone:PivotItem Margin="0,10,0,0" x:Name="DramaItem" Loaded="DramaItem_Loaded">
                 <phone:PivotItem.Header>
                     <TextBlock Text="剧集" Width="80"  FontSize="35"></TextBlock>

@@ -267,8 +267,15 @@ namespace MangGuoTv.ViewModels
             video.Desc = videoInfo.desc;
             video.IsLoading = false;
             video.IsLoaded = false;
-            // todo 
-            video.DownUrl = videoInfo.downloadUrl[0].url;
+            int downIndex = 0;
+            for(int i=0;i<videoInfo.downloadUrl.Count;i++){
+                if (videoInfo.downloadUrl[i].name == "高清")
+                {
+                    downIndex = i;
+                    break;
+                }
+            }
+            video.DownUrl = videoInfo.downloadUrl[downIndex].url;
             DowningVideo.Add(video);
             DowningVideoids.Add(video.VideoId);
             SaveVideoData();

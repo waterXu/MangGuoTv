@@ -489,7 +489,16 @@ namespace MangGuoTv.ViewModels
             {
                 App.PlayerModel.PayVisibility = Visibility.Collapsed;
                 App.PlayerModel.LoadVisibility = Visibility.Visible;
-                VideoDefinition Definition = info.downloadUrl[0];
+                int downIndex = 0;
+                for (int i = 0; i < info.downloadUrl.Count; i++)
+                {
+                    if (info.downloadUrl[i].name == "高清")
+                    {
+                        downIndex = i;
+                        break;
+                    }
+                }
+                VideoDefinition Definition = info.downloadUrl[downIndex];
                 GetVideoSource(Definition, info);
             }
             else

@@ -229,6 +229,11 @@ namespace MangGuoTv.Views
             //imageScroll.ManipulationCompleted += new EventHandler<System.Windows.Input.ManipulationCompletedEventArgs>(ImageScroll_EndMove);
             //imageScroll.ManipulationDelta += new EventHandler<System.Windows.Input.ManipulationDeltaEventArgs>(ImageScroll_EndDelta);
             //imageScroll.SizeChanged += new SizeChangedEventHandler();
+            //imageScroll.MouseEnter += new System.Windows.Input.MouseEventHandler(ImageScroll_StartMove);
+            //imageScroll.MouseMove += new System.Windows.Input.MouseEventHandler(ImageScroll_Moveing);
+            //imageScroll.MouseLeave += new System.Windows.Input.MouseEventHandler(ImageScroll_EndMove);
+
+
             StackPanel imagesPanel = new StackPanel();
             imagesPanel.Orientation = Orientation.Horizontal;
             imageScroll.Content = imagesPanel;
@@ -251,6 +256,18 @@ namespace MangGuoTv.Views
             //timer.Tick += new EventHandler(Timer_Tick);
             //timer.Start();
         }
+        private void ImageScroll_StartMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+        }
+        private void ImageScroll_Moveing(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+        }
+        private void ImageScroll_EndMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            double horOffset = imageScroll.HorizontalOffset;
+            int index = (int)Math.Round(horOffset / scrollImageWidth);
+            imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
+        }
         int totalScrollImages = 0;
         int currentIndex = 0;
         private void Timer_Tick(object sender, EventArgs e)
@@ -263,22 +280,22 @@ namespace MangGuoTv.Views
             imageScroll.ScrollToHorizontalOffset(currentIndex * scrollImageWidth);
         }
 
-        private void ImageScroll_EndDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
-            double horOffset = imageScroll.HorizontalOffset;
-            int index = (int)Math.Round(horOffset / scrollImageWidth);
-            imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
-        }
+        //private void ImageScroll_EndDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        //{
+        //    double horOffset = imageScroll.HorizontalOffset;
+        //    int index = (int)Math.Round(horOffset / scrollImageWidth);
+        //    imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
+        //}
 
-        private void ImageScroll_EndMove(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
-        {
-            timer.Start();
-        }
+        //private void ImageScroll_EndMove(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        //{
+        //    timer.Start();
+        //}
 
-        private void ImageScroll_StartMove(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
-        {
-            timer.Stop();
-        }
+        //private void ImageScroll_StartMove(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        //{
+        //    timer.Stop();
+        //}
         private string xaml = string.Empty;
 
         private Grid CreateImageView(double width, ChannelTemplate template, double height)

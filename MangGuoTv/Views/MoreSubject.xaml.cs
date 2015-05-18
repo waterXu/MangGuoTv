@@ -68,6 +68,7 @@ namespace MangGuoTv.Views
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         ChannelScrollView scrollView = new ChannelScrollView();
+                        MainGrid.Children.Clear();
                         MainGrid.Children.Add(scrollView.scrollView);
                         scrollView.LoadChannelDetail(channelDetails.data);
                     });

@@ -41,7 +41,6 @@ namespace MangGuoTv
         public PlayerInfo()
         {
             InitializeComponent();
-
             LoadDownIcon();
         }
         #region event method
@@ -195,6 +194,15 @@ namespace MangGuoTv
                     {
                         startDownBtn.IsEnabled = true;
                     }
+                    //VideoInfo info = e.AddedItems[0] as VideoInfo;
+                    //if (info != null)
+                    //{
+                    //    //如果已经在缓存列表 不能选中
+                    //    if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
+                    //    {
+                    //        AllDramas.SelectedIndex = AllDramas.SelectedIndex;
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -242,6 +250,17 @@ namespace MangGuoTv
                     myMediaElement.SetSource(isoFileStream);
                     myMediaElement.Play();
                 }
+            }
+        }
+        private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(MainPivot.SelectedIndex == 0) 
+            {
+                ApplicationBar.IsVisible = true;
+            }
+            else
+            {
+                ApplicationBar.IsVisible = false;
             }
         }
         private int currentRelatedIndex = -1;
@@ -296,13 +315,12 @@ namespace MangGuoTv
                     }
                 }
                 //更换清晰度  
-                //if (App.PlayerModel.IsChangeDefinition)
-                //{
-                //    App.PlayerModel.IsChangeDefinition = false;
-                //    pbVideo.Tag = "isFoucesed";
-                //    pbVideo.Value = leaveSilderValue;
-                //    //myMediaElement.Position = new TimeSpan(0, 0, 0, (int)leaveSilderValue);
-                //}
+                if (App.PlayerModel.IsChangeDefinition)
+                {
+                    pbVideo.Tag = "isFoucesed";
+                    pbVideo.Value = leaveSilderValue;
+                    //myMediaElement.Position = new TimeSpan(0, 0, 0, (int)leaveSilderValue);
+                }
                 currentPosition.Start();
                 App.HideLoading();
                 App.PlayerModel.LoadVisibility = Visibility.Collapsed;
@@ -372,11 +390,18 @@ namespace MangGuoTv
                 string silderTag = pbVideo.Tag.ToString();
                 if (silderTag.Equals("isFoucesed"))
                 {
-                    int sliderNewVlaue = (int)e.NewValue;
-                    int sliderValue = (int)e.OldValue;
-                    TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
-                    TimeSpan newtimeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
-                    myMediaElement.Position = timeSpan;
+                    //处理切换清晰度   有时候oldvalue是最新的值  醉了
+                    if(App.PlayerModel.IsChangeDefinition)
+                    {
+                        int sliderNewVlaue = (int)e.NewValue;
+                        TimeSpan newtimeSpan = new TimeSpan(0, 0, 0, 0, sliderNewVlaue);
+                        App.PlayerModel.IsChangeDefinition = false;
+                        myMediaElement.Position = newtimeSpan;
+                    }else{
+                        int sliderValue = (int)e.OldValue;
+                        TimeSpan timeSpan = new TimeSpan(0, 0, 0, 0, sliderValue);
+                        myMediaElement.Position = timeSpan;
+                    }
                     fullScreen.Focus();
                     pbVideo.Tag = "loseFoucesed";
                     //myMediaElement.BufferingTime = timeSpan - newtimeSpan;
@@ -520,35 +545,56 @@ namespace MangGuoTv
             startDownBtn.Click += new EventHandler(StartDownIcon_Click);
             this.ApplicationBar.Buttons.Add(startDownBtn);
 
+          
+            //for (int i = 0; i < AllDramas.Items.Count; i++)
+            //{
+            //    VideoInfo info = AllDramas.Items[i] as VideoInfo;
+            //    if (info != null)
+            //    {
+            //        //todo
+            //        if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
+            //        {
+            //            ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
+            //            if (item != null)
+            //            {
+            //                item.IsEnabled = false;
+            //                item.IsHitTestVisible = false;
+            //            }
+            //        }
+            //    }
+            //}
+            
+            IsDownMode = true;
             AllDramas.ItemContainerStyle = App.PlayerModel.MultipleVideoStyle;
             AllDramas.SelectionMode = SelectionMode.Multiple;
-            IsDownMode = true;
+            //var items = VisualTreeHelper.GetChild(AllDramas, 0);
+            //for (int i = 0; i < AllDramas.Items.Count; i++)
+            //{
 
-            for (int i = 0; i < AllDramas.Items.Count; i++)
-            {
-                VideoInfo info = AllDramas.Items[i] as VideoInfo;
-                if (info != null)
-                {
-                    //todo
-                    if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
-                    {
-                        ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-                        DependencyObject items = AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-                        if (item != null)
-                        {
-                            item.IsEnabled = false;
-                        }
-                    }
-                }
-            }
+            //    VideoInfo info = AllDramas.Items[i] as VideoInfo;
+            //    if (info != null)
+            //    {
+            //        //todo
+            //        if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
+            //        {
+            //            //ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
+            //            Border item = (Border)VisualTreeHelper.GetChild(items, i);
+            //            if (item != null)
+            //            {
+            //               // item.IsEnabled = false;
+            //                item.IsHitTestVisible = false;
+            //            }
+            //        }
+            //    }
+            //}
 
         }
         private void CloseIcon_Click(object sender, EventArgs e)
         {
+            IsDownMode = false;
             LoadDownIcon();
             AllDramas.ItemContainerStyle = App.PlayerModel.VideoStyle;
             AllDramas.SelectionMode = SelectionMode.Single;
-            IsDownMode = false;
             LoadDramaSeletedItem(App.PlayerModel.VideoId, true);
         }
         private void StartDownIcon_Click(object sender, EventArgs e)
@@ -557,10 +603,10 @@ namespace MangGuoTv
             {
                 App.DownVideoModel.AddDownVideo(videoInfo);
             }
+            IsDownMode = false;
             LoadDownIcon();
             AllDramas.ItemContainerStyle = App.PlayerModel.VideoStyle;
             AllDramas.SelectionMode = SelectionMode.Single;
-            IsDownMode = false;
             LoadDramaSeletedItem(App.PlayerModel.VideoId, true);
         }
 
@@ -631,7 +677,11 @@ namespace MangGuoTv
                 FullAllDramas.Visibility = System.Windows.Visibility.Collapsed;
                 return;
             }
-
+            if (DefinitionList.Visibility == System.Windows.Visibility.Visible)
+            {
+                DefinitionList.Visibility = System.Windows.Visibility.Collapsed;
+                return;
+            }
             FullPlayerGrid.Visibility = (FullPlayerGrid.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             //showMenuTime = 20;
             //if (FullPlayerGrid.Visibility == Visibility.Visible)
@@ -752,6 +802,8 @@ namespace MangGuoTv
             }
         }
         #endregion
+
+
 
 
 
