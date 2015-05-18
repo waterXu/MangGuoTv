@@ -49,7 +49,7 @@ namespace MangGuoTv
         /// <summary>
         /// 更多评论
         /// </summary>
-        public static string GetMoreVideoComment { get { return MangGuoHost + "comment/read?" + CommonUrl; } } 
+        public static string GetMoreVideoComment { get { return MangGuoHost + "comment/read?" + CommonUrl + "&pageSize=30"; } } 
         /// <summary>
         /// 视频花絮
         /// </summary>
@@ -102,6 +102,10 @@ namespace MangGuoTv
         /// 搜索页面
         /// </summary>
         public static string SearchPage { get { return "/Views/Search.xaml"; } }
+        /// <summary>
+        /// 直播
+        /// </summary>
+        public static string LivePlayerPage { get { return "/Views/LivePlayer.xaml"; } }
         
 
 

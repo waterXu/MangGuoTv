@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace MangGuoTv.Models
     {
         public string err_code { get; set; }
         public string err_msg { get; set; }
-        public List<VideoInfo> data { get; set; }
+        public ObservableCollection<VideoInfo> data { get; set; }
     }
     public class VideoInfo
     {

@@ -131,6 +131,10 @@
     <Compile Include="Views\DownVideo.xaml.cs">
       <DependentUpon>DownVideo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LivePlayer.xaml.cs">
+      <DependentUpon>LivePlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MGLongListSelector.cs" />
     <Compile Include="Views\MoreChannelInfo.xaml.cs">
       <DependentUpon>MoreChannelInfo.xaml</DependentUpon>
     </Compile>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DownVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LivePlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,6 +344,10 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\System.Net.Http.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

@@ -37,14 +37,14 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
-        private List<VideoInfo> _AllDramas;
-        public List<VideoInfo> AllDramas
+        private ObservableCollection<VideoInfo> _AllDramas;
+        public ObservableCollection<VideoInfo> AllDramas
         {
             get
             {
                 if (_AllDramas == null)
                 {
-                    _AllDramas = new List<VideoInfo>();
+                    _AllDramas = new ObservableCollection<VideoInfo>();
                 }
                 return _AllDramas;
             }
@@ -71,14 +71,14 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("DownedVideo");
             }
         }
-        private List<VideoInfo> _AllRelateds;
-        public List<VideoInfo> AllRelateds
+        private ObservableCollection<VideoInfo> _AllRelateds;
+        public ObservableCollection<VideoInfo> AllRelateds
         {
             get
             {
                 if (_AllRelateds == null)
                 {
-                    _AllRelateds = new List<VideoInfo>();
+                    _AllRelateds = new ObservableCollection<VideoInfo>();
                 }
                 return _AllRelateds;
             }
@@ -226,6 +226,26 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("VolumeChangeVisibility");
             }
         }
+        private Visibility moreVideoVisibility = Visibility.Collapsed;
+         public Visibility MoreVideoVisibility
+        {
+            get { return moreVideoVisibility; }
+            set
+            {
+                moreVideoVisibility = value;
+                NotifyPropertyChanged("MoreVideoVisibility");
+            }
+        }
+         private Visibility moreCommentVisibility = Visibility.Collapsed;
+         public Visibility MoreCommentVisibility
+         {
+             get { return moreCommentVisibility; }
+             set
+             {
+                 moreCommentVisibility = value;
+                 NotifyPropertyChanged("MoreCommentVisibility");
+             }
+         }
         private double volume = 1;
         public double Volume
         {
@@ -326,7 +346,26 @@ namespace MangGuoTv.ViewModels
                         {
                             if (DramaPageCount > 1)
                             {
-                                AllDramas.AddRange(videosResult.data);
+                                foreach (VideoInfo video in videosResult.data)
+                                {
+                                    AllDramas.Add(video);
+                                }
+                                if (VideoStyleType == "1")
+                                {
+                                    App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                }
+                                else if (VideoStyleType == "2")
+                                {
+                                    if (AllDramas.Count == 30 * DramaPageCount)
+                                    {
+                                        App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                    }
+                                }
+                                dramaPageCount++;
                             }
                             else
                             {
@@ -355,7 +394,7 @@ namespace MangGuoTv.ViewModels
                 if (_commentPageCount != value)
                 {
                     CommentPageCount = value;
-                    LoadedComment();
+                    //LoadedComment();
                 }
             }
         }
@@ -394,6 +433,15 @@ namespace MangGuoTv.ViewModels
                             {
                                 Comments.AddRange(commentResult.data);
                             }
+                            if (Comments.Count == 30 * CommentPageCount)
+                            {
+                                MoreCommentVisibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                MoreCommentVisibility = Visibility.Collapsed;
+                            }
+                            _commentPageCount++;
                         });
                     }
                 }
@@ -433,8 +481,22 @@ namespace MangGuoTv.ViewModels
                             VideoDetail = videosDetailResult.data.detail;
                             VideoName = videosDetailResult.data.detail.name;
                             VideoStyleType = videosDetailResult.data.detail.typeId;
-                            //VideoSources = videosDetailResult.data.videoSources;
-                            //VideoDownloadUrl = videosDetailResult.data.downloadUrl; (CallbackManager.currentPage as PlayerInfo).PlayerVideo();
+                            if (VideoStyleType == "1")
+                            {
+                                App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                            }
+                            else if (VideoStyleType == "2")
+                            {
+                                if (AllDramas.Count == 30*DramaPageCount)
+                                {
+                                    App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                }
+                            }
+                            dramaPageCount++;
                         });
                     }
                 }
@@ -695,6 +757,10 @@ namespace MangGuoTv.ViewModels
             AllRelateds = null;
             VideoDownloadUrl = null;
             currentDefinitionUrl = null;
+            MoreCommentVisibility = Visibility.Collapsed;
+            MoreCommentVisibility = Visibility.Collapsed;
+            DramaPageCount = 1;
+            CommentPageCount = 1;
         }
 
     }

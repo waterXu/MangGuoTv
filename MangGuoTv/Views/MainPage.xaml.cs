@@ -26,22 +26,26 @@ namespace MangGuoTv
             InitializeComponent();
             this.DataContext = App.MainViewModel;
             App.MainViewModel.LoadChannels();
-            int maxIndex = 3;
-            if(CommonData.LockedChannel.Count <3){
-                maxIndex = CommonData.LockedChannel.Count;
-            }
-            for (int i = 0; i < maxIndex; i++)
+           
+            for (int i = 0; i < CommonData.LockedChannel.Count; i++)
             {
-                PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
-                pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
-                MainPivot.Items.Add(pivot.pivotItem);
+                if (CommonData.LockedChannel[i].channelName == "精选" || CommonData.LockedChannel[i].channelName == "电视剧" || CommonData.LockedChannel[i].channelName == "综艺")
+                {
+                    PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
+                    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
+                    MainPivot.Items.Add(pivot.pivotItem);
+                }
+           
             }
-            //for (int i = 0; i < CommonData.NormalChannel.Count / 3; i++)
-            //{
-            //    PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
-            //    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
-            //    MainPivot.Items.Add(pivot.pivotItem);
-            //}
+            for (int i = 0; i < CommonData.NormalChannel.Count ; i++)
+            {
+                if (CommonData.NormalChannel[i].channelName == "精选" || CommonData.NormalChannel[i].channelName == "电视剧" || CommonData.NormalChannel[i].channelName == "综艺")
+                {
+                    PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
+                    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
+                    MainPivot.Items.Add(pivot.pivotItem);
+                }
+            }
             MainPivot.SelectedIndex = 2;
         }
        

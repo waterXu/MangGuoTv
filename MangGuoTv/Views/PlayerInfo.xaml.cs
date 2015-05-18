@@ -194,15 +194,6 @@ namespace MangGuoTv
                     {
                         startDownBtn.IsEnabled = true;
                     }
-                    //VideoInfo info = e.AddedItems[0] as VideoInfo;
-                    //if (info != null)
-                    //{
-                    //    //如果已经在缓存列表 不能选中
-                    //    if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
-                    //    {
-                    //        AllDramas.SelectedIndex = AllDramas.SelectedIndex;
-                    //    }
-                    //}
                 }
                 else
                 {
@@ -219,6 +210,8 @@ namespace MangGuoTv
                         App.PlayerModel.currentType = MangGuoTv.ViewModels.PlayerViewModel.PlayType.VideoType;
                         App.PlayerModel.NextVisibility = (AllDramas.Items.Count > currentDramaIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
                         App.PlayerModel.PreviousVisibility = (currentDramaIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                        App.PlayerModel.MoreCommentVisibility = Visibility.Collapsed;
+                        App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
                     }
                     AllDramas.ScrollIntoView(AllDramas.SelectedItem);
                     currentDramaIndex = AllDramas.SelectedIndex;
@@ -544,49 +537,9 @@ namespace MangGuoTv
             startDownBtn.Text = "开始缓存";
             startDownBtn.Click += new EventHandler(StartDownIcon_Click);
             this.ApplicationBar.Buttons.Add(startDownBtn);
-
-          
-            //for (int i = 0; i < AllDramas.Items.Count; i++)
-            //{
-            //    VideoInfo info = AllDramas.Items[i] as VideoInfo;
-            //    if (info != null)
-            //    {
-            //        //todo
-            //        if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
-            //        {
-            //            ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-            //            if (item != null)
-            //            {
-            //                item.IsEnabled = false;
-            //                item.IsHitTestVisible = false;
-            //            }
-            //        }
-            //    }
-            //}
-            
             IsDownMode = true;
             AllDramas.ItemContainerStyle = App.PlayerModel.MultipleVideoStyle;
             AllDramas.SelectionMode = SelectionMode.Multiple;
-            //var items = VisualTreeHelper.GetChild(AllDramas, 0);
-            //for (int i = 0; i < AllDramas.Items.Count; i++)
-            //{
-
-            //    VideoInfo info = AllDramas.Items[i] as VideoInfo;
-            //    if (info != null)
-            //    {
-            //        //todo
-            //        if (App.DownVideoModel.DownedVideoids.Contains(info.videoId) || App.DownVideoModel.DowningVideoids.Contains(info.videoId))
-            //        {
-            //            //ListBoxItem item = (ListBoxItem)AllDramas.ItemContainerGenerator.ContainerFromIndex(i);
-            //            Border item = (Border)VisualTreeHelper.GetChild(items, i);
-            //            if (item != null)
-            //            {
-            //               // item.IsEnabled = false;
-            //                item.IsHitTestVisible = false;
-            //            }
-            //        }
-            //    }
-            //}
 
         }
         private void CloseIcon_Click(object sender, EventArgs e)
@@ -601,7 +554,11 @@ namespace MangGuoTv
         {
             foreach (VideoInfo videoInfo in AllDramas.SelectedItems)
             {
-                App.DownVideoModel.AddDownVideo(videoInfo);
+                //已经缓存的不添加
+                if (!App.DownVideoModel.DownedVideoids.Contains(videoInfo.videoId) && !App.DownVideoModel.DowningVideoids.Contains(videoInfo.videoId))
+                {
+                    App.DownVideoModel.AddDownVideo(videoInfo);
+                }
             }
             IsDownMode = false;
             LoadDownIcon();
@@ -802,11 +759,59 @@ namespace MangGuoTv
             }
         }
         #endregion
+        /// <summary>
+        /// 查找父控件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T FindParentOfType<T>(DependencyObject obj) where T : FrameworkElement
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            while (parent != null)
+            {
+                if (parent is T)
+                {
+                    return (T)parent;
+                }
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return null;
+        }
+        public static T FindChildOfType<T>(DependencyObject obj) where T : FrameworkElement
+        {
+            int count = VisualTreeHelper.GetChildrenCount(obj);
+            for(int i =0;i<count;i++){
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                while (child != null)
+                {
+                    if (child is T)
+                    {
+                        return (T)child;
+                    }
+                    child = VisualTreeHelper.GetParent(child);
+                }
+            }
+           
+            return null;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            ListBoxItem lbi = FindParentOfType<ListBoxItem>(cb);
+        }
 
 
+        private void MoreCommentBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.PlayerModel.LoadedComment();
+        }
 
-
-
+        private void MoreVideoBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.PlayerModel.LoadedDramaItem();
+        }
 
     }
 }

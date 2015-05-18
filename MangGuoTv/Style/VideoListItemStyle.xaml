@@ -82,7 +82,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <CheckBox x:Name="checkBox" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                <CheckBox IsHitTestVisible="False"  Visibility="Collapsed"/>
                             </Grid>
                             <Grid Grid.Column="1">
                                 <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="3" Opacity="0"/>
@@ -178,7 +178,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <CheckBox x:Name="checkBox" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                <CheckBox  IsHitTestVisible="False"  Visibility="Collapsed"/>
                             </Grid>
                             <Grid Grid.Column="1">
                                 <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="3" Opacity="0"/>

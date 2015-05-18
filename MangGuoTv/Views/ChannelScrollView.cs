@@ -202,6 +202,8 @@ namespace MangGuoTv.Views
                 text.Text = template.name;
                 myGrid.Children.Add(liveImage);
                 myGrid.Children.Add(text);
+                myGrid.DataContext = template;
+                myGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
                 stackPanel.Children.Add(myGrid);
             }
           
@@ -232,8 +234,6 @@ namespace MangGuoTv.Views
             //imageScroll.MouseEnter += new System.Windows.Input.MouseEventHandler(ImageScroll_StartMove);
             //imageScroll.MouseMove += new System.Windows.Input.MouseEventHandler(ImageScroll_Moveing);
             //imageScroll.MouseLeave += new System.Windows.Input.MouseEventHandler(ImageScroll_EndMove);
-
-
             StackPanel imagesPanel = new StackPanel();
             imagesPanel.Orientation = Orientation.Horizontal;
             imageScroll.Content = imagesPanel;
@@ -243,14 +243,30 @@ namespace MangGuoTv.Views
            
             foreach (ChannelTemplate template in list) 
             {
+                Grid imageGrid = new Grid();
+                imageGrid.Width = imageWidth;
+                imageGrid.Height = imageHieght;
                 Image image = new Image();
                 image.Width = imageWidth;
                 image.Height = imageHieght;
                 image.Source =new BitmapImage(new Uri(template.picUrl,UriKind.RelativeOrAbsolute));
                 image.Stretch = Stretch.UniformToFill;
-                image.DataContext = template;
-                image.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(Image_Tap);
-                imagesPanel.Children.Add(image);
+                imageGrid.DataContext = template;
+                imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
+                imageGrid.Children.Add(image);
+                Canvas textCanvas = new Canvas();
+                textCanvas.Height = 60;
+                textCanvas.Background = new SolidColorBrush(Color.FromArgb(255, 238, 98, 33));
+                textCanvas.VerticalAlignment = VerticalAlignment.Bottom;
+                textCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+                TextBlock textNmae = new TextBlock();
+                textNmae.Height = 60;
+                textNmae.FontSize = 25;
+                textNmae.TextWrapping = TextWrapping.Wrap;
+                textNmae.Text = template.name;
+                textCanvas.Children.Add(textNmae);
+                imageGrid.Children.Add(textCanvas);
+                imagesPanel.Children.Add(imageGrid);
             }
             stackPanel.Children.Add(imagesGrid);
             //timer.Tick += new EventHandler(Timer_Tick);
@@ -280,22 +296,22 @@ namespace MangGuoTv.Views
             imageScroll.ScrollToHorizontalOffset(currentIndex * scrollImageWidth);
         }
 
-        //private void ImageScroll_EndDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        //{
-        //    double horOffset = imageScroll.HorizontalOffset;
-        //    int index = (int)Math.Round(horOffset / scrollImageWidth);
-        //    imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
-        //}
+        private void ImageScroll_EndDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+            double horOffset = imageScroll.HorizontalOffset;
+            int index = (int)Math.Round(horOffset / scrollImageWidth);
+            imageScroll.ScrollToHorizontalOffset(index * scrollImageWidth);
+        }
 
-        //private void ImageScroll_EndMove(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
-        //{
-        //    timer.Start();
-        //}
+        private void ImageScroll_EndMove(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            timer.Start();
+        }
 
-        //private void ImageScroll_StartMove(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
-        //{
-        //    timer.Stop();
-        //}
+        private void ImageScroll_StartMove(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            timer.Stop();
+        }
         private string xaml = string.Empty;
 
         private Grid CreateImageView(double width, ChannelTemplate template, double height)
@@ -342,12 +358,12 @@ namespace MangGuoTv.Views
             ChannelTemplate template = (sender as Grid).DataContext as ChannelTemplate;
             OperationImageTap(template);
         }
-        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            ChannelTemplate template = (sender as Image).DataContext as ChannelTemplate;
-            OperationImageTap(template);
+        //private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    ChannelTemplate template = (sender as Image).DataContext as ChannelTemplate;
+        //    OperationImageTap(template);
 
-        }
+        //}
         private void OperationImageTap(ChannelTemplate template) 
         {
             switch (template.jumpType)
@@ -374,8 +390,14 @@ namespace MangGuoTv.Views
                 case "webView":
                     break;
                 case "livePlayer":
+                    LivePlayer.liveUrl = template.playUrl;
+                    CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
+                    break;
+                case "concertLivePlayer":
                     break;
                 default:
+                    System.Diagnostics.Debug.WriteLine("该播放类型暂时未实现"+template.jumpType);
+                    App.ShowToast("该播放类型暂时未实现" + template.jumpType );
                     break;
             }
         }

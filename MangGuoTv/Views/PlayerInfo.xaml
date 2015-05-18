@@ -150,7 +150,11 @@
                     <TextBlock Text="剧集" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
                 <Grid>
-                    <ListBox x:Name="AllDramas" SelectionChanged="AllDramas_SelectionChanged" HorizontalAlignment="Center" ItemContainerStyle="{Binding VideoStyle}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="AllDramas" SelectionChanged="AllDramas_SelectionChanged" HorizontalAlignment="Center" ItemContainerStyle="{Binding VideoStyle}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -162,6 +166,9 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    <Border Grid.Row="1" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding MoreVideoVisibility}" Tap="MoreVideoBorder_Tap">
+                        <TextBlock Text="点击加载更多剧集" HorizontalAlignment="Center"></TextBlock>
+                    </Border>
                 </Grid>
 
             </phone:PivotItem>
@@ -184,23 +191,31 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="评论" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding Comments}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid  Margin="10">
-                                <Ellipse Width="60" Height="60" Stroke="Gray"  StrokeThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding commentAvatar}" Stretch="UniformToFill" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <StackPanel Margin="70,0,0,0">
-                                    <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding commentBy}" TextWrapping="Wrap"></TextBlock>
-                                    <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding comment}"></TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Grid>
+                    <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding Comments}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid  Margin="10">
+                                    <Ellipse Width="60" Height="60" Stroke="Gray"  StrokeThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding commentAvatar}" Stretch="UniformToFill" />
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <StackPanel Margin="70,0,0,0">
+                                        <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding commentBy}" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding comment}"></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<Border Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="200" Height="30" Visibility="{Binding MoreCommentVisibility}" Tap="MoreCommentBorder_Tap">
+                        <TextBlock Text="点击加载更多评论" HorizontalAlignment="Center"></TextBlock>
+                    </Border>-->
+                </Grid>
+              
             </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0" x:Name="SceneItem" >
                 <phone:PivotItem.Header>
@@ -221,6 +236,7 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
+        <!--<CheckBox Checked="CheckVideo"></CheckBox>-->
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
