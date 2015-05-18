@@ -393,7 +393,7 @@ namespace MangGuoTv.ViewModels
             {
                 if (_commentPageCount != value)
                 {
-                    CommentPageCount = value;
+                    _commentPageCount = value;
                     //LoadedComment();
                 }
             }
