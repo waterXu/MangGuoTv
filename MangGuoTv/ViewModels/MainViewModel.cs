@@ -28,7 +28,14 @@ namespace MangGuoTv.ViewModels
         private ObservableCollection<DownVideoInfoViewMoel> lastVideoRemember;
         public ObservableCollection<DownVideoInfoViewMoel> LastVideoRemember
         {
-            get { return lastVideoRemember; }
+            get 
+            {
+                if (lastVideoRemember == null)
+                {
+                    lastVideoRemember = new ObservableCollection<DownVideoInfoViewMoel>();
+                }
+                return lastVideoRemember; 
+            }
             set
             {
                 lastVideoRemember = value;
@@ -38,7 +45,14 @@ namespace MangGuoTv.ViewModels
         private ObservableCollection<DownVideoInfoViewMoel> rememberVideos;
         public ObservableCollection<DownVideoInfoViewMoel> RememberVideos
         {
-            get { return rememberVideos; }
+            get 
+            {
+                if (rememberVideos == null)
+                {
+                    rememberVideos = new ObservableCollection<DownVideoInfoViewMoel>();
+                }
+                return rememberVideos; 
+            }
             set
             {
                 rememberVideos = value;
@@ -56,11 +70,19 @@ namespace MangGuoTv.ViewModels
             {
                 LastVideoRemember = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(lastVideos);
             }
+            else
+            {
+                LastVideoRemember = null;
+            }
             //加载所有视频记录
             string allVideos = WpStorage.ReadIsolatedStorageFile(VideosRememberIso);
             if (!string.IsNullOrEmpty(allVideos))
             {
                 RememberVideos = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(allVideos);
+            }
+            else
+            {
+                RememberVideos = null;
             }
         }
         public void AddRememberVideo(VideoInfo videoInfo)
@@ -181,7 +203,14 @@ namespace MangGuoTv.ViewModels
                             break;
                         //打分
                         case "3":
-                             Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=56605010-6c29-4268-b7c2-2f97c2280579"));
+                            //try
+                            //{
+                            //    Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=56605010-6c29-4268-b7c2-2f97c2280579"));
+                            //}
+                            //catch
+                            //{
+
+                            //}
                             break;
                         //意见反馈
                         case "4":
@@ -207,9 +236,7 @@ namespace MangGuoTv.ViewModels
                         case "5":
                             //Windows.System.Launcher.LaunchUriAsync(new Uri("zune:navigate?appid=56605010-6c29-4268-b7c2-2f97c2280579"));
                             MarketplaceDetailTask marketplaceTask = new MarketplaceDetailTask();
-
                             marketplaceTask.ContentIdentifier = "56605010-6c29-4268-b7c2-2f97c2280579";
-
                             try
                             {
                                 marketplaceTask.Show();
@@ -236,9 +263,15 @@ namespace MangGuoTv.ViewModels
             {
                 return _cleanAllIsoCommand ?? (_cleanAllIsoCommand = new DelegateCommand(() =>
                 {
-                    WpStorage.DeleteDirectory(CommonData.IsoRootPath);
-                    IsolatedStorageSettings.ApplicationSettings.Clear();
-                    NeedDownedTip = false;
+                    if (MessageBox.Show("确定要清除所有数据？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        WpStorage.DeleteDirectory(CommonData.IsoRootPath);
+                        IsolatedStorageSettings.ApplicationSettings.Clear();
+                        NeedDownedTip = false;
+                        App.DownVideoModel.StopDownVideo();
+                        App.DownVideoModel.loadLocalVideoData();
+                        loadRememberVideoData();
+                    }
                 }));
             }
         }

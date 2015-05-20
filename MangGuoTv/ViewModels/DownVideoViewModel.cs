@@ -47,11 +47,19 @@ namespace MangGuoTv.ViewModels
             {
                 DowningVideo = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(loadingVideos);
             }
+            else
+            {
+                DowningVideo = null;
+            }
             //加载完成下载视频数据
             string loadedVideos = WpStorage.ReadIsolatedStorageFile(downedVideosIso);
             if (!string.IsNullOrEmpty(loadedVideos))
             {
                 DownedVideo = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(loadedVideos);
+            }
+            else
+            {
+                DownedVideo = null;
             }
 
             //加载正在下载视频的id列表
@@ -60,11 +68,19 @@ namespace MangGuoTv.ViewModels
                 string downingIds = WpStorage.GetIsoSetting(downingIdsIso).ToString();
                 downingVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downingIds);
             }
+            else
+            {
+                downingVideoids = null;
+            }
             //加载下载视频的id列表
             if (WpStorage.GetIsoSetting(downedIdsIso) != null)
             {
                 string downedIds = WpStorage.GetIsoSetting(downedIdsIso).ToString();
                 downedVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downedIds);
+            }
+            else
+            {
+                downedVideoids = null;
             }
         }
         public DownVideoInfoViewMoel currentDownVideo = null;
@@ -168,11 +184,6 @@ namespace MangGuoTv.ViewModels
 
         private void LoadedCompleted(object sender, OpenReadCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("完成");
-            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
-            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
-            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
-            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
             //sw.Stop();
            // siz = siz / 1024;
             //long num = siz / ((long)sw.Elapsed.Seconds);

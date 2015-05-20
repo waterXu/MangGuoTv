@@ -262,11 +262,13 @@ namespace MangGuoTv.Views
                 textCanvas.HorizontalAlignment = HorizontalAlignment.Left;
                 TextBlock textNmae = new TextBlock();
                 textNmae.Height = 60;
-                textNmae.FontSize = 25;
+                textNmae.FontSize = 20;
                 textNmae.TextWrapping = TextWrapping.Wrap;
                 textNmae.Text = template.name;
-                textCanvas.Children.Add(textNmae);
-                imageGrid.Children.Add(textCanvas);
+                textNmae.HorizontalAlignment = HorizontalAlignment.Left;
+                textNmae.VerticalAlignment = VerticalAlignment.Bottom;
+                //textCanvas.Children.Add(textNmae);
+                imageGrid.Children.Add(textNmae);
                 imagesPanel.Children.Add(imageGrid);
             }
             stackPanel.Children.Add(imagesGrid);
@@ -390,7 +392,7 @@ namespace MangGuoTv.Views
                     break;
                 case "webView":
                     WebBrowserTask task = new WebBrowserTask();
-                    task.Uri = new Uri(template.playUrl, UriKind.Absolute);
+                    task.Uri = new Uri(template.webUrl, UriKind.Absolute);
                     try
                     {
                         task.Show();
@@ -405,7 +407,7 @@ namespace MangGuoTv.Views
                     //CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
                    // break;
                 case "concertLivePlayer":
-                    App.ShowToast("抱歉，暂时不支持直播功能，正在开发中");
+                    App.ShowToast("抱歉，暂时不支持直播功能");
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine("该播放类型暂时未实现"+template.jumpType);

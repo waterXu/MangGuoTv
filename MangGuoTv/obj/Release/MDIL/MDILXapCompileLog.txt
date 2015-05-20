@@ -10,7 +10,6 @@ Calling CrossGen with arguments:
 Output:
 MDIL image C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Release\MDIL\Coding4Fun.Phone.Controls.dll generated successfully.
 
-
 File C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\MDIL\Coding4Fun.Phone.Controls.dll output C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Release\MDIL\Coding4Fun.Phone.Controls.dll
 Processing file: C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\MDIL\MangGuoTv.dll
 Calling CrossGen with arguments:

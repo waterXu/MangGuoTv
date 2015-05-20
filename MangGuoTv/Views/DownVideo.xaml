@@ -46,7 +46,7 @@
                                 <Image Source="{Binding Image}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
                                 <StackPanel VerticalAlignment="Center"  Grid.Column="1" Width="250" Margin="10,0,0,0">
                                     <TextBlock  Foreground="Gray" FontSize="20" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
-                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter}}" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" Margin="0,10"/>
+                                    <ProgressBar Name="downProgress" Value="{Binding LoadProgress}" Foreground="#FFEE7C28" Visibility="{Binding IsLoading,Converter={StaticResource visibleConverter}}" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" Margin="0,10"/>
                                     <Grid>
                                         <TextBlock FontSize="20" TextWrapping="Wrap" Text="{Binding LoadStatus}" HorizontalAlignment="Left" Foreground="Gray" ></TextBlock>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

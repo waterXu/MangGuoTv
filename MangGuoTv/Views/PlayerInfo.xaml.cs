@@ -82,6 +82,7 @@ namespace MangGuoTv
             //当用户按win键 或者长按返回键时  不清空 datacontext  否则从墓碑模式返回时会丢失当前数据
             if (e.Content != null)
             {
+                //如果不是返回下载页
                 if (!(e.Content is DownVideo))
                 {
                     leaveSilderValue = pbVideo.Value;
@@ -270,6 +271,16 @@ namespace MangGuoTv
             currentRelatedIndex = RelatedVideos.SelectedIndex;
             App.PlayerModel.NextVisibility = (RelatedVideos.Items.Count > currentRelatedIndex + 1) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             App.PlayerModel.PreviousVisibility = (currentRelatedIndex - 1 >= 0) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+        }
+
+        private void MoreCommentBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.PlayerModel.LoadedComment();
+        }
+
+        private void MoreVideoBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.PlayerModel.LoadedDramaItem();
         }
         #endregion
 
@@ -807,15 +818,6 @@ namespace MangGuoTv
         }
 
 
-        private void MoreCommentBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            App.PlayerModel.LoadedComment();
-        }
-
-        private void MoreVideoBorder_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            App.PlayerModel.LoadedDramaItem();
-        }
 
     }
 }

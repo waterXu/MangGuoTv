@@ -67,33 +67,6 @@ namespace MangGuoTv
              CallbackManager.currentPage = null;
         }
 
-        internal void DataContextLoaded(bool isSuccess)
-        {
-            //if (!isSuccess)
-            //{
-            //    string strFileContent = string.Empty;
-
-            //    using (Stream stream = Application.GetResourceStream(new Uri("channels.txt", UriKind.Relative)).Stream)
-            //    {
-            //        using (StreamReader reader = new StreamReader(stream))
-            //        {
-            //            strFileContent = reader.ReadToEnd();
-            //        }
-            //    }
-            //    AllChannelsData channels = JsonConvert.DeserializeObject<AllChannelsData>(strFileContent);
-            //    CommonData.LockedChannel = channels.lockedChannel;
-            //    CommonData.NormalChannel = channels.normalChannel;
-            //}
-            //for (int i = 0; i < CommonData.NormalChannel.Count / 2; i++)
-            //{
-            //    PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
-            //    MainPivot.Items.Add(pivot.pivotItem);
-            //}
-           // string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + CommonData.LockedChannel[0].channelId + "&type=" + CommonData.LockedChannel[0].type;
-           // HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
-           // System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
-        }
-
         private void AllChannels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChannelInfo info = AllChannels.SelectedItem as ChannelInfo;
@@ -147,7 +120,23 @@ namespace MangGuoTv
 
         private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.Terminate();
+            if (App.DownVideoModel.DowningVideoids != null && App.DownVideoModel.DowningVideoids.Count > 0)
+            {
+                if (MessageBox.Show("还有正在缓存的剧集，确定要退出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    Application.Current.Terminate();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+            else
+            {
+                Application.Current.Terminate();
+            }
+          
         }
 
     }

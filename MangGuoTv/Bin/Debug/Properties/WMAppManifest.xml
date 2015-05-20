@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
-  <App xmlns="" ProductID="{dc348f5c-13a0-44a9-a92b-c6ee36926280}" Title="MangGuoTv" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MangGuoTv author" Description="Sample description" Publisher="MangGuoTv" PublisherID="{251622b2-bf69-413c-8b0e-f328ba1d450e}">
+  <App xmlns="" ProductID="{dc348f5c-13a0-44a9-a92b-c6ee36926280}" Title="芒果TV" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MangGuoTv author" Description="Sample description" Publisher="MangGuoTv" PublisherID="{251622b2-bf69-413c-8b0e-f328ba1d450e}">
     <IconPath IsRelative="true" IsResource="false">icon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -9,6 +9,8 @@
       <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
       <Capability Name="ID_CAP_SENSORS" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
+      <Capability Name="ID_CAP_IDENTITY_USER" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="Views/StartPage.xaml" />
@@ -18,12 +20,12 @@
         <TemplateFlip>
           <SmallImageURI IsRelative="true" IsResource="false">logo1.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">logo2.png</BackgroundImageURI>
-          <Title>MangGuoTv</Title>
+          <BackgroundImageURI IsRelative="true" IsResource="false">logo1.png</BackgroundImageURI>
+          <Title>芒果TV</Title>
           <BackContent></BackContent>
           <BackBackgroundImageURI></BackBackgroundImageURI>
           <BackTitle></BackTitle>
-          <LargeBackgroundImageURI IsRelative="true" IsResource="false">logo3.png</LargeBackgroundImageURI>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">logo2.png</LargeBackgroundImageURI>
           <LargeBackContent />
           <LargeBackBackgroundImageURI IsRelative="true" IsResource="false"></LargeBackBackgroundImageURI>
           <DeviceLockImageURI></DeviceLockImageURI>

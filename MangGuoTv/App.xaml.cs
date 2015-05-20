@@ -366,7 +366,10 @@ namespace MangGuoTv
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                progressIndicator.IsVisible = false;
+                if (progressIndicator != null)
+                {
+                    progressIndicator.IsVisible = false;
+                }
             });
         }
         // 激活应用程序(置于前台)时执行的代码
