@@ -26,6 +26,7 @@ namespace MangGuoTv.Views
         public ChannelScrollView scrollView { set; get; }
         private StackPanel stackPanel { get; set; }
         private bool LoadedComplete = false;
+        private List<ChannelDetail> AllChannelData = new List<ChannelDetail>();
         public PivotItemControl( ChannelInfo channelInfo) 
         {
             channel = channelInfo;
@@ -43,12 +44,12 @@ namespace MangGuoTv.Views
         }
         private void PivotItem_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+#if DEBUG
             long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
             long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
             long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
             System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
-
-
+#endif
             if (LoadedComplete) return;
             App.ShowLoading();
             string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
@@ -73,7 +74,8 @@ namespace MangGuoTv.Views
                 {
                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                     {
-                        scrollView.LoadChannelDetail(channelDetails.data);
+                        AllChannelData = channelDetails.data;
+                        scrollView.LoadChannelDetail(AllChannelData);
                         scrollView.HideReload();
                         App.HideLoading();
                         LoadedComplete = true;
@@ -104,17 +106,5 @@ namespace MangGuoTv.Views
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
 
         }
-        //ProgressIndicator progressIndicator = null;
-        //private void ShowLoading() 
-        //{
-        //    if (progressIndicator == null) 
-        //    {
-        //        progressIndicator = new ProgressIndicator();
-        //    }
-        //    Microsoft.Phone.Shell.SystemTray.ProgressIndicator = progressIndicator;
-        //    //progressIndicator.Text = "                                   正在加载";
-        //    progressIndicator.IsIndeterminate = true;
-        //    progressIndicator.IsVisible = true;
-        //}
     }
 }

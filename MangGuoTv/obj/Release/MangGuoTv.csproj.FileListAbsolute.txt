@@ -34,3 +34,11 @@ C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Relea
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Release\MangGuoTv.dll
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Release\MangGuoTv.pdb
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Release\XapCacheFile.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\SV.ImageLoader.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Core.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Linq.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Interfaces.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\SV.ImageLoader.pdb
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Core.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Linq.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Reactive.Interfaces.xml

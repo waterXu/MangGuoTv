@@ -29,17 +29,17 @@ namespace MangGuoTv
            
             for (int i = 0; i < CommonData.LockedChannel.Count; i++)
             {
-                if (CommonData.LockedChannel[i].channelName == "精选" || CommonData.LockedChannel[i].channelName == "电视剧" || CommonData.LockedChannel[i].channelName == "综艺")
+                if (CommonData.LockedChannel[i].channelName == "精选" || CommonData.LockedChannel[i].channelName == "热榜")
                 {
                     PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
-                    pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
+                    pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
                     MainPivot.Items.Add(pivot.pivotItem);
                 }
            
             }
-            for (int i = 0; i < CommonData.NormalChannel.Count ; i++)
+            for (int i = 0; i < CommonData.NormalChannel.Count; i++)
             {
-                if (CommonData.NormalChannel[i].channelName == "精选" || CommonData.NormalChannel[i].channelName == "电视剧" || CommonData.NormalChannel[i].channelName == "综艺")
+                if (CommonData.NormalChannel[i].channelName == "精选" || CommonData.NormalChannel[i].channelName == "热榜" )
                 {
                     PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
                     pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
@@ -122,7 +122,7 @@ namespace MangGuoTv
         {
             if (App.DownVideoModel.DowningVideoids != null && App.DownVideoModel.DowningVideoids.Count > 0)
             {
-                if (MessageBox.Show("还有正在缓存的剧集，确定要退出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("还有正在下载的剧集，确定要推出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     Application.Current.Terminate();
                 }

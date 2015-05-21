@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\DownVideoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\VideoViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -255,6 +256,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VideoListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
@@ -351,6 +356,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SV.ImageLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\System.Net.Http.dll</HintPath>

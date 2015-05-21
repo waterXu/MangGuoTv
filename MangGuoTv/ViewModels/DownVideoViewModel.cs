@@ -269,7 +269,7 @@ namespace MangGuoTv.ViewModels
 
         public void AddDownVideo(VideoInfo videoInfo) 
         {
-            if (videoInfo.downloadUrl.Count == 0)
+            if (videoInfo.downloadUrl!=null && videoInfo.downloadUrl.Count == 0)
             {
                 App.ShowToast(videoInfo.name+" 没有可用下载链接");
                 return;

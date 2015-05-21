@@ -587,16 +587,21 @@ namespace MangGuoTv.ViewModels
                         {
                             JsonError(result);
                         }
-                        else if (videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
+                        else if (videosDetailResult != null && videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
+                                //todo
+                                App.HideLoading();
+                                LoadVisibility = Visibility.Collapsed;
+                                ErrMsg = "格式不支持";
+                                PayVisibility = Visibility.Visible;
                                 //info.downloadUrl = videosDetailResult.data.downloadUrl;
-                                info.downloadUrl = videosDetailResult.data.videoSources;
-                                PlayerM3U8Video(videosDetailResult.data.videoSources);
+                                //info.downloadUrl = videosDetailResult.data.videoSources;
+                                //PlayerM3U8Video(videosDetailResult.data.videoSources);
                             });
                         }
-                        else if (videosDetailResult != null && videosDetailResult.err_code != HttpHelper.rightCode)
+                        else 
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {

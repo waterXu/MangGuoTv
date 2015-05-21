@@ -33,6 +33,8 @@ namespace MangGuoTv.Views
         {
             base.OnNavigatedFrom(e);
             CallbackManager.currentPage = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {

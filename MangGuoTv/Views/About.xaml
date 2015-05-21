@@ -27,12 +27,13 @@
             <TextBlock Text="芒果TV是一款第三方的芒果TV的WP客户端，一切数据资源来自Android版本的解析，在网络良好的情况下若有大量资源获取失败请帮忙及时反馈，有可能是官方有大版本更新" FontSize="20" TextWrapping="Wrap"  Margin="30,10"></TextBlock>
             <TextBlock Text="PS:开发者是个软妹纸(开发软件的妹纸？)，评论请手下留情哦" FontSize="20" Foreground="Gray" TextWrapping="Wrap"  Margin="40,10"></TextBlock>
             <TextBlock Text="1.0.0.0版本" Margin="10,10,0,0"></TextBlock>
-            <TextBlock Text="该版本有很多细节上的优化没有做到位，还在继续努力中，推进速度要看业余的时间" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="该版本有很多细节上的优化没有做到位，还在继续努力中~" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="功能：" FontSize="20" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="1：离线缓存和离线观看功能" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="2：可观看大部分湖南卫视视频，部分视频需要会员和付费才能观看，抱歉的是这些功能该版本不支持，ps：会员和登录功能因为加密的关系不支持,如果遇到所有视频都播放不了，请重启手机" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="3：可观看在线直播视频" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="4：仅在WiFi下才会下载，不需要担心流量不小心消耗过大，如有2G/3G下载的需求，请在反馈中联系我，可以在设置中加上此开关" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="5：设置中的清除缓存功能能清除所有缓存数据" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
         </StackPanel>
     </Grid>
 </phone:PhoneApplicationPage>

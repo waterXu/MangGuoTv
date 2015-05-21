@@ -4,6 +4,10 @@
     <AssemblyPart x:Name="Coding4Fun.Phone.Controls" Source="Coding4Fun.Phone.Controls.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="Newtonsoft.Json" Source="Newtonsoft.Json.dll" />
+    <AssemblyPart x:Name="SV.ImageLoader" Source="SV.ImageLoader.dll" />
     <AssemblyPart x:Name="System.Net.Http" Source="System.Net.Http.dll" />
+    <AssemblyPart x:Name="System.Reactive.Core" Source="System.Reactive.Core.dll" />
+    <AssemblyPart x:Name="System.Reactive.Linq" Source="System.Reactive.Linq.dll" />
+    <AssemblyPart x:Name="System.Reactive.Interfaces" Source="System.Reactive.Interfaces.dll" />
   </Deployment.Parts>
 </Deployment>

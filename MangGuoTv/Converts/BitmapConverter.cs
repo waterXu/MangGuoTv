@@ -22,6 +22,8 @@ namespace MangGuoTv.Converts
             {
                 using (IsolatedStorageFileStream isoFileStream = new IsolatedStorageFileStream(LocalImage, FileMode.Open, FileAccess.ReadWrite, WpStorage.isoFile))
                 {
+                    videoImage.DecodePixelHeight = 100;
+                    videoImage.DecodePixelWidth = 180;
                     videoImage.SetSource(isoFileStream);
                 }
             }

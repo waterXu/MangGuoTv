@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows.Markup;
 using MangGuoTv.PopUp;
+using MangGuoTv.ViewModels;
 
 namespace MangGuoTv.Views
 {
@@ -52,6 +53,8 @@ namespace MangGuoTv.Views
             base.OnNavigatedFrom(e);
             CallbackManager.currentPage = null;
             stackPanel.Children.Remove(addTipGrid);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
@@ -83,10 +86,10 @@ namespace MangGuoTv.Views
                     {
                         App.HideLoading();
                         loadGrid.Visibility = Visibility.Collapsed;
-                        if (pageCount > 0) 
-                        {
-                            stackPanel.Children.Remove(addTipGrid);
-                        }
+                        //if (pageCount > 0) 
+                        //{
+                        //    stackPanel.Children.Remove(addTipGrid);
+                        //}
                         AddChannelView(channelDetails.data, 200, 2);
                         pageCount++;
                     });
@@ -111,7 +114,7 @@ namespace MangGuoTv.Views
             addTipGrid.Height = 80;
             addTipGrid.Width = 300;
             TextBlock addText = new TextBlock();
-            addText.Text = "点击加载更多";
+            addText.Text = "换一批";
             addText.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             addText.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             addTipGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(MoreChannelData_Tap);
@@ -156,6 +159,7 @@ namespace MangGuoTv.Views
         }
         private void AddChannelView(List<MoreChannel> list, double gridImageHeight, int lineCount)
         {
+            stackPanel.Children.Clear();
             Grid myGrid = new Grid();
             myGrid.Height = gridImageHeight * Math.Ceiling((double)list.Count / lineCount);
             myGrid.HorizontalAlignment = HorizontalAlignment.Center;
@@ -185,10 +189,21 @@ namespace MangGuoTv.Views
             }
             stackPanel.Children.Add(myGrid);
             stackPanel.Children.Add(addTipGrid);
+            scrollView.ScrollToVerticalOffset(0);
         }
         private string xaml = string.Empty;
         private Grid CreateImageView(double width, MoreChannel template, double height)
         {
+            VideoViewModel videoData = new VideoViewModel
+            {
+                width = (int)width,
+                hight = (int)height,
+                name = template.name,
+                videoId = template.videoId,
+                picUrl = template.image,
+                tag = template.tag,
+                playCount = template.playCount
+            };
             if (string.IsNullOrEmpty(xaml))
             {
                 using (Stream stream = Application.GetResourceStream(new Uri("/MangGuoTv;component/Views/MoreChannelImageView.xaml", UriKind.Relative)).Stream)
@@ -202,14 +217,14 @@ namespace MangGuoTv.Views
             Grid imageGrid = (Grid)XamlReader.Load(xaml);
             imageGrid.Width = width;
             imageGrid.Height = height;
-            imageGrid.DataContext = template;
+            imageGrid.DataContext = videoData;
             imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
             return imageGrid;
         }
 
         private void GridImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            MoreChannel template = (sender as Grid).DataContext as MoreChannel;
+            VideoViewModel template = (sender as Grid).DataContext as VideoViewModel;
             if (template == null) return;
             App.PlayerModel.VideoId = template.videoId;
             App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.VideoType;

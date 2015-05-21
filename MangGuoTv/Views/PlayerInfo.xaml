@@ -196,12 +196,12 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid  Margin="10">
-                                    <Ellipse Width="60" Height="60" Stroke="Gray"  StrokeThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <!--<Ellipse Width="60" Height="60" Stroke="Gray"  StrokeThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="{Binding commentAvatar}" Stretch="UniformToFill" />
                                         </Ellipse.Fill>
-                                    </Ellipse>
-                                    <StackPanel Margin="70,0,0,0">
+                                    </Ellipse>-->
+                                    <StackPanel>
                                         <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding commentBy}" TextWrapping="Wrap"></TextBlock>
                                         <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding comment}"></TextBlock>
                                     </StackPanel>
@@ -221,12 +221,12 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="花絮" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding AllRelateds}" SelectionChanged="Related_SelectionChanged" x:Name="RelatedVideos" CB:TiltEffect.IsTiltEnabled="true">
+                <ListBox HorizontalAlignment="Left" Margin="5,0" ItemsSource="{Binding AllRelateds}" SelectionChanged="Related_SelectionChanged" x:Name="RelatedVideos" CB:TiltEffect.IsTiltEnabled="true">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid  Margin="10">
-                                <Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>
-                                <StackPanel Margin="110,0,0,0">
+                                <!--<Image Source="{Binding image}" Width="100" Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="UniformToFill"/>-->
+                                <StackPanel Margin="20,0,0,0">
                                     <TextBlock Grid.Row="0" Foreground="Gray" FontSize="25" TextWrapping="Wrap" Text="{Binding name}"></TextBlock>
                                     <TextBlock Grid.Row="1" FontSize="20" TextWrapping="Wrap" Text="{Binding desc}"></TextBlock>
                                 </StackPanel>

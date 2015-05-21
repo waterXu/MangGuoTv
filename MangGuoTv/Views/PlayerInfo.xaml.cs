@@ -93,6 +93,8 @@ namespace MangGuoTv
             else
             {
                 needSetSliderValue = true;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
             myMediaElement.Tap -= myMediaElement_Tap;
             App.HideLoading();
@@ -371,7 +373,6 @@ namespace MangGuoTv
         }
         private void MediaBufferChannged(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("正在加载");
             App.ShowLoading();
             App.PlayerModel.LoadVisibility = Visibility.Visible;
         }

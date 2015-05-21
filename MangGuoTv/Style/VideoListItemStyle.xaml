@@ -128,8 +128,8 @@
                             <Border  x:Name="BorderStyle"  Background="#FFFB8713"  BorderThickness="0" Opacity="0">
                             </Border>
                             <Grid Margin="10,0,0,0">
-                                <Image Width="130" Height="100" Source="{Binding image}" HorizontalAlignment="Left"></Image>
-                                <StackPanel Margin="140,0,0,0">
+                                <!--<Image Width="130" Height="100" Source="{Binding image}" HorizontalAlignment="Left"></Image>-->
+                                <StackPanel >
                                     <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding name}" TextWrapping="Wrap"></TextBlock>
                                     <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding desc}"></TextBlock>
                                 </StackPanel>
@@ -183,8 +183,8 @@
                             <Grid Grid.Column="1">
                                 <Border x:Name="BorderStyle" BorderBrush="#FFFD8A10" BorderThickness="3" Opacity="0"/>
                                 <Grid  Margin="10,0,0,0">
-                                    <Image Width="130" Height="100" Source="{Binding image}" HorizontalAlignment="Left"></Image>
-                                    <StackPanel Margin="140,0,0,0">
+                                    <!--<Image Width="130" Height="100" Source="{Binding image}" HorizontalAlignment="Left"></Image>-->
+                                    <StackPanel>
                                         <TextBlock Grid.Row="0" Foreground="Gray" FontSize="17" Text="{Binding name}" TextWrapping="Wrap"></TextBlock>
                                         <TextBlock Grid.Row="1" FontSize="22" TextWrapping="Wrap" Text="{Binding desc}"></TextBlock>
                                     </StackPanel>
