@@ -612,6 +612,7 @@ namespace MangGuoTv
             myMediaElement.Height = PopupManager.screenWidth;
             myMediaElement.Width = PopupManager.screenHeight;
             SystemTray.IsVisible = false;
+            myMediaElement.Tap -= myMediaElement_Tap;
             myMediaElement.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(myMediaElement_Tap);
             this.SupportedOrientations = SupportedPageOrientation.Landscape;
         }

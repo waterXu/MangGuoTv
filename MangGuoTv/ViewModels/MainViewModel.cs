@@ -203,14 +203,14 @@ namespace MangGuoTv.ViewModels
                             break;
                         //打分
                         case "3":
-                            //try
-                            //{
-                            //    Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=56605010-6c29-4268-b7c2-2f97c2280579"));
-                            //}
-                            //catch
-                            //{
+                            try
+                            {
+                                Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=c700c407-1d91-4007-8474-b24271e25661"));
+                            }
+                            catch
+                            {
 
-                            //}
+                            }
                             break;
                         //意见反馈
                         case "4":

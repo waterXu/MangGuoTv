@@ -46,6 +46,10 @@ namespace MangGuoTv.ViewModels
             if (!string.IsNullOrEmpty(loadingVideos))
             {
                 DowningVideo = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(loadingVideos);
+                foreach (DownVideoInfoViewMoel video in DowningVideo)
+                {
+                    DowningVideoids.Add(video.VideoId);
+                }
             }
             else
             {
@@ -56,32 +60,36 @@ namespace MangGuoTv.ViewModels
             if (!string.IsNullOrEmpty(loadedVideos))
             {
                 DownedVideo = JsonConvert.DeserializeObject<ObservableCollection<DownVideoInfoViewMoel>>(loadedVideos);
+                foreach (DownVideoInfoViewMoel video in DownedVideo)
+                {
+                    DownedVideoids.Add(video.VideoId);
+                }
             }
             else
             {
                 DownedVideo = null;
             }
 
-            //加载正在下载视频的id列表
-            if (WpStorage.GetIsoSetting(downingIdsIso) != null)
-            {
-                string downingIds = WpStorage.GetIsoSetting(downingIdsIso).ToString();
-                downingVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downingIds);
-            }
-            else
-            {
-                downingVideoids = null;
-            }
-            //加载下载视频的id列表
-            if (WpStorage.GetIsoSetting(downedIdsIso) != null)
-            {
-                string downedIds = WpStorage.GetIsoSetting(downedIdsIso).ToString();
-                downedVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downedIds);
-            }
-            else
-            {
-                downedVideoids = null;
-            }
+            ////加载正在下载视频的id列表
+            //if (WpStorage.GetIsoSetting(downingIdsIso) != null)
+            //{
+            //    string downingIds = WpStorage.GetIsoSetting(downingIdsIso).ToString();
+            //    downingVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downingIds);
+            //}
+            //else
+            //{
+            //    downingVideoids = null;
+            //}
+            ////加载下载视频的id列表
+            //if (WpStorage.GetIsoSetting(downedIdsIso) != null)
+            //{
+            //    string downedIds = WpStorage.GetIsoSetting(downedIdsIso).ToString();
+            //    downedVideoids = JsonConvert.DeserializeObject<HashSet<string>>(downedIds);
+            //}
+            //else
+            //{
+            //    downedVideoids = null;
+            //}
         }
         public DownVideoInfoViewMoel currentDownVideo = null;
         public void BeginDownVideos()
@@ -211,10 +219,10 @@ namespace MangGuoTv.ViewModels
                     currentDownVideo.IsLoading = false;
                     currentDownVideo.IsLoaded = true;
                     currentDownVideo.LocalDownloadUrl = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
-                    DowningVideo.RemoveAt(0);
-                    DowningVideoids.Remove(currentDownVideo.VideoIndex);
                     DownedVideo.Add(currentDownVideo);
                     DownedVideoids.Add(currentDownVideo.VideoIndex);
+                    DowningVideo.RemoveAt(0);
+                    DowningVideoids.Remove(currentDownVideo.VideoIndex);
                     SaveVideoData();
                     if (App.MainViewModel.NeedDownedTip)
                     {
@@ -234,20 +242,20 @@ namespace MangGuoTv.ViewModels
         }
         public void SaveVideoData() 
         {
-            string downingVideoidData = null;
-            if (DowningVideoids != null && DowningVideoids.Count > 0)
-            {
-                //把hashset表反序列化为字符串 存入独立存储
-                downingVideoidData = JsonConvert.SerializeObject(DowningVideoids);
-            }
-            WpStorage.SetIsoSetting(downingIdsIso, downingVideoidData);
-            string downedVideoidData = null;
-            if (DownedVideoids != null && DownedVideoids.Count > 0)
-            {
-                //把hashset表反序列化为字符串 存入独立存储
-                downedVideoidData = JsonConvert.SerializeObject(DownedVideoids);
-            }
-            WpStorage.SetIsoSetting(downedIdsIso, downedVideoidData);
+            //string downingVideoidData = null;
+            //if (DowningVideoids != null && DowningVideoids.Count > 0)
+            //{
+            //    //把hashset表反序列化为字符串 存入独立存储
+            //    downingVideoidData = JsonConvert.SerializeObject(DowningVideoids);
+            //}
+            //WpStorage.SetIsoSetting(downingIdsIso, downingVideoidData);
+            //string downedVideoidData = null;
+            //if (DownedVideoids != null && DownedVideoids.Count > 0)
+            //{
+            //    //把hashset表反序列化为字符串 存入独立存储
+            //    downedVideoidData = JsonConvert.SerializeObject(DownedVideoids);
+            //}
+            //WpStorage.SetIsoSetting(downedIdsIso, downedVideoidData);
 
             string downingVideosData = null;
             if (DowningVideo != null &&　DowningVideo.Count > 0)

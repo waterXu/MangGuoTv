@@ -122,7 +122,7 @@ namespace MangGuoTv
         {
             if (App.DownVideoModel.DowningVideoids != null && App.DownVideoModel.DowningVideoids.Count > 0)
             {
-                if (MessageBox.Show("还有正在下载的剧集，确定要推出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("还有正在下载的剧集，确定要退出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     Application.Current.Terminate();
                 }

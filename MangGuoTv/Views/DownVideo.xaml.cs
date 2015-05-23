@@ -127,7 +127,7 @@ namespace MangGuoTv.Views
                         {
                             App.DownVideoModel.StopDownVideo();
                         }
-                        App.DownVideoModel.DowningVideo.Remove(Video);
+                        bool isdelete = App.DownVideoModel.DowningVideo.Remove(Video);
                         App.DownVideoModel.DowningVideoids.Remove(Video.VideoId);
                         if (Video.LocalImage != null)
                         {
