@@ -205,7 +205,9 @@ namespace MangGuoTv.ViewModels
                         case "3":
                             try
                             {
-                                Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=c700c407-1d91-4007-8474-b24271e25661"));
+                                Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=30c60bf9-e4c2-412e-8cc0-b53d15618f63"));
+
+                                //Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=c700c407-1d91-4007-8474-b24271e25661"));
                             }
                             catch
                             {

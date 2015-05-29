@@ -180,8 +180,8 @@ namespace MangGuoTv.ViewModels
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     currentDownVideo.LoadProgress = e.ProgressPercentage;
-                    currentDownVideo.Size = Convert.ToDouble((double)((e.TotalBytesToReceive) / (double)((double)1024 * (double)1024))).ToString("0.00") + "MB"; 
-                    currentDownVideo.Loadsize = Convert.ToDouble((double)((e.BytesReceived) / (double)((double)1024 * (double)1024))).ToString("0.00") + "MB"; 
+                    currentDownVideo.Size = Convert.ToDouble((double)((e.TotalBytesToReceive) / (double)((double)1024 * (double)1024))).ToString("0.0") + "MB"; 
+                    currentDownVideo.Loadsize = Convert.ToDouble((double)((e.BytesReceived) / (double)((double)1024 * (double)1024))).ToString("0.0") + "MB"; 
                 });
             }
           
@@ -220,9 +220,9 @@ namespace MangGuoTv.ViewModels
                     currentDownVideo.IsLoaded = true;
                     currentDownVideo.LocalDownloadUrl = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
                     DownedVideo.Add(currentDownVideo);
-                    DownedVideoids.Add(currentDownVideo.VideoIndex);
+                    DownedVideoids.Add(currentDownVideo.VideoId);
                     DowningVideo.RemoveAt(0);
-                    DowningVideoids.Remove(currentDownVideo.VideoIndex);
+                    DowningVideoids.Remove(currentDownVideo.VideoId);
                     SaveVideoData();
                     if (App.MainViewModel.NeedDownedTip)
                     {

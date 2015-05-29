@@ -17,15 +17,13 @@ using System.Windows.Threading;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Info;
 using MangGuoTv.ViewModels;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
 
 namespace MangGuoTv.Views
 {
-    public class ChannelScrollView :ViewModelBase
+    public class ChannelScrollView 
     {
         public ScrollViewer scrollView { set; get; }
-        private StackPanel stackPanel { get; set; }
+        public StackPanel stackPanel { get; set; }
         private ScrollViewer imageScroll { get; set; }
         private double scrollImageWidth = 250;
         public ChannelInfo channel { get; set; }
@@ -42,26 +40,18 @@ namespace MangGuoTv.Views
             CreateReload();
             stackPanel.Children.Add(loadGrid);
             scrollView.Content = stackPanel;
-            
         }
         public ScrollViewer LoadChannelDetail(List<ChannelDetail> channelDetails)
         {
-            int maxCount = 20;
-            if (channelDetails.Count < 20)
+            foreach (ChannelDetail channeldetail in channelDetails)
             {
-                maxCount = channelDetails.Count;
-            }
-            for (int i = 0; i < maxCount;i++ )
-            {
-                ChannelDetail channeldetail = channelDetails[i];
                 switch (channeldetail.type)
                 {
                     case "banner":
-                        //CreateBanner(channeldetail.templateData);
-                        CreateLandscapeImage(channeldetail.templateData);
+                        CreateBanner(channeldetail.templateData);
                         break;
                     case "normalAvatorText":
-                        CreateNorLandscapeImages(channeldetail.templateData, 180, 4);
+                        CreateNorLandscapeImages(channeldetail.templateData,180,4);
                         break;
                     case "largeLandScapeNodesc":
                     case "largeLandScape":
@@ -72,7 +62,7 @@ namespace MangGuoTv.Views
                     case "normalLandScape":
                     case "roundAvatorText":
                     case "tvPortrait":
-                        CreateNorLandscapeImages(channeldetail.templateData, 180, 2);
+                        CreateNorLandscapeImages(channeldetail.templateData,210,2);
                         break;
                     case "title":
                         CreateTitleView(channeldetail.templateData);
@@ -187,7 +177,7 @@ namespace MangGuoTv.Views
         {
             foreach (ChannelTemplate template in list)
             {
-                stackPanel.Children.Add(CreateImageView(PopupManager.screenWidth - 20, template, 220));
+                stackPanel.Children.Add(CreateImageView(PopupManager.screenWidth - 20, template, 250));
             }
         }
         private void CreateRankImages(List<ChannelTemplate> list)
@@ -201,52 +191,33 @@ namespace MangGuoTv.Views
         {
             foreach(ChannelTemplate template in list)
             {
-                VideoViewModel videoData = new VideoViewModel
-                {
-                    width = 150,
-                    hight = 130,
-                    name = template.name,
-                    jumpType = template.jumpType,
-                    subjectId = template.subjectId,
-                    picUrl = template.picUrl,
-                    playUrl = template.playUrl,
-                    tag = template.tag,
-                    desc = template.desc,
-                    videoId = template.videoId,
-                    hotDegree = template.hotDegree,
-                    webUrl = template.webUrl,
-                    rank = template.rank
-                };
                 Grid myGrid = new Grid();
                 myGrid.Height = 150;
                 myGrid.Margin = new Thickness(10,5,5,10);
                 Image liveImage = new Image();
-                liveImage.Source = new BitmapImage(new Uri(videoData.picUrl, UriKind.RelativeOrAbsolute));
+                liveImage.Source = new BitmapImage(new Uri(template.picUrl, UriKind.RelativeOrAbsolute));
                 liveImage.Height = 130;
                 liveImage.Width = 150;
                 liveImage.HorizontalAlignment = HorizontalAlignment.Left;
                 TextBlock text = new TextBlock();
                 text.Margin = new Thickness(liveImage.Width+10,0,0,0);
                 text.VerticalAlignment = VerticalAlignment.Center;
-                text.Text = videoData.name;
+                text.Text = template.name;
                 myGrid.Children.Add(liveImage);
                 myGrid.Children.Add(text);
-                myGrid.DataContext = videoData;
+                myGrid.DataContext = template;
                 myGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
                 stackPanel.Children.Add(myGrid);
             }
           
         }
-#if DEBUG
         private void CreateBanner(List<ChannelTemplate> list)
         {
             //timer = new DispatcherTimer();
             //timer.Interval = new TimeSpan(1000);
             totalScrollImages = list.Count;
-
-
             double imageWidth = PopupManager.screenWidth - 20;
-            double imageHieght = 200;
+            double imageHieght = 250;
             Grid imagesGrid = new Grid();
             imagesGrid.Margin = new Thickness(0,0,0,10);
             imagesGrid.Width = imageWidth;
@@ -273,47 +244,37 @@ namespace MangGuoTv.Views
            
             foreach (ChannelTemplate template in list) 
             {
-                VideoViewModel videoData = new VideoViewModel
-                {
-                    name = template.name,
-                    jumpType = template.jumpType,
-                    subjectId = template.subjectId,
-                    picUrl = template.picUrl,
-                    playUrl = template.playUrl,
-                    tag = template.tag,
-                    desc = template.desc,
-                    videoId = template.videoId,
-                    hotDegree = template.hotDegree,
-                    webUrl = template.webUrl,
-                    rank = template.rank
-                };
                 Grid imageGrid = new Grid();
                 imageGrid.Width = imageWidth;
                 imageGrid.Height = imageHieght;
                 Image image = new Image();
                 image.Width = imageWidth;
                 image.Height = imageHieght;
-                image.Source = new BitmapImage(new Uri(videoData.picUrl, UriKind.RelativeOrAbsolute));
+                BitmapImage imgSource = new BitmapImage(new Uri(template.picUrl, UriKind.RelativeOrAbsolute));
+                //imgSource.DecodePixelWidth = (int)(PopupManager.screenWidth - 20) / 2;
+                //imgSource.DecodePixelHeight = 250 / 2;
+                image.Source = imgSource;
                 image.Stretch = Stretch.UniformToFill;
-              
+                imageGrid.DataContext = template;
+                imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
                 imageGrid.Children.Add(image);
-                Border textCanvas = new Border();
-                textCanvas.Height = 40;
-                textCanvas.Background = new SolidColorBrush(Color.FromArgb(255, 106, 98, 33));
-                textCanvas.VerticalAlignment = VerticalAlignment.Bottom;
-                textCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+                Border textBorder = new Border();
+                textBorder.Height = 50;
+                textBorder.Background = new SolidColorBrush(Color.FromArgb(255, 106, 95, 87));
+                textBorder.Margin = new Thickness(0,0,0,10);
+                textBorder.Opacity = 0.7;
+                textBorder.VerticalAlignment = VerticalAlignment.Bottom;
+                textBorder.HorizontalAlignment = HorizontalAlignment.Left;
                 TextBlock textNmae = new TextBlock();
+                textNmae.Height = 60;
                 textNmae.FontSize = 20;
                 textNmae.TextWrapping = TextWrapping.Wrap;
-                textNmae.Text = videoData.name;
+                textNmae.Text = template.name;
                 textNmae.HorizontalAlignment = HorizontalAlignment.Left;
                 textNmae.VerticalAlignment = VerticalAlignment.Center;
-                textCanvas.Child = textNmae;
-                imageGrid.Children.Add(textCanvas);
+                textBorder.Child = textNmae;
+                imageGrid.Children.Add(textBorder);
                 imagesPanel.Children.Add(imageGrid);
-
-                imageGrid.DataContext = videoData;
-                imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
             }
             stackPanel.Children.Add(imagesGrid);
             //timer.Tick += new EventHandler(Timer_Tick);
@@ -359,64 +320,60 @@ namespace MangGuoTv.Views
         {
             timer.Stop();
         }
-#endif
         private string xaml = string.Empty;
         List<BitmapImage> allBitmap = new List<BitmapImage>();
         private Grid CreateImageView(double width, ChannelTemplate template, double height)
         {
-            VideoViewModel videoData = new VideoViewModel
+            Grid imgGrid = new Grid();
+            imgGrid.Width = width;
+            imgGrid.Height = height;
+            Grid imgContnt = new Grid();
+            imgContnt.Width = width;
+            imgContnt.Height = height - 50;
+            Image videoImage = new Image();
+            videoImage.Width = width;
+            videoImage.Height = height - 50;
+            BitmapImage videoImageSource = new BitmapImage(new Uri(template.picUrl, UriKind.RelativeOrAbsolute));
+            //videoImageSource.DecodePixelWidth = videoImageSource.PixelWidth / 2;
+            //videoImageSource.DecodePixelHeight = videoImageSource.PixelHeight / 2;
+            videoImage.Source = videoImageSource;
+            videoImage.VerticalAlignment = VerticalAlignment.Top;
+            videoImage.HorizontalAlignment = HorizontalAlignment.Center;
+            imgContnt.Children.Add(videoImage);
+            if (!string.IsNullOrEmpty(template.tag))
             {
-                width = (int)width,
-                hight = (int)height,
-                name = template.name,
-                jumpType = template.jumpType,
-                subjectId = template.subjectId,
-                picUrl = template.picUrl,
-                playUrl = template.playUrl,
-                tag = template.tag,
-                desc = template.desc,
-                videoId = template.videoId,
-                hotDegree = template.hotDegree,
-                webUrl = template.webUrl,
-                rank = template.rank
-            };
-            if (string.IsNullOrEmpty(xaml))
-            {
-                using (Stream stream = Application.GetResourceStream(new Uri("/MangGuoTv;component/Views/ImageView.xaml", UriKind.Relative)).Stream)
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        xaml = reader.ReadToEnd();
-                    }
-                }
+                Border tagBorder = new Border();
+                tagBorder.Background = new SolidColorBrush(Color.FromArgb(255, 106, 95, 87));
+                tagBorder.Opacity = 0.7;
+                tagBorder.VerticalAlignment = VerticalAlignment.Bottom;
+                tagBorder.HorizontalAlignment = HorizontalAlignment.Right;
+                tagBorder.Margin = new Thickness(0,0,10,30);
+                TextBlock tagText = new TextBlock();
+                tagText.Text = template.tag;
+                tagBorder.Child = tagText;
+                imgContnt.Children.Add(tagBorder);
             }
-
-            Grid imageGrid = (Grid)XamlReader.Load(xaml);
-            imageGrid.Width = width;
-            imageGrid.Height = height;
-            imageGrid.DataContext = videoData;
-            imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
-            return imageGrid;
+            imgGrid.Children.Add(imgContnt);
+            StackPanel descPanel = new StackPanel();
+            descPanel.VerticalAlignment = VerticalAlignment.Bottom;
+            TextBlock nameText = new TextBlock();
+            nameText.Text = template.name;
+            nameText.TextWrapping = TextWrapping.Wrap;
+            descPanel.Children.Add(nameText);
+            TextBlock descText = new TextBlock();
+            descText.Text = template.desc;
+            descText.FontSize = 15;
+            descText.Foreground = new SolidColorBrush(Color.FromArgb(255, 106, 95, 87));
+            descText.TextWrapping = TextWrapping.Wrap;
+            descPanel.Children.Add(descText);
+            imgGrid.Children.Add(descPanel);
+            imgGrid.DataContext = template;
+            imgGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
+            return imgGrid;
         }
         private string rankXaml = string.Empty;
         private Grid CreateRankImageView(double width, ChannelTemplate template, double height) 
         {
-            VideoViewModel videoData = new VideoViewModel
-            {
-                //width = (int)width,
-                //hight = (int)height,
-                name = template.name,
-                jumpType = template.jumpType,
-                subjectId = template.subjectId,
-                picUrl = template.picUrl,
-                playUrl = template.playUrl,
-                tag = template.tag,
-                desc = template.desc,
-                videoId = template.videoId,
-                hotDegree = template.hotDegree,
-                webUrl = template.webUrl,
-                rank = template.rank
-            };
             if (string.IsNullOrEmpty(rankXaml))
             {
                 using (Stream stream = Application.GetResourceStream(new Uri("/MangGuoTv;component/Views/RankImageView.xaml", UriKind.Relative)).Stream)
@@ -430,24 +387,27 @@ namespace MangGuoTv.Views
             Grid imageGrid = (Grid)XamlReader.Load(rankXaml);
             imageGrid.Width = width;
             imageGrid.Height = height;
-            imageGrid.DataContext = videoData;
+            imageGrid.DataContext = template;
             imageGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(GridImage_Tap);
             return imageGrid;
         }
         private void GridImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            VideoViewModel template = (sender as Grid).DataContext as VideoViewModel;
+            ChannelTemplate template = (sender as Grid).DataContext as ChannelTemplate;
             OperationImageTap(template);
         }
-        private void OperationImageTap(VideoViewModel template) 
+        //private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    ChannelTemplate template = (sender as Image).DataContext as ChannelTemplate;
+        //    OperationImageTap(template);
+
+        //}
+        private void OperationImageTap(ChannelTemplate template) 
         {
-#if DEBUG
             long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
             long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
             long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
             System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
-#endif
-            
             switch (template.jumpType)
             {
                 case "videoPlayer":
@@ -536,5 +496,22 @@ namespace MangGuoTv.Views
         {
             loadGrid.Visibility = Visibility.Collapsed;
         }
+        //async void EditImage()
+        //{
+        //    var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
+        //    var encoder = await Windows.Graphics.Imaging.BitmapEncoder.CreateForTranscodingAsync(memStream, decoder);
+
+        //    // Scaling occurs before flip/rotation.
+        //    encoder.BitmapTransform.ScaledWidth = 640;
+        //    encoder.BitmapTransform.ScaledHeight = 480;
+        //    encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
+
+        //    // Fant is a relatively high quality interpolation algorithm.
+        //    encoder.BitmapTransform.InterpolationMode = Windows.Graphics.Imaging.BitmapInterpolationMode.Fant;
+
+        //    // Attempt to generate a new thumbnail from the updated pixel data.
+        //    // Note: Only JPEG, TIFF and JPEG-XR images support encoding thumbnails.
+        //    encoder.IsThumbnailGenerated = true;
+        //}
     }
 }
