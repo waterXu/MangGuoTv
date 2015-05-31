@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using MangGuoTv.ViewModels;
 using MangGuoTv.PopUp;
 using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Info;
 
 namespace MangGuoTv.Views
 {
@@ -125,7 +126,7 @@ namespace MangGuoTv.Views
                     {
                         if (App.DownVideoModel.currentDownVideo != null && App.DownVideoModel.currentDownVideo.VideoId == Video.VideoId) 
                         {
-                            App.DownVideoModel.StopDownVideo();
+                            App.DownVideoModel.StopGetVideoData();
                         }
                         bool isdelete = App.DownVideoModel.DowningVideo.Remove(Video);
                         App.DownVideoModel.DowningVideoids.Remove(Video.VideoId);
@@ -135,6 +136,10 @@ namespace MangGuoTv.Views
                             {
                                 WpStorage.isoFile.DeleteFile(Video.LocalImage);
                             }
+                        }
+                        if (WpStorage.isoFile.FileExists(CommonData.videoSavePath + Video.VideoId.ToString() + ".mp4"))
+                        {
+                            WpStorage.isoFile.DeleteFile(CommonData.videoSavePath + Video.VideoId.ToString() + ".mp4");
                         }
                         App.DownVideoModel.SaveVideoData();
                     }
@@ -172,6 +177,12 @@ namespace MangGuoTv.Views
                         App.DownVideoModel.SaveVideoData();
                     }
                     LoadEditIcon();
+#if DEBUG
+                    long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+                    long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+                    long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+                    System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
+#endif
                 }
             }
           
@@ -183,7 +194,7 @@ namespace MangGuoTv.Views
             {
                 if (MessageBox.Show("确定要删除所有正在缓存的剧集吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    App.DownVideoModel.StopDownVideo();
+                    App.DownVideoModel.StopGetVideoData();
                     foreach (DownVideoInfoViewMoel Video in App.DownVideoModel.DowningVideo)
                     {
                         if (Video.LocalImage != null)
@@ -192,6 +203,10 @@ namespace MangGuoTv.Views
                             {
                                 WpStorage.isoFile.DeleteFile(Video.LocalImage);
                             }
+                        }
+                        if (WpStorage.isoFile.FileExists(CommonData.videoSavePath + Video.VideoId.ToString() + ".mp4"))
+                        {
+                            WpStorage.isoFile.DeleteFile(CommonData.videoSavePath + Video.VideoId.ToString() + ".mp4");
                         }
                     }
                     App.DownVideoModel.DowningVideo = null;
@@ -209,6 +224,12 @@ namespace MangGuoTv.Views
                     WpStorage.DeleteDirectory(CommonData.videoSavePath);
                     App.DownVideoModel.SaveVideoData();
                     LoadEditIcon();
+#if DEBUG
+                    long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+                    long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+                    long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+                    System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
+#endif
                 }
             }
           
@@ -284,6 +305,18 @@ namespace MangGuoTv.Views
         }
 
         #endregion
+
+        private void DefinitionListClick(object sender, RoutedEventArgs e)
+        {
+            DefinitionList.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void DefinitionTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TextBlock definitionText = sender as TextBlock;
+            App.DownVideoModel.CurrentDefinitionName = definitionText.Text;
+            DefinitionList.Visibility = System.Windows.Visibility.Collapsed;
+        }
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
-  <App xmlns="" ProductID="{dc348f5c-13a0-44a9-a92b-c6ee36926281}" Title="芒果TV" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MangGuoTv author" Description="Sample description" Publisher="MangGuoTv" PublisherID="{251622b2-bf69-413c-8b0e-f328ba1d450e}">
+  <App xmlns="" ProductID="{dc348f5c-13a0-44a9-a92b-c6ee36926281}" Title="芒果TV" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="MangGuoTv author" Description="Sample description" Publisher="MangGuoTv" PublisherID="{251622b2-bf69-413c-8b0e-f328ba1d450e}">
     <IconPath IsRelative="true" IsResource="false">icon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

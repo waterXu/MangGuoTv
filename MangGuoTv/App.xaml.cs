@@ -217,7 +217,7 @@ namespace MangGuoTv
 
                     if (NetName != "WiFi")
                     {
-                        App.DownVideoModel.StopDownVideo();
+                        App.DownVideoModel.StopGetVideoData();
                     }
                     else
                     {

@@ -270,7 +270,7 @@ namespace MangGuoTv.ViewModels
                         WpStorage.DeleteDirectory(CommonData.IsoRootPath);
                         IsolatedStorageSettings.ApplicationSettings.Clear();
                         NeedDownedTip = false;
-                        App.DownVideoModel.StopDownVideo();
+                        App.DownVideoModel.StopGetVideoData();
                         App.DownVideoModel.loadLocalVideoData();
                         loadRememberVideoData();
                     }

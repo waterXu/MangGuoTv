@@ -95,7 +95,7 @@ namespace MangGuoTv.ViewModels
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     BitmapImage bm = new BitmapImage();
-                    bm.DecodePixelHeight = hight*4/5;
+                    bm.DecodePixelHeight = hight*3/5;
                     bm.DecodePixelWidth = width * 4 / 5;
                     bm.SetSource(streamForUI);
                     // 把图片位图对象存放到若引用对象里面

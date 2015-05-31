@@ -15,6 +15,7 @@ using System.IO;
 using System.Windows.Markup;
 using MangGuoTv.PopUp;
 using MangGuoTv.ViewModels;
+using Microsoft.Phone.Info;
 
 namespace MangGuoTv.Views
 {
@@ -123,6 +124,12 @@ namespace MangGuoTv.Views
 
         private void MoreChannelData_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+#if DEBUG
+            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
+#endif
             ReloadData(null,null);
         }
         internal void CreateReload()

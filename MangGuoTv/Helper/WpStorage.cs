@@ -158,18 +158,43 @@ namespace MangGuoTv
                     strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
                     isoFile.CreateDirectory(strBaseDir);
                 }
-                using (var fileStream = isoFile.OpenFile
-                   (fileName, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    stream.Position = 0;
-                    stream.CopyTo(fileStream);//保存到本地 
-                    //fileStream.Close();
-                } 
+
+                //using (var fileStream = isoFile.OpenFile
+                //   (fileName, FileMode.OpenOrCreate, FileAccess.Write))
+                //{
+                //    stream.Position = 0;
+                //    stream.CopyTo(fileStream);//保存到本地 
+                //    fileStream.Close();
+                //} 
                 //using (BinaryWriter bw = new BinaryWriter(isoFile.CreateFile(fileName)))
                 //{
                 //    bw.Write(data);
                 //    bw.Close();
                 //}
+
+                //byte[] bytes = new byte[stream.Length];
+                //stream.Read(bytes, 0, bytes.Length);
+
+                //// 设置当前流的位置为流的开始 
+                //stream.Seek(0, SeekOrigin.Begin);
+                //SaveFilesToIsoStore(fileName,bytes);
+
+                IsolatedStorageFileStream isfsOutput = isoFile.OpenFile(fileName, System.IO.FileMode.Create);
+
+                if (isfsOutput != null)
+                {
+                    BinaryReader brInput = new BinaryReader(stream);
+                    BinaryWriter bwOutput = new BinaryWriter(isfsOutput);
+
+                    for (byte[] buffer = brInput.ReadBytes(1024); buffer.Length > 0; buffer = brInput.ReadBytes(1024))
+                    {
+                        bwOutput.Write(buffer);
+                    }
+
+                    bwOutput.Close();
+                    brInput.Close();
+                }
+                isfsOutput.Close();
             }
             catch (Exception ex)
             {

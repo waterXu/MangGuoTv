@@ -20,6 +20,7 @@ using System.Windows.Data;
 using System.IO.IsolatedStorage;
 using System.IO;
 using MangGuoTv.Views;
+using Microsoft.Phone.Info;
 
 namespace MangGuoTv
 {
@@ -247,6 +248,12 @@ namespace MangGuoTv
                     myMediaElement.Play();
                 }
             }
+#if DEBUG
+            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
+            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
+            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
+            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
+#endif
         }
         private void MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
