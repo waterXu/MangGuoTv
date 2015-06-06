@@ -384,7 +384,10 @@ namespace MangGuoTv.ViewModels
                 }
                 else
                 {
-                    //App.ShowToast("获取数据失败，请检查网络或重试");
+                    if (CommonData.NetworkStatus != "None") 
+                    {
+                        LoadedDramaItem();
+                    }
                 }
             });
         }

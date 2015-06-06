@@ -100,7 +100,10 @@ namespace MangGuoTv.Views
             {
                 //App.ShowToast("获取数据失败，请检查网络或重试");
                 App.HideLoading();
-                loadGrid.Visibility = Visibility.Visible;
+                this.Dispatcher.BeginInvoke(() =>
+                {
+                    loadGrid.Visibility = Visibility.Visible;
+                });
             }
         }
 

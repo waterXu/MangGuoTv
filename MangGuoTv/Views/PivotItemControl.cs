@@ -90,6 +90,7 @@ namespace MangGuoTv.Views
                 //}
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
+                    scrollView.loadGrid.Tap -= new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadData);
                     scrollView.loadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadData);
                     App.HideLoading();
                     scrollView.ShowReload();
@@ -101,6 +102,7 @@ namespace MangGuoTv.Views
         private void ReloadData(object sender, System.Windows.Input.GestureEventArgs e)
         {
             scrollView.HideReload();
+            App.ShowLoading();
             string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
             HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
             System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
