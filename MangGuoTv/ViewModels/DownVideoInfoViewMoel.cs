@@ -288,5 +288,29 @@ namespace MangGuoTv.ViewModels
                 NotifyPropertyChanged("Loadsize");
             }
         }
+        private double loadedsize = 0;
+        public double Loadedsize
+        {
+            get
+            {
+                return loadedsize;
+            }
+            set
+            {
+                loadedsize = value;
+            }
+        }
+        private long totalSize = 0;
+        public long TotalSize
+        {
+            get
+            {
+                return totalSize;
+            }
+            set
+            {
+                totalSize = value;
+            }
+        }
     }
 }

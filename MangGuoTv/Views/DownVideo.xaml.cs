@@ -142,6 +142,7 @@ namespace MangGuoTv.Views
                             WpStorage.isoFile.DeleteFile(CommonData.videoSavePath + Video.VideoId.ToString() + ".mp4");
                         }
                         App.DownVideoModel.SaveVideoData();
+                        App.DownVideoModel.BeginDownVideos();
                     }
                     LoadEditIcon();
                 }

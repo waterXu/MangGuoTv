@@ -124,6 +124,7 @@ namespace MangGuoTv
             {
                 if (MessageBox.Show("还有正在下载的剧集，确定要退出吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
+                    App.DownVideoModel.SaveVideoData();
                     Application.Current.Terminate();
                 }
                 else

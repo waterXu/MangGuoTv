@@ -23,9 +23,9 @@
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Grid.Row="1" Text="关于" FontSize="30" HorizontalAlignment="Center"/>
-        <StackPanel Grid.Row="2">
+        <ScrollViewer  Grid.Row="2">
+        <StackPanel>
             <TextBlock Text="芒果TV是一款第三方的芒果TV的WP客户端，一切数据资源来自Android版本的解析，在网络良好的情况下若有大量资源获取失败请帮忙及时反馈，有可能是官方有大版本更新" FontSize="20" TextWrapping="Wrap"  Margin="30,10"></TextBlock>
-            <TextBlock Text="PS:开发者是个软妹纸(开发软件的妹纸？)，评论请手下留情哦" FontSize="20" Foreground="Gray" TextWrapping="Wrap"  Margin="40,10"></TextBlock>
             <TextBlock Text="1.0.0.0版本" Margin="10,10,0,0"></TextBlock>
             <TextBlock Text="该版本有很多细节上的优化没有做到位，还在继续努力中~" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="功能：" FontSize="20" Margin="20,0,10,0"></TextBlock>
@@ -34,6 +34,17 @@
             <TextBlock Text="3：可观看在线直播视频" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="4：仅在WiFi下才会下载，不需要担心流量不小心消耗过大，如有2G/3G下载的需求，请在反馈中联系我，可以在设置中加上此开关" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
             <TextBlock Text="5：设置中的清除缓存功能能清除所有缓存数据" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
-        </StackPanel>
+            <TextBlock Text="1.0.0.1版本更新功能" Margin="10,10,0,0"></TextBlock>
+            <TextBlock Text=" 修复退出时正在下载提示错误~" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="1.1.0.0版本更新功能" Margin="10,10,0,0"></TextBlock>
+            <TextBlock Text="1.修复部分机型缓存完成时闪退bug" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="2.缓存说明增加缓存清晰度设置" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="1.2.0.0版本更新功能" Margin="10,10,0,0"></TextBlock>
+            <TextBlock Text="1.增加缓存断点续传功能，可以退出或者切换应用，不会丢失当前下载进度，再次进入应用会自动从当前进度下载" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="2.可以锁屏下载" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+             <TextBlock Text="3.优化部分剧集显示不准确，或者不显示的情况" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            <TextBlock Text="4.去掉磁贴应用名称的显示" FontSize="20" TextWrapping="Wrap" Foreground="Gray" Margin="20,0,10,0"></TextBlock>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </phone:PhoneApplicationPage>

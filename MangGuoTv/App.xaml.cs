@@ -120,7 +120,7 @@ namespace MangGuoTv
                 // 并且消耗电池电量。
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
+            PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
         }
 
         // 应用程序启动(例如，从“开始”菜单启动)时执行的代码
@@ -132,6 +132,7 @@ namespace MangGuoTv
             CommonData.informCallback = CallbackManager.CallBackTrigger;
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
             App.GetNetName();
+
         }
 
         private void NetworkChanged(object sender)
@@ -329,22 +330,25 @@ namespace MangGuoTv
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (st == null)
+                if (_popUp != null && _popUp.Child != null)
                 {
-                    st = new SlideTransition();
-                }
-                st.Mode = SlideTransitionMode.SlideRightFadeOut;
-                ITransition transition = st.GetTransition(_popUp.Child);
-                transition.Completed += delegate
-                {
-                    transition.Stop();
-                    if (_popUp != null)
+                    if (st == null)
                     {
-                        _popUp.Child = null;
-                        _popUp = null;
+                        st = new SlideTransition();
                     }
-                };
-                transition.Begin();
+                    st.Mode = SlideTransitionMode.SlideRightFadeOut;
+                    ITransition transition = st.GetTransition(_popUp.Child);
+                    transition.Completed += delegate
+                    {
+                        transition.Stop();
+                        if (_popUp != null)
+                        {
+                            _popUp.Child = null;
+                            _popUp = null;
+                        }
+                    };
+                    transition.Begin();
+                }
             });
         }
         private static ProgressIndicator progressIndicator = null;
@@ -385,12 +389,14 @@ namespace MangGuoTv
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
             App.DownVideoModel.isDownding = false;
+            App.DownVideoModel.SaveVideoData();
         }
 
         // 应用程序关闭(例如，用户点击“后退”)时执行的代码
         // 此代码在停用应用程序时不执行
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            App.DownVideoModel.SaveVideoData();
         }
 
         // 导航失败时执行的代码

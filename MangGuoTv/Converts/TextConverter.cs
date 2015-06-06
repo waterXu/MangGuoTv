@@ -15,11 +15,8 @@ namespace MangGuoTv.Converts
         {
             string retValue = value.ToString();
             //获取空格之后的字符
-            int index = retValue.IndexOf(" ");
-            if (index != -1) 
-            {
-               retValue = retValue.Substring(retValue.IndexOf(" "));
-            }
+            string[] videos = retValue.Split(' ');
+            retValue = videos.Last();
            
             return retValue;
         }

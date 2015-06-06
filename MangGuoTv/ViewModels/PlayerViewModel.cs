@@ -342,41 +342,44 @@ namespace MangGuoTv.ViewModels
                     }
                     else if (videosResult.err_code == HttpHelper.rightCode)
                     {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        if (CallbackManager.currentPage != null)
                         {
-                            if (DramaPageCount > 1)
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
-                                foreach (VideoInfo video in videosResult.data)
+                                if (DramaPageCount > 1)
                                 {
-                                    AllDramas.Add(video);
-                                }
-                                if (VideoStyleType == "1")
-                                {
-                                    App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
-                                }
-                                else if (VideoStyleType == "2")
-                                {
-                                    if (AllDramas.Count == 30 * DramaPageCount)
+                                    foreach (VideoInfo video in videosResult.data)
                                     {
-                                        App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                        AllDramas.Add(video);
                                     }
-                                    else
+                                    if (VideoStyleType == "1")
                                     {
                                         App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
                                     }
+                                    else if (VideoStyleType == "2")
+                                    {
+                                        if (AllDramas.Count == 30 * DramaPageCount)
+                                        {
+                                            App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                        }
+                                        else
+                                        {
+                                            App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                        }
+                                    }
+                                    dramaPageCount++;
                                 }
-                                dramaPageCount++;
-                            }
-                            else
-                            {
-                                AllDramas = videosResult.data;
-                                PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
-                                if (player != null)
+                                else
                                 {
-                                    player.LoadDramaSeletedItem(videoId);
+                                    AllDramas = videosResult.data;
+                                    PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+                                    if (player != null)
+                                    {
+                                        player.LoadDramaSeletedItem(videoId);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
                 else
@@ -423,26 +426,29 @@ namespace MangGuoTv.ViewModels
                     }
                     else if (commentResult.err_code == HttpHelper.rightCode && commentResult.data.Count > 0)
                     {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        if (CallbackManager.currentPage != null)
                         {
-                            if (CommentPageCount == 1)
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
-                                Comments = commentResult.data;
-                            }
-                            else if (CommentPageCount > 1)
-                            {
-                                Comments.AddRange(commentResult.data);
-                            }
-                            if (Comments.Count == 30 * CommentPageCount)
-                            {
-                                MoreCommentVisibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                MoreCommentVisibility = Visibility.Collapsed;
-                            }
-                            _commentPageCount++;
-                        });
+                                if (CommentPageCount == 1)
+                                {
+                                    Comments = commentResult.data;
+                                }
+                                else if (CommentPageCount > 1)
+                                {
+                                    Comments.AddRange(commentResult.data);
+                                }
+                                if (Comments.Count == 30 * CommentPageCount)
+                                {
+                                    MoreCommentVisibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    MoreCommentVisibility = Visibility.Collapsed;
+                                }
+                                _commentPageCount++;
+                            });
+                        }
                     }
                 }
                 else
@@ -476,28 +482,31 @@ namespace MangGuoTv.ViewModels
                     }
                     else if (videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
                     {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        if (CallbackManager.currentPage != null)
                         {
-                            VideoDetail = videosDetailResult.data.detail;
-                            VideoName = videosDetailResult.data.detail.name;
-                            VideoStyleType = videosDetailResult.data.detail.typeId;
-                            if (VideoStyleType == "1")
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
-                                App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
-                            }
-                            else if (VideoStyleType == "2")
-                            {
-                                if (AllDramas.Count == 30*DramaPageCount)
-                                {
-                                    App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
-                                }
-                                else
+                                VideoDetail = videosDetailResult.data.detail;
+                                VideoName = videosDetailResult.data.detail.name;
+                                VideoStyleType = videosDetailResult.data.detail.typeId;
+                                if (VideoStyleType == "1")
                                 {
                                     App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
                                 }
-                            }
-                            dramaPageCount++;
-                        });
+                                else if (VideoStyleType == "2")
+                                {
+                                    if (AllDramas.Count == 30 * DramaPageCount)
+                                    {
+                                        App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                    }
+                                }
+                                dramaPageCount++;
+                            });
+                        }
                     }
                 }
                 else
@@ -530,10 +539,13 @@ namespace MangGuoTv.ViewModels
                     }
                     else if (videosResult.err_code == HttpHelper.rightCode)
                     {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        if (CallbackManager.currentPage != null)
                         {
-                            AllRelateds = videosResult.data;
-                        });
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                AllRelateds = videosResult.data;
+                            });
+                        }
                     }
                 }
                 else
@@ -589,34 +601,46 @@ namespace MangGuoTv.ViewModels
                         }
                         else if (videosDetailResult != null && videosDetailResult.err_code == HttpHelper.rightCode && videosDetailResult.data != null && videosDetailResult.data.detail != null)
                         {
-                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            if (CallbackManager.currentPage != null)
                             {
-                                //todo
-                                App.HideLoading();
-                                LoadVisibility = Visibility.Collapsed;
-                                ErrMsg = "格式不支持";
-                                PayVisibility = Visibility.Visible;
-                                //info.downloadUrl = videosDetailResult.data.downloadUrl;
-                                //info.downloadUrl = videosDetailResult.data.videoSources;
-                                //PlayerM3U8Video(videosDetailResult.data.videoSources);
-                            });
+                                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                                {
+                                    //todo
+                                    App.HideLoading();
+                                    LoadVisibility = Visibility.Collapsed;
+                                    ErrMsg = "格式不支持";
+                                    PayVisibility = Visibility.Visible;
+                                    //info.downloadUrl = videosDetailResult.data.downloadUrl;
+                                    //info.downloadUrl = videosDetailResult.data.videoSources;
+                                    //PlayerM3U8Video(videosDetailResult.data.videoSources);
+                                });
+                            }
                         }
                         else 
+                        {
+                            if (CallbackManager.currentPage != null)
+                            {
+                                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                                {
+                                    App.HideLoading();
+                                    LoadVisibility = Visibility.Collapsed;
+                                    ErrMsg = videosDetailResult.err_msg;
+                                    PayVisibility = Visibility.Visible;
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (CallbackManager.currentPage != null)
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
                                 App.HideLoading();
                                 LoadVisibility = Visibility.Collapsed;
-                                ErrMsg = videosDetailResult.err_msg;
-                                PayVisibility = Visibility.Visible;
+                                // App.ShowToast("获取数据失败，请检查网络或重试");
                             });
                         }
-                    }
-                    else
-                    {
-                        App.HideLoading();
-                        LoadVisibility = Visibility.Collapsed;
-                        // App.ShowToast("获取数据失败，请检查网络或重试");
                     }
                 });
             }
@@ -649,14 +673,17 @@ namespace MangGuoTv.ViewModels
                     }
                     else if (videosResult.status == "ok" && videosResult.info != null)
                     {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        if (CallbackManager.currentPage != null)
                         {
-                            MediaSource = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
-                            App.MainViewModel.AddRememberVideo(info);
-                            CurrentDefinitionName = definition.name;
-                            // VideoDownloadUrl = info.downloadUrl;
-                            System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
-                        });
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                MediaSource = new Uri(videosResult.info, UriKind.RelativeOrAbsolute);
+                                App.MainViewModel.AddRememberVideo(info);
+                                CurrentDefinitionName = definition.name;
+                                // VideoDownloadUrl = info.downloadUrl;
+                                System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
+                            });
+                        }
                     }
                 }
                 //else
@@ -695,20 +722,29 @@ namespace MangGuoTv.ViewModels
             LoadedComment();
             LoadRrelatedVideo();
         }
-        private string videoStyleType;
+        private string videoStyleType = "2";
         public string VideoStyleType
         {
-            get { return videoStyleType; }
+            get 
+            {
+                return videoStyleType; 
+            }
             set
             {
                 videoStyleType = value;
                 if (videoStyleType == "1")
                 {
-                    VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle"] as Style;
+                    if (CallbackManager.currentPage != null)
+                    {
+                        VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle"] as Style;
+                    }
                 }
                 else if (videoStyleType == "2")
                 {
-                    VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle2"] as Style;
+                    if (CallbackManager.currentPage != null)
+                    {
+                        VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle2"] as Style;
+                    }
                 }
             }
         }
@@ -719,15 +755,24 @@ namespace MangGuoTv.ViewModels
             {
                 if (VideoStyleType == "1")
                 {
-                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                    if (CallbackManager.currentPage != null)
+                    {
+                        multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                    }
                 }
                 else if (VideoStyleType == "2")
                 {
-                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle3"] as Style;
+                    if (CallbackManager.currentPage != null)
+                    {
+                        multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle3"] as Style;
+                    }
                 }
                 else if (VideoStyleType == null)
                 {
-                    multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                    if (CallbackManager.currentPage != null)
+                    {
+                        multipleVideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle1"] as Style;
+                    }
                 }
                 return multipleVideoStyle;
             }
@@ -742,6 +787,24 @@ namespace MangGuoTv.ViewModels
         {
             get
             {
+                if (videoStyle == null)
+                {
+                    if (videoStyleType == "1")
+                    {
+                        if (CallbackManager.currentPage != null)
+                        {
+                            VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle"] as Style;
+                        }
+                    }
+                    else if (videoStyleType == "2")
+                    {
+                        if (CallbackManager.currentPage != null)
+                        {
+                            VideoStyle = CallbackManager.currentPage.Resources["VideoListItemStyle2"] as Style;
+                        }
+                    }
+                }
+               
                 return videoStyle;
             }
             set

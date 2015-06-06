@@ -1,5 +1,6 @@
 ﻿using MangGuoTv.Models;
 using Microsoft.Phone.Info;
+using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -74,8 +75,11 @@ namespace MangGuoTv.ViewModels
         public DownVideoInfoViewMoel currentDownVideo = null;
         public void BeginDownVideos()
         {
-            if (CommonData.NetworkStatus != "WiFi") return;
-            if (isDownding || DowningVideo.Count==0) return;
+            //PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+            if (CommonData.NetworkStatus != "WiFi" || isDownding || DowningVideo.Count == 0)
+            {
+                return;
+            }
             isDownding = true;
             currentDownVideo = DowningVideo[0];
             System.Diagnostics.Debug.WriteLine("视频地址：" + currentDownVideo.DownUrl);
@@ -127,23 +131,33 @@ namespace MangGuoTv.ViewModels
         {
             request = (HttpWebRequest)WebRequest.Create(new Uri(url));
             request.AllowReadStreamBuffering = false;
+            request.Method = "get";
+            request.Headers["Range"] = "bytes=" + ((int)currentDownVideo.Loadedsize).ToString() + "-";
+            WebHeaderCollection WebHeaderCollection = new WebHeaderCollection();
+            string[] headers = WebHeaderCollection.AllKeys;
+
             request.BeginGetResponse(new AsyncCallback(GetVideoData), request);
             string fileName = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
             Debug.WriteLine("文件路径："+fileName);
-            if (WpStorage.isoFile.FileExists(fileName))
+            if (!WpStorage.isoFile.FileExists(fileName))
             {
-                WpStorage.isoFile.DeleteFile(fileName);
+                string strBaseDir = string.Empty;
+                string delimStr = "\\";
+                char[] delimiter = delimStr.ToCharArray();
+                string[] dirsPath = fileName.Split(delimiter);
+                for (int i = 0; i < dirsPath.Length - 1; i++)
+                {
+                    strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
+                    WpStorage.isoFile.CreateDirectory(strBaseDir);
+                }
             }
-            string strBaseDir = string.Empty;
-            string delimStr = "\\";
-            char[] delimiter = delimStr.ToCharArray();
-            string[] dirsPath = fileName.Split(delimiter);
-            for (int i = 0; i < dirsPath.Length - 1; i++)
-            {
-                strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
-                WpStorage.isoFile.CreateDirectory(strBaseDir);
-            }
+           
             streamToWriteTo = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, WpStorage.isoFile);
+            if (currentDownVideo.Loadedsize > 0) 
+            {
+                streamToWriteTo.Seek((long)currentDownVideo.Loadedsize,SeekOrigin.Current);
+            }
+            //streamToWriteTo.Position = (long)currentDownVideo.Loadedsize;
         }
 
         public void StopGetVideoData() 
@@ -173,8 +187,18 @@ namespace MangGuoTv.ViewModels
                 WebResponse response = ((HttpWebRequest)result.AsyncState).EndGetResponse(result);
                 Stream stream = response.GetResponseStream();
                 long totalValue = response.ContentLength;
-                byte[] data = new byte[16 * 1024];
-                int read;
+                //以第一次记录的size为文件大小
+                if (currentDownVideo.TotalSize == 0)
+                {
+                    currentDownVideo.TotalSize = totalValue;
+                }
+                else 
+                {
+                    totalValue = currentDownVideo.TotalSize;
+                }
+                byte[] data = new byte[32 * 1024];
+                //stream.Position = (long)currentDownVideo.Loadedsize;
+                int read = 0;
                 while ((read = stream.Read(data, 0, data.Length)) > 0)
                 {
                     if (CommonData.NetworkStatus != "WiFi")
@@ -182,6 +206,7 @@ namespace MangGuoTv.ViewModels
                         StopGetVideoData();
                         break;
                     }
+                    //if (streamToWriteTo.Length != 0 && totalValue > streamToWriteTo.Length)
                     if (streamToWriteTo.Length != 0)
                     {
                         if (CallbackManager.currentPage != null)
@@ -195,21 +220,21 @@ namespace MangGuoTv.ViewModels
                                         currentDownVideo.LoadProgress = (double)streamToWriteTo.Length * 100 / (double)totalValue;
                                         currentDownVideo.Size = Convert.ToDouble((double)((totalValue) / (double)((double)1024 * (double)1024))).ToString("0.0") + "MB";
                                         currentDownVideo.Loadsize = Convert.ToDouble((double)((streamToWriteTo.Length) / (double)((double)1024 * (double)1024))).ToString("0.0") + "MB";
-
+                                        currentDownVideo.Loadedsize = streamToWriteTo.Length;
                                     }
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
-                                    System.Diagnostics.Debug.WriteLine("currentDownVideo异常："+ex.Message);
+                                    System.Diagnostics.Debug.WriteLine("currentDownVideo异常：" + ex.Message);
                                 }
-                               
+
                             });
                         }
                     }
                     streamToWriteTo.Write(data, 0, read);
                 }
                 //判断是否已经下载完成
-                if (totalValue == streamToWriteTo.Length)
+                if (totalValue <= streamToWriteTo.Length)
                 {
                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                     {
@@ -246,20 +271,21 @@ namespace MangGuoTv.ViewModels
                         isDownding = false;
                         //重新下载
                         BeginDownVideos();
-                        //if (request != null)
-                        //{
-                        //    request.AllowReadStreamBuffering = false;
-                        //    request.BeginGetResponse(new AsyncCallback(GetVideoData), request);
-                        //}
                     });
                 }
                 streamToWriteTo.Close();
-               
+
+            }
+            catch (System.Net.ProtocolViolationException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
             }
             catch (Exception e)
             {
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    streamToWriteTo.Close();
                     currentDownVideo.IsLoadError = true;
                     currentDownVideo.IsLoading = false;
                     isDownding = false;
