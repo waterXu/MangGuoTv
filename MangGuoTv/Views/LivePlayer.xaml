@@ -13,12 +13,23 @@
     mc:Ignorable="d"
     shell:SystemTray.Opacity="0"
     shell:SystemTray.ForegroundColor="White"
-    shell:SystemTray.IsVisible="True"
-    Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <MediaElement x:Name="livePlayer"></MediaElement>
+       
+        <MediaElement x:Name="mediaElement1" Tap="mediaElement1_Tap" Loaded="mediaElement1_Loaded" 
+DoubleTap="PlayerGrid_Tap"                       MediaFailed="mediaElement1_MediaFailed"
+                          MediaEnded="mediaElement1_MediaEnded"
+                          CurrentStateChanged="mediaElement1_CurrentStateChanged" BufferingProgressChanged="mediaElement1_BufferingProgressChanged"></MediaElement>
+        <Border Grid.Row="2" x:Name="bufferBor" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="Visible">
+            <TextBlock Text="正在缓冲,请稍等..." HorizontalAlignment="Center"></TextBlock>
+        </Border>
+        <Grid Tap="PlayerGrid_Tap" VerticalAlignment="Bottom" HorizontalAlignment="Left" x:Name="playControl">
+            <Border  BorderBrush="White" BorderThickness="3"  Height="70" Width="70" CornerRadius="70"  >
+                <Image Source="/Images/start.png" x:Name="PlayImg"></Image>
+            </Border>
+        </Grid>
     </Grid>
 
 </phone:PhoneApplicationPage>

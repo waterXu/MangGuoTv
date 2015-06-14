@@ -17,6 +17,7 @@ using System.Windows.Media;
 using MangGuoTv.ViewModels;
 using Newtonsoft.Json;
 using MangGuoTv.Models;
+using System.IO.IsolatedStorage;
 
 namespace MangGuoTv
 {
@@ -127,15 +128,19 @@ namespace MangGuoTv
         // 此代码在重新激活应用程序时不执行
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+
+        }
+
+        public static void BeginApp()
+        {
             HttpHelper.LoadChannelList();
             App.DownVideoModel.CheckLocalData();
             CommonData.informCallback = CallbackManager.CallBackTrigger;
             NetworkInformation.NetworkStatusChanged += new NetworkStatusChangedEventHandler(NetworkChanged);
             App.GetNetName();
-
         }
 
-        private void NetworkChanged(object sender)
+        private static void NetworkChanged(object sender)
         {
             GetNetName();
         }

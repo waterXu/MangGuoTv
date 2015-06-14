@@ -1,0 +1,47 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MangGuoTv.Views.RememberVideos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    xmlns:CB="clr-namespace:MangGuoTv"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <TextBlock Text="播放记录" Margin="0,5" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
+        <ListBox Grid.Row="1" Margin="5,0" x:Name="RememberVideoList" ItemsSource="{Binding RememberVideos}" SelectionChanged="RememberVideos_SelectionChanged"  >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="10" CB:TiltEffect.IsTiltEnabled="true">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding LocalImage,Converter={StaticResource BitmapImageConverter}}" Grid.Column="0"  Height="100" VerticalAlignment="Center"  Stretch="UniformToFill"/>
+                        <StackPanel VerticalAlignment="Center"  Grid.Column="1" Width="250" Margin="10,0,0,0">
+                            <TextBlock  Foreground="Gray" FontSize="20" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+                            <TextBlock Text="{Binding Desc}" TextWrapping="Wrap" Margin="0,10,0,0" Foreground="Gray" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

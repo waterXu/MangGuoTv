@@ -1,0 +1,83 @@
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\ApplicationIcon.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv.pdb
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\SV.ImageLoader.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Core.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Linq.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Interfaces.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\SV.ImageLoader.pdb
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Core.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Linq.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Interfaces.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\App.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Popup\DbLoginControl.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Popup\DbRegisterControl.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\About.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\BannerControl.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\DownVideo.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\LivePlayer.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\MoreChannelInfo.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\MoreSubject.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\MainPage.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\PlayerInfo.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\RememberVideos.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\Search.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\Setting.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Views\StartPage.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.g.resources
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.Resources.AppResources.resources
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csproj.GenerateResource.Cache
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.pdb
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\XapCacheFile.xml
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Popup\CommentControl.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\ApplicationIcon.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv.dll
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv.pdb
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\AppManifest.xaml
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Core.dll
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Linq.dll
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Interfaces.dll
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\SV.ImageLoader.pdb
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Core.xml
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Linq.xml
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\Bin\Debug\System.Reactive.Interfaces.xml
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\App.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Popup\CommentControl.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Popup\DbLoginControl.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Popup\DbRegisterControl.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\About.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\BannerControl.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\DownVideo.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\LivePlayer.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\MoreChannelInfo.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\MoreSubject.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\MainPage.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\PlayerInfo.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\RememberVideos.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\Search.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\Setting.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\Views\StartPage.g.cs
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.g.resources
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.Resources.AppResources.resources
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csproj.GenerateResource.Cache
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.pdb
+G:\windowsphone 8.1开发\esh\MangGuoTv\MangGuoTv\obj\Debug\XapCacheFile.xml

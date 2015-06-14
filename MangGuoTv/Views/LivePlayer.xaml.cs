@@ -9,15 +9,22 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Diagnostics;
 using System.Windows.Media;
+using SM.Media;
+using SM.Media.Utility;
+using SM.Media.Web;
 using System.Windows.Threading;
+using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace MangGuoTv.Views
 {
 
     public partial class LivePlayer : PhoneApplicationPage
     {
+        private string pauseImg = "/Images/pause.png";
+        private string playImg = "/Images/start.png";
+        private bool playImgStatus = false;
         public static string liveUrl { get; set; }
-
 #if STREAM_SWITCHING
         static readonly string[] Sources =
         {
@@ -32,33 +39,35 @@ namespace MangGuoTv.Views
         int _count;
 #endif
 
-        //static readonly TimeSpan StepSize = TimeSpan.FromMinutes(2);
-        //static readonly IApplicationInformation ApplicationInformation = ApplicationInformationFactory.Default;
-        //readonly IMediaElementManager _mediaElementManager;
-        //readonly DispatcherTimer _positionSampler;
-        //IMediaStreamFascade _mediaStreamFascade;
-        //TimeSpan _previousPosition;
-        //readonly IHttpClients _httpClients;
+        static readonly TimeSpan StepSize = TimeSpan.FromMinutes(2);
+        static readonly IApplicationInformation ApplicationInformation = ApplicationInformationFactory.Default;
+        readonly IMediaElementManager _mediaElementManager;
+        readonly DispatcherTimer _positionSampler;
+        IMediaStreamFascade _mediaStreamFascade;
+        TimeSpan _previousPosition;
+        readonly IHttpClients _httpClients;
+
+        // Constructor
         public LivePlayer()
         {
             InitializeComponent();
 
-            //_mediaElementManager = new MediaElementManager(Dispatcher,
-            //    () =>
-            //    {
-            //        UpdateState(MediaElementState.Opening);
+            _mediaElementManager = new MediaElementManager(Dispatcher,
+                () =>
+                {
+                    UpdateState(MediaElementState.Opening);
 
-            //        return livePlayer;
-            //    },
-            //    me => UpdateState(MediaElementState.Closed));
+                    return mediaElement1;
+                },
+                me => UpdateState(MediaElementState.Closed));
 
-            //_httpClients = new HttpClients(userAgent: ApplicationInformation.CreateUserAgent());
+            _httpClients = new HttpClients(userAgent: ApplicationInformation.CreateUserAgent());
 
-            //_positionSampler = new DispatcherTimer
-            //{
-            //    Interval = TimeSpan.FromMilliseconds(75)
-            //};
-            //_positionSampler.Tick += OnPositionSamplerOnTick;
+            _positionSampler = new DispatcherTimer
+                               {
+                                   Interval = TimeSpan.FromMilliseconds(75)
+                               };
+            _positionSampler.Tick += OnPositionSamplerOnTick;
 
 #if STREAM_SWITCHING
             _timer = new DispatcherTimer();
@@ -93,288 +102,235 @@ namespace MangGuoTv.Views
             _timer.Start();
 #endif // STREAM_SWITCHING
         }
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void mediaElement1_Loaded(object sender, RoutedEventArgs e)
         {
-            //InitializeMediaStream();
 
-            //_mediaStreamFascade.Source = new Uri(liveUrl);
+            InitializeMediaStream();
 
-            //livePlayer.Play();
+            _mediaStreamFascade.Source = new Uri(liveUrl);
 
-            //_positionSampler.Start();
+            mediaElement1.Play();
+            _positionSampler.Start();
+
         }
-        //void mediaElement1_CurrentStateChanged(object sender, RoutedEventArgs e)
-        //{
-        //    var state = null == livePlayer ? MediaElementState.Closed : livePlayer.CurrentState;
-
-        //    if (null != _mediaStreamFascade)
-        //    {
-        //        var managerState = _mediaStreamFascade.State;
-
-        //        if (MediaElementState.Closed == state)
-        //        {
-        //            if (TsMediaManager.MediaState.OpenMedia == managerState || TsMediaManager.MediaState.Opening == managerState || TsMediaManager.MediaState.Playing == managerState)
-        //                state = MediaElementState.Opening;
-        //        }
-        //    }
-
-        //    UpdateState(state);
-        //}
-
-        //void UpdateState(MediaElementState state)
-        //{
-        //    Debug.WriteLine("MediaElement State: " + state);
-
-        //    if (MediaElementState.Buffering == state && null != livePlayer)
-        //        //MediaStateBox.Text = string.Format("Buffering {0:F2}%", livePlayer.BufferingProgress * 100);
-        //    ////else
-        //       // MediaStateBox.Text = state.ToString();
-
-        //    switch (state)
-        //    {
-        //        case MediaElementState.Closed:
-        //           // playButton.IsEnabled = true;
-        //           // stopButton.IsEnabled = false;
-        //            break;
-        //        case MediaElementState.Paused:
-        //           // playButton.IsEnabled = true;
-        //           // stopButton.IsEnabled = true;
-        //           // errorBox.Visibility = Visibility.Collapsed;
-        //            break;
-        //        case MediaElementState.Playing:
-        //            //playButton.IsEnabled = false;
-        //            //stopButton.IsEnabled = true;
-        //            //errorBox.Visibility = Visibility.Collapsed;
-        //            break;
-        //        default:
-        //            //stopButton.IsEnabled = true;
-        //            //errorBox.Visibility = Visibility.Collapsed;
-        //            break;
-        //    }
-
-        //    OnPositionSamplerOnTick(null, null);
-        //}
-
-        //void OnPositionSamplerOnTick(object o, EventArgs ea)
-        //{
-        //    if (null == livePlayer || (MediaElementState.Playing != livePlayer.CurrentState && MediaElementState.Paused != livePlayer.CurrentState))
-        //    {
-        //        //PositionBox.Text = "--:--:--.--";
-
-        //        return;
-        //    }
-
-        //    var positionSample = livePlayer.Position;
-
-        //    if (positionSample == _previousPosition)
-        //        return;
-
-        //    _previousPosition = positionSample;
-
-        //    //PositionBox.Text = FormatTimeSpan(positionSample);
-        //}
-
-        //string FormatTimeSpan(TimeSpan timeSpan)
-        //{
-        //    var sb = new StringBuilder();
-
-        //    if (timeSpan < TimeSpan.Zero)
-        //    {
-        //        sb.Append('-');
-
-        //        timeSpan = -timeSpan;
-        //    }
-
-        //    if (timeSpan.Days > 1)
-        //        sb.AppendFormat(timeSpan.ToString(@"%d\."));
-
-        //    sb.Append(timeSpan.ToString(@"hh\:mm\:ss\.ff"));
-
-        //    return sb.ToString();
-        //}
-
-        //void play_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("Play clicked");
-
-        //    if (null == livePlayer)
-        //    {
-        //        Debug.WriteLine("MainPage Play no media element");
-        //        return;
-        //    }
-
-        //    if (MediaElementState.Paused == livePlayer.CurrentState)
-        //    {
-        //        livePlayer.Play();
-        //        return;
-        //    }
 
-        //    //errorBox.Visibility = Visibility.Collapsed;
-        //    //playButton.IsEnabled = false;
+        void mediaElement1_CurrentStateChanged(object sender, RoutedEventArgs e)
+        {
+            var state = null == mediaElement1 ? MediaElementState.Closed : mediaElement1.CurrentState;
 
-        //    InitializeMediaStream();
+            if (null != _mediaStreamFascade)
+            {
+                var managerState = _mediaStreamFascade.State;
 
-        //    _mediaStreamFascade.Source = new Uri(
-        //        //"http://www.nasa.gov/multimedia/nasatv/NTV-Public-IPS.m3u8"
-        //        //"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"
-        //        //"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
-        //        //"http://pchlsws4.imgo.tv/c811af7cf937bab31c387e51699d80de/55542891/c1/2015/dianshiju/liaozhaixinbianshouluban/201505136a637225-f2c8-49a2-919d-62f0e73a2233.fhv/playlist.m3u8"
-        //        "http://3glivehntv.doplive.com.cn/video4/index_128k.m3u8?date=20150518174518&uid=&rnd=2015051817451868760&client=imgo&key=846526a7c999a71acb95e28116d3ace2&cip=54.223.151.189&cck=390f2d1a809cdf7cf9f3c8e33fcf0223"
-        //        );
+                if (MediaElementState.Closed == state)
+                {
+                    if (TsMediaManager.MediaState.OpenMedia == managerState || TsMediaManager.MediaState.Opening == managerState || TsMediaManager.MediaState.Playing == managerState)
+                        state = MediaElementState.Opening;
+                }
+            }
 
-        //    livePlayer.Play();
+            UpdateState(state);
+        }
 
-        //    _positionSampler.Start();
-        //}
+        void UpdateState(MediaElementState state)
+        {
+            Debug.WriteLine("MediaElement State: " + state);
 
-        //void InitializeMediaStream()
-        //{
-        //    if (null != _mediaStreamFascade)
-        //        return;
+            //if (MediaElementState.Buffering == state && null != mediaElement1)
+                //MediaStateBox.Text = string.Format("Buffering {0:F2}%", mediaElement1.BufferingProgress * 100);
+            //else
+               // MediaStateBox.Text = state.ToString();
 
-        //    _mediaStreamFascade = MediaStreamFascadeSettings.Parameters.Create(_httpClients, _mediaElementManager.SetSourceAsync);
+            switch (state)
+            {
+                case MediaElementState.Closed:
+                    PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+                    break;
+                case MediaElementState.Paused:
+                    PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+                    break;
+                case MediaElementState.Playing:
+                    bufferBor.Visibility = System.Windows.Visibility.Collapsed;
+                    PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
+                    break;
+                default:
+                    break;
+            }
 
-        //    _mediaStreamFascade.SetParameter(_mediaElementManager);
+            OnPositionSamplerOnTick(null, null);
+        }
 
-        //    _mediaStreamFascade.StateChange += TsMediaManagerOnStateChange;
-        //}
+        void OnPositionSamplerOnTick(object o, EventArgs ea)
+        {
+            if (null == mediaElement1 || (MediaElementState.Playing != mediaElement1.CurrentState && MediaElementState.Paused != mediaElement1.CurrentState))
+            {
+                return;
+            }
 
-        //void StopMedia()
-        //{
-        //    _positionSampler.Stop();
+            var positionSample = mediaElement1.Position;
 
-        //    if (null != livePlayer)
-        //        livePlayer.Source = null;
-        //}
+            if (positionSample == _previousPosition)
+                return;
 
-        //void CloseMedia()
-        //{
-        //    StopMedia();
+            _previousPosition = positionSample;
+        }
 
-        //    if (null == _mediaStreamFascade)
-        //        return;
+        string FormatTimeSpan(TimeSpan timeSpan)
+        {
+            var sb = new StringBuilder();
 
-        //    var mediaStreamFascade = _mediaStreamFascade;
+            if (timeSpan < TimeSpan.Zero)
+            {
+                sb.Append('-');
 
-        //    _mediaStreamFascade = null;
+                timeSpan = -timeSpan;
+            }
 
-        //    mediaStreamFascade.StateChange -= TsMediaManagerOnStateChange;
+            if (timeSpan.Days > 1)
+                sb.AppendFormat(timeSpan.ToString(@"%d\."));
 
-        //    // Don't block the cleanup in case someone is mashing the play button.
-        //    // It could deadlock.
-        //    mediaStreamFascade.DisposeBackground("MainPage CloseMedia");
-        //}
+            sb.Append(timeSpan.ToString(@"hh\:mm\:ss\.ff"));
 
-        //void TsMediaManagerOnStateChange(object sender, TsMediaManagerStateEventArgs tsMediaManagerStateEventArgs)
-        //{
-        //    Dispatcher.BeginInvoke(() =>
-        //    {
-        //        var message = tsMediaManagerStateEventArgs.Message;
+            return sb.ToString();
+        }
 
-        //        if (!string.IsNullOrWhiteSpace(message))
-        //        {
-        //            //errorBox.Text = message;
-        //            //errorBox.Visibility = Visibility.Visible;
-        //        }
+      
 
-        //        mediaElement1_CurrentStateChanged(null, null);
-        //    });
-        //}
+        void InitializeMediaStream()
+        {
+            if (null != _mediaStreamFascade)
+                return;
 
-        //void mediaElement1_MediaFailed(object sender, ExceptionRoutedEventArgs e)
-        //{
-        //    //errorBox.Text = e.ErrorException.Message;
-        //    //errorBox.Visibility = Visibility.Visible;
+            _mediaStreamFascade = MediaStreamFascadeSettings.Parameters.Create(_httpClients, _mediaElementManager.SetSourceAsync);
 
-        //    CloseMedia();
+            _mediaStreamFascade.SetParameter(_mediaElementManager);
 
-        //    //playButton.IsEnabled = true;
-        //}
+            _mediaStreamFascade.StateChange += TsMediaManagerOnStateChange;
+        }
 
-        //void mediaElement1_MediaEnded(object sender, RoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("MainPage MediaEnded");
+        void StopMedia()
+        {
+            _positionSampler.Stop();
 
-        //    StopMedia();
-        //}
+            if (null != mediaElement1)
+                mediaElement1.Source = null;
+        }
 
-        //void stopButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("Stop clicked");
+        void CloseMedia()
+        {
+            StopMedia();
 
-        //    StopMedia();
-        //}
+            if (null == _mediaStreamFascade)
+                return;
 
-        //void wakeButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("Wake clicked");
+            var mediaStreamFascade = _mediaStreamFascade;
 
-        //    if (Debugger.IsAttached)
-        //        Debugger.Break();
+            _mediaStreamFascade = null;
 
-        //    mediaElement1_CurrentStateChanged(null, null);
-        //}
+            mediaStreamFascade.StateChange -= TsMediaManagerOnStateChange;
 
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedFrom(e);
+            // Don't block the cleanup in case someone is mashing the play button.
+            // It could deadlock.
+            mediaStreamFascade.DisposeBackground("MainPage CloseMedia");
+        }
 
-        //    CloseMedia();
+        void TsMediaManagerOnStateChange(object sender, TsMediaManagerStateEventArgs tsMediaManagerStateEventArgs)
+        {
+            Dispatcher.BeginInvoke(() =>
+                                   {
+                                       var message = tsMediaManagerStateEventArgs.Message;
 
-        //    if (null != _mediaElementManager)
-        //    {
-        //        _mediaElementManager.CloseAsync()
-        //                            .Wait();
-        //    }
-        //}
+                                       if (!string.IsNullOrWhiteSpace(message))
+                                       {
+                                           System.Diagnostics.Debug.WriteLine(message);
+                                       }
 
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
+                                       mediaElement1_CurrentStateChanged(null, null);
+                                   });
+        }
 
-        //    CloseMedia();
+        void mediaElement1_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Debug.WriteLine(" mediaElement1_MediaFailed");
 
-        //    if (null != _mediaElementManager)
-        //    {
-        //        _mediaElementManager.CloseAsync()
-        //                            .Wait();
-        //    }
-        //}
+            CloseMedia();
+        }
 
-        //void plusButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (null == livePlayer || livePlayer.CurrentState != MediaElementState.Playing)
-        //        return;
+        void mediaElement1_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(" MediaEnded");
 
-        //    var position = livePlayer.Position;
+            StopMedia();
+        }
 
-        //    livePlayer.Position = position + StepSize;
 
-        //    Debug.WriteLine("Step from {0} to {1} (CanSeek: {2} NaturalDuration: {3})", position, livePlayer.Position, livePlayer.CanSeek, livePlayer.NaturalDuration);
-        //}
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
 
-        //void minusButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (null == livePlayer || livePlayer.CurrentState != MediaElementState.Playing)
-        //        return;
+            CloseMedia();
 
-        //    var position = livePlayer.Position;
+            if (null != _mediaElementManager)
+            {
+                _mediaElementManager.CloseAsync()
+                                    .Wait();
+            }
+        }
 
-        //    if (position < StepSize)
-        //        position = TimeSpan.Zero;
-        //    else
-        //        position -= StepSize;
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
 
-        //    livePlayer.Position = position;
+            CloseMedia();
 
-        //    Debug.WriteLine("Step from {0} to {1} (CanSeek: {2} NaturalDuration: {3})", position, livePlayer.Position, livePlayer.CanSeek, livePlayer.NaturalDuration);
-        //}
+            if (null != _mediaElementManager)
+            {
+                _mediaElementManager.CloseAsync()
+                                    .Wait();
+            }
+        }
 
-        //void mediaElement1_BufferingProgressChanged(object sender, RoutedEventArgs e)
-        //{
-        //    mediaElement1_CurrentStateChanged(sender, e);
-        //}
+        void plusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (null == mediaElement1 || mediaElement1.CurrentState != MediaElementState.Playing)
+                return;
 
+            var position = mediaElement1.Position;
 
+            mediaElement1.Position = position + StepSize;
+
+            Debug.WriteLine("Step from {0} to {1} (CanSeek: {2} NaturalDuration: {3})", position, mediaElement1.Position, mediaElement1.CanSeek, mediaElement1.NaturalDuration);
+        }
+
+       
+
+        void mediaElement1_BufferingProgressChanged(object sender, RoutedEventArgs e)
+        {
+            bufferBor.Visibility = System.Windows.Visibility.Visible;
+            mediaElement1_CurrentStateChanged(sender, e);
+        }
+
+        private void PlayerGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            playImgStatus = !playImgStatus;
+            if (playImgStatus)
+            {
+                mediaElement1.Play();
+                PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
+
+            }
+            else
+            {
+                mediaElement1.Pause();
+                PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+            }
+        }
+
+        private void mediaElement1_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            playControl.Visibility = (playControl.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+       
     }
 }

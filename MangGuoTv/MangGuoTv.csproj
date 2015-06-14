@@ -111,6 +111,9 @@
     <Compile Include="Models\ResourceInfo.cs" />
     <Compile Include="Models\VideoDetail.cs" />
     <Compile Include="Models\VideoInfo.cs" />
+    <Compile Include="Popup\CommentControl.xaml.cs">
+      <DependentUpon>CommentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Popup\DbLoginControl.xaml.cs" />
     <Compile Include="Popup\DbRegisterControl.xaml.cs" />
     <Compile Include="Popup\PopupManager.cs" />
@@ -124,7 +127,7 @@
     <Compile Include="Views\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BannerControl.xaml.cs">
+    <Compile Include="Popup\BannerControl.xaml.cs">
       <DependentUpon>BannerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeButton.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="Views\LivePlayer.xaml.cs">
       <DependentUpon>LivePlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MediaElementManager.cs" />
     <Compile Include="Views\MGLongListSelector.cs" />
     <Compile Include="Views\MoreChannelInfo.xaml.cs">
       <DependentUpon>MoreChannelInfo.xaml</DependentUpon>
@@ -176,6 +180,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Popup\CommentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Popup\DbLoginControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -200,7 +208,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BannerControl.xaml">
+    <Page Include="Popup\BannerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -285,7 +293,6 @@
     </Content>
     <Content Include="channels.txt" />
     <Content Include="icon.png" />
-    <Content Include="ic_launcher.png" />
     <Content Include="Images\about.png" />
     <Content Include="Images\ad.png" />
     <Content Include="Images\add.png" />
@@ -340,6 +347,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Coding4Fun.Phone.Controls, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\Coding4Fun.Phone.Controls.dll</HintPath>
@@ -352,10 +363,32 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SM.Media, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\SM.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="SM.Media.Builder, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\SM.Media.Builder.dll</HintPath>
+    </Reference>
+    <Reference Include="SM.Media.Platform.WP8, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Release\SM.Media.Platform.WP8.dll</HintPath>
+    </Reference>
+    <Reference Include="SM.TsParser, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a8a96d0f02112ebc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\SM.TsParser.dll</HintPath>
+    </Reference>
     <Reference Include="SV.ImageLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Debug\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>Bin\Debug\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>Bin\Debug\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />
