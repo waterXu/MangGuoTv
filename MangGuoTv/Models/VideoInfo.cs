@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace MangGuoTv.Models
 {
+    public class LiveInfo
+    {
+        public string m3u8 { get; set; }
+    }
     public class JsonError 
     {
         public string err_code { get; set; }

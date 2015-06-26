@@ -19,6 +19,8 @@ using MangGuoTv.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using MangGuoTv.Popups;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace MangGuoTv.Views
 {
@@ -486,8 +488,38 @@ namespace MangGuoTv.Views
                     CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
                     break;
                 case "concertLivePlayer":
-                     LivePlayer.liveUrl = template.playUrl;
-                    CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
+                   // LivePlayer.liveUrl = CommonData.LivePlaerUrl + "&videoId=" + template.videoId;
+                    LivePlayer.liveUrl = "http://live.api.hunantv.com/mobile/getLiveStreaming?videoId=" + template.videoId;
+                    HttpHelper.httpGet(LivePlayer.liveUrl, (ar) =>
+                    {
+                        string result = HttpHelper.SyncResultTostring(ar);
+                        if (result != null)
+                        {
+                            LiveInfo videosResult = null;
+                            try
+                            {
+                                videosResult = JsonConvert.DeserializeObject<LiveInfo>(result);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                                App.JsonError(result);
+                            }
+                            if (videosResult != null && videosResult.m3u8 != null)
+                            {
+                                LivePlayer.liveUrl = videosResult.m3u8;
+                                if (!string.IsNullOrEmpty(LivePlayer.liveUrl)) {
+                                    CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                                    {
+                                        CallbackManager.currentPage.NavigationService.Navigate(new Uri(CommonData.LivePlayerPage, UriKind.Relative));
+                                    });
+                              
+                                }
+                               
+                            }
+                        }
+                    });
+                  
                     //App.ShowToast("抱歉，暂时不支持直播功能");
                     break;
                 default:

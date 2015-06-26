@@ -67,6 +67,10 @@ namespace MangGuoTv
         /// </summary>
         public static string SearchUrl { get { return MangGuoHost + "search/autocomplete?" + CommonUrl; } }
         /// <summary>
+        /// 直播地址
+        /// </summary>
+        public static string LivePlaerUrl { get { return MangGuoHost + "live/getById" + CommonUrl; } }
+        /// <summary>
         /// 专题页面
         /// </summary>
         public static string SpecialPageName { get { return "/Views/MoreSubject.xaml"; } }

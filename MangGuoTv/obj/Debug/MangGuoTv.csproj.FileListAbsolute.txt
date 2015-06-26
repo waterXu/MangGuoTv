@@ -112,3 +112,4 @@ C:\Users\崇\Desktop\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll
 C:\Users\崇\Desktop\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.pdb
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\Bin\Debug\SM.Media.Platform.WP8.dll
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\Popup\BannerControl.g.cs
+C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache
