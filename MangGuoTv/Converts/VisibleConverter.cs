@@ -19,10 +19,21 @@ namespace MangGuoTv.Converts
             }
             else 
             {
-                //是否显示tag
                 string val = value.ToString();
-                return string.IsNullOrEmpty(val) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+                if (parameter != null) 
+                {
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        return val == "subjectPage" ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    }
+                }
+                else 
+                {
+                    return string.IsNullOrEmpty(val) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+                }
+             
             }
+            return System.Windows.Visibility.Collapsed;
            
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)

@@ -117,7 +117,8 @@
     <Compile Include="Popup\DbLoginControl.xaml.cs" />
     <Compile Include="Popup\DbRegisterControl.xaml.cs" />
     <Compile Include="Popup\PopupManager.cs" />
-    <Compile Include="Style\TiltEffect.cs" />
+    <Compile Include="Styles\TiltEffect.cs" />
+    <Compile Include="ViewModels\ChannelVideoTemplateSelector.cs" />
     <Compile Include="ViewModels\DownVideoInfoViewMoel.cs" />
     <Compile Include="ViewModels\DownVideoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -192,15 +193,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Style\ButtonStyle.xaml">
+    <Page Include="Styles\ButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Style\ListboxItemStyle.xaml">
+    <Page Include="Styles\ChannelTemplateStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListboxItemStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Style\VideoListItemStyle.xaml">
+    <Page Include="Styles\VideoListItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

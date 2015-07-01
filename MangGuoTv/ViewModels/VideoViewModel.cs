@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MangGuoTv.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,30 +17,40 @@ namespace MangGuoTv.ViewModels
         public int width { get; set; }
         public int hight { get; set; }
         public string name { get; set; }
+        public string name1 { get; set; }
+        public string type { get; set; }
         /// <summary>
         /// 跳转类型
         /// </summary>
         public string jumpType { get; set; }
+        public string jumpType1 { get; set; }
         /// <summary>
         /// 
         /// </summary>
         public string subjectId { get; set; }
+        public string subjectId1 { get; set; }
         /// <summary>
         /// 图片地址
         /// </summary>
         public string picUrl { get; set; }
+        public string picUrl1 { get; set; }
         /// <summary>
         /// 播放地址
         /// </summary>
         public string playUrl { get; set; }
+        public string playUrl1 { get; set; }
         public string tag { get; set; }
+        public string tag1 { get; set; }
+        public string desc1 { get; set; }
         public string desc { get; set; }
         /// <summary>
         /// 视频id
         /// </summary>
         public string videoId { get; set; }
+        public string videoId1 { get; set; }
         public string hotDegree { get; set; }
         public string webUrl { get; set; }
+        public string webUrl1 { get; set; }
         public string rank { get; set; }
         public string playCount { get; set; }
         // 若引用对象，用于存储下载好的图片对象

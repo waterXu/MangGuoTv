@@ -21,7 +21,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MangGuoTv;component/Style/VideoListItemStyle.xaml"/>
+                <ResourceDictionary Source="/MangGuoTv;component/Styles/VideoListItemStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

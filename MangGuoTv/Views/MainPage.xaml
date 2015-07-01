@@ -8,9 +8,10 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:tool="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:tool="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     xmlns:CB="clr-namespace:MangGuoTv"
+    xmlns:local="clr-namespace:MangGuoTv.ViewModels"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -21,7 +22,13 @@
     Loaded="PhoneApplicationPage_Loaded"
     BackKeyPress="PhoneApplicationPage_BackKeyPress"
     >
-
+    <phone:PhoneApplicationPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MangGuoTv;component/Styles/ChannelTemplateStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -29,7 +36,206 @@
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
-        <phone:Pivot x:Name="MainPivot" Grid.Row="1">
+        <phone:Pivot x:Name="MainPivot" Grid.Row="1" SelectionChanged="MainPivot_SelectionChanged">
+            <phone:PivotItem Margin="0,10,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="精选" Width="80"  FontSize="35"></TextBlock>
+                </phone:PivotItem.Header>
+                <Grid>
+                    <Grid Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Tap="ReloadSiftDataTap" x:Name="siftLoadGrid" Visibility="Collapsed">
+                        <Image Source="/Images/reload.png"></Image>
+                        <TextBlock Text="获取数据失败，点击重试" FontSize="25" VerticalAlignment="Center"/>
+                    </Grid>
+               
+                <phone:LongListSelector x:Name="SiftLLs" Loaded="SiftLLs_Loaded"  SelectionChanged="SiftLLs_SelectionChanged" >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <local:ChannelVideoTemplateSelector  Content="{Binding}">
+                                <local:ChannelVideoTemplateSelector.TitleTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="5" Width="400">
+                                            <Rectangle Width="10" Height="40" HorizontalAlignment="Left">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="#FFEA750B"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <TextBlock Margin="0,20,0,0" VerticalAlignment="Center" Text="{Binding name}"/>
+                                                <TextBlock Text="更多>>" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="{Binding jumpType, Converter={StaticResource visibleConverter},ConverterParameter=more}" Foreground="#FFF76214"/>
+                                        </Grid>
+                                    </DataTemplate>
+
+                                </local:ChannelVideoTemplateSelector.TitleTemplate>
+                                <local:ChannelVideoTemplateSelector.BannerImage>
+                                    <DataTemplate>
+                                        <Grid Margin="5" Height="200">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.BannerImage>
+                                <local:ChannelVideoTemplateSelector.LandscapeImage>
+                                    <DataTemplate>
+                                        <Grid Margin="5" Height="200">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.LandscapeImage>
+                                <local:ChannelVideoTemplateSelector.NorLandscapeImage>
+                                    <DataTemplate>
+                                        <Grid Height="230">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Margin="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="3*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                                <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                    <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Margin="5" Tap="NorVideoTap">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="3*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Source="{Binding picUrl1}" Stretch="UniformToFill"/>
+                                                <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag1, Converter={StaticResource visibleConverter}}">
+                                                    <TextBlock  Text="{Binding tag1}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding name1}" Grid.Row="1" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding desc1}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.NorLandscapeImage>
+                                <local:ChannelVideoTemplateSelector.LiveImage>
+                                    <DataTemplate>
+                                        <Grid Margin="5" Height="200" Width="210">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.LiveImage>
+                                <local:ChannelVideoTemplateSelector.RankTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" Source="{Binding picUrl}" Stretch="UniformToFill" ></Image>
+                                            <Border Background="Black" Opacity="0.8" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5">
+                                                <TextBlock Text="{Binding tag}"  FontSize="20"  TextWrapping="Wrap" Margin="2"></TextBlock>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                                <TextBlock Text="{Binding rank}" Foreground="#FFF66E2B" FontSize="25" TextWrapping="Wrap" ></TextBlock>
+                                                <TextBlock Text="{Binding name}" TextWrapping="Wrap" FontSize="25" ></TextBlock>
+                                                <TextBlock Text="{Binding desc}" FontSize="20"  TextWrapping="Wrap"></TextBlock>
+                                                <TextBlock Text="{Binding hotDegree}" FontSize="15"  Foreground="Gray" TextWrapping="Wrap"></TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.RankTemplate>
+                                <local:ChannelVideoTemplateSelector.AvatorImage>
+                                    <DataTemplate>
+                                        <Grid Margin="5" Height="90" Width="90">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </local:ChannelVideoTemplateSelector.AvatorImage>
+                            </local:ChannelVideoTemplateSelector>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                    
+                </phone:LongListSelector>
+                </Grid>
+                <!--<ListBox x:Name="SiftLLs" SelectionChanged="SiftLLs_SelectionChanged" Loaded="SiftLLs_Loaded" HorizontalAlignment="Center" ItemTemplate="{StaticResource ChannelItemTP}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>-->
+            </phone:PivotItem>
+            <phone:PivotItem Margin="0,10,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="热榜" Width="80"  FontSize="35"></TextBlock>
+                </phone:PivotItem.Header>
+                <Grid>
+                    <Grid Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Tap="ReloadRankDataTap" x:Name="RankLoadGrid" Visibility="Collapsed">
+                        <Image Source="/Images/reload.png"></Image>
+                        <TextBlock Text="获取数据失败，点击重试" FontSize="25" VerticalAlignment="Center"/>
+                    </Grid>
+                    <phone:LongListSelector x:Name="RankListBox" Loaded="RankListBox_Loaded" SelectionChanged="RankListBox_SelectionChanged">
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding picUrl}" Stretch="UniformToFill" ></Image>
+                                    <Border Background="Black" Opacity="0.8" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5">
+                                        <TextBlock Text="{Binding tag}"  FontSize="20"  TextWrapping="Wrap" Margin="2"></TextBlock>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                        <TextBlock Text="{Binding rank}" Foreground="#FFF66E2B" FontSize="25" TextWrapping="Wrap" ></TextBlock>
+                                        <TextBlock Text="{Binding name}" TextWrapping="Wrap" FontSize="25" ></TextBlock>
+                                        <TextBlock Text="{Binding desc}" FontSize="20"  TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Text="{Binding hotDegree}" FontSize="15"  Foreground="Gray" TextWrapping="Wrap"></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                </Grid>
+            </phone:PivotItem>
             <phone:PivotItem Margin="0,10,0,0">
                 <phone:PivotItem.Header>
                     <TextBlock Text="所有频道" Width="150"  FontSize="35"></TextBlock>

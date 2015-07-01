@@ -10,8 +10,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MangGuoTv;component/Style/ButtonStyle.xaml"/>
-                <ResourceDictionary Source="/MangGuoTv;component/Style/ListboxItemStyle.xaml"/>
+                <ResourceDictionary Source="/MangGuoTv;component/Styles/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="/MangGuoTv;component/Styles/ListboxItemStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:LocalizedStrings xmlns:local="clr-namespace:MangGuoTv" x:Key="LocalizedStrings"/>
             <convert:TextConverter x:Key="textConverter" />
