@@ -283,7 +283,7 @@ namespace MangGuoTv.ViewModels
         #endregion
          private bool _needDownedTip;
         /// <summary>
-        /// wifi下自动下载当前播放的红心歌曲
+        /// 
         /// </summary>
          public bool NeedDownedTip
 

@@ -167,6 +167,16 @@ namespace MangGuoTv
                 AnimeLLs.ItemsSource = null;
                 TvLLs.ItemsSource = null;
             }
+            else
+            {
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
         }
         bool isNeedLoadChach = false;
         private void CleanItemsSource() 
@@ -254,6 +264,7 @@ namespace MangGuoTv
                         ChildLLs_Loaded(null, null);
                     }
                     break;
+               
             }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -540,11 +551,19 @@ namespace MangGuoTv
                         HttpHelper.httpGet(channelInfoUrl, LoadChildChannelCompleted);
                         break;
                 }
+              
                 System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
             }
             else
             {
-                MessageBox.Show("获取该频道信息失败");
+                if (name == "少儿") 
+                {
+                    string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=1021" + "&type=normal";
+                }
+                else 
+                {
+                    App.ShowToast("获取该频道信息失败");
+                }
             }
         }
 
@@ -814,32 +833,49 @@ namespace MangGuoTv
                     switch (type) 
                     {
                         case ChannelType.Sift:
-                            SiftLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 0) {
+                                SiftLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateSiftListData = TemplateListData;
                             siftListLoadSucc = true;
                             break;
                         case ChannelType.Fun:
-                            FunLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 2)
+                            {
+                                FunLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateFunListData = TemplateListData;
                             funListLoadSucc = true;
                             break;
                         case ChannelType.Tv:
-                            TvLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 3)
+                            {
+                                TvLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateTvListData = TemplateListData;
                             tvListLoadSucc = true;
                             break;
                         case ChannelType.Movie:
-                            MovieLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 4)
+                            {
+                                MovieLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateMovieListData = TemplateListData;
                             movieListLoadSucc = true;
                             break;
                         case ChannelType.Anime:
-                            AnimeLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 5)
+                            {
+                                AnimeLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateAnimeListData = TemplateListData;
                             animeListLoadSucc = true;
                             break;
                         case ChannelType.Child:
-                            ChildLLs.ItemsSource = TemplateListData;
+                            if (currentPovitIndex == 6)
+                            {
+                                ChildLLs.ItemsSource = TemplateListData;
+                            }
                             TemplateChildListData = TemplateListData;
                             childListLoadSucc = true;
                             break;

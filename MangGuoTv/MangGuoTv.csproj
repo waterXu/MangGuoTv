@@ -132,7 +132,6 @@
       <DependentUpon>BannerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeButton.cs" />
-    <Compile Include="Views\ChannelScrollView.cs" />
     <Compile Include="Views\DownVideo.xaml.cs">
       <DependentUpon>DownVideo.xaml</DependentUpon>
     </Compile>
@@ -140,7 +139,6 @@
       <DependentUpon>LivePlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MediaElementManager.cs" />
-    <Compile Include="Views\MGLongListSelector.cs" />
     <Compile Include="Views\MoreChannelInfo.xaml.cs">
       <DependentUpon>MoreChannelInfo.xaml</DependentUpon>
     </Compile>
@@ -159,7 +157,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\PivotItemControl.cs" />
     <Compile Include="Views\PlayerInfo.xaml.cs">
       <DependentUpon>PlayerInfo.xaml</DependentUpon>
     </Compile>
@@ -237,19 +234,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ImageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayerInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RankImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
