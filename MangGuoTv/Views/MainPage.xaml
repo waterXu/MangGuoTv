@@ -106,7 +106,7 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0" Margin="5">
+                                                <Grid Grid.Column="0" Margin="5" Tap="NorVideoTap" Tag="0">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="3*"/>
                                                     <RowDefinition Height="Auto"/>
@@ -119,7 +119,7 @@
                                                 <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
                                                 <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
                                             </Grid>
-                                            <Grid Grid.Column="1" Margin="5" Tap="NorVideoTap">
+                                            <Grid Grid.Column="1" Margin="5" Tap="NorVideoTap" Tag="1">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="3*"/>
                                                     <RowDefinition Height="Auto"/>

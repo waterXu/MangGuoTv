@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:local="clr-namespace:MangGuoTv.ViewModels"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -19,13 +20,69 @@
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
         <Grid>
-            <Image Source="/Images/logo.png" Margin="10,10,0,0" HorizontalAlignment="Left"></Image>
+            <Image Source="/Images/logo.png" Margin="10,10,0,0" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
             <TextBlock x:Name="channelName" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+            <Border HorizontalAlignment="Right" Background="#FFD57125"  VerticalAlignment="Center" Margin="0,0,20,0" Width="100"  Tap="changeDataTap">
+                <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="换一批" FontSize="25"></TextBlock>
+            </Border>
+           
         </Grid>
-        <Grid  Margin="0,20,0,0" x:Name="MainGrid" Grid.Row="1" Loaded="MainGrid_Loaded"></Grid>
+        <Grid  Margin="0,20,0,0" x:Name="MainGrid" Grid.Row="1" Loaded="MainGrid_Loaded">
+            <Grid Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Tap="ReloadDataTap" x:Name="reLoadGrid" Visibility="Collapsed">
+                <Image Source="/Images/reload.png"></Image>
+                <TextBlock Text="获取数据失败，点击重试" FontSize="25" VerticalAlignment="Center"/>
+            </Grid>
+
+            <phone:LongListSelector x:Name="moreChannelInfo" Loaded="SiftLLs_Loaded"  SelectionChanged="SiftLLs_SelectionChanged" >
+                <phone:LongListSelector.ItemTemplate>
+                    
+                                <DataTemplate>
+                                    <Grid Height="230">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="5" Tap="NorVideoTap" Tag="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="5" Tap="NorVideoTap" Tag="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="3*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Source="{Binding picUrl1}" Stretch="UniformToFill"/>
+                                            <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Black" Opacity="0.8" Margin="0,0,5,5" Visibility="{Binding tag1, Converter={StaticResource visibleConverter}}">
+                                                <TextBlock  Text="{Binding tag1}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding name1}" Grid.Row="1" TextWrapping="Wrap" />
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                    
+                </phone:LongListSelector.ItemTemplate>
+                <phone:LongListSelector.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Border HorizontalAlignment="Right" Background="#FFD57125"  VerticalAlignment="Center" Margin="0,0,20,0" Width="100"  Tap="changeDataTap">
+                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="点击加载更多" FontSize="25"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </phone:LongListSelector.GroupFooterTemplate>
+            </phone:LongListSelector>
+        </Grid>
     </Grid>
 </phone:PhoneApplicationPage>

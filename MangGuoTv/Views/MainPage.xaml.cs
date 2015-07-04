@@ -557,24 +557,60 @@ namespace MangGuoTv
 
             Grid tapGrid = sender as Grid;
             if (tapGrid != null) {
+                string tag = tapGrid.Tag.ToString();
                 VideoViewModel template1 = tapGrid.DataContext as VideoViewModel;
-                if (template1 != null)
+                if (template1 == null) return;
+                switch (tag) 
                 {
-                    VideoViewModel template = new VideoViewModel
-                    {
-                        type = template1.type,
-                        name = template1.name1,
-                        jumpType = template1.jumpType1,
-                        picUrl = template1.picUrl1,
-                        tag = template1.tag1,
-                        desc = template1.desc1,
-                        videoId = template1.videoId1,
-                        webUrl = template1.webUrl1,
-                        playUrl = template1.playUrl1,
-                        subjectId = template1.subjectId1,
-                    };
+                    case "0":
+                         VideoViewModel template = new VideoViewModel
+                        {
+                            type = template1.type,
+                            name = template1.name,
+                            jumpType = template1.jumpType,
+                            picUrl = template1.picUrl,
+                            tag = template1.tag,
+                            desc = template1.desc,
+                            videoId = template1.videoId,
+                            webUrl = template1.webUrl,
+                            playUrl = template1.playUrl,
+                            subjectId = template1.subjectId,
+                        };
                
-                    OperationImageTap(template);
+                        OperationImageTap(template);
+                        break;
+                    case "1":
+                         VideoViewModel template2 = new VideoViewModel
+                        {
+                            type = template1.type,
+                            name = template1.name1,
+                            jumpType = template1.jumpType1,
+                            picUrl = template1.picUrl1,
+                            tag = template1.tag1,
+                            desc = template1.desc1,
+                            videoId = template1.videoId1,
+                            webUrl = template1.webUrl1,
+                            playUrl = template1.playUrl1,
+                            subjectId = template1.subjectId1,
+                        };
+                        OperationImageTap(template2);
+                        break;
+                    default:
+                         VideoViewModel template3 = new VideoViewModel
+                        {
+                            type = template1.type,
+                            name = template1.name,
+                            jumpType = template1.jumpType,
+                            picUrl = template1.picUrl,
+                            tag = template1.tag,
+                            desc = template1.desc,
+                            videoId = template1.videoId,
+                            webUrl = template1.webUrl,
+                            playUrl = template1.playUrl,
+                            subjectId = template1.subjectId,
+                        };
+                        OperationImageTap(template3);
+                        break;
                 }
             }
         }

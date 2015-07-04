@@ -557,6 +557,7 @@ namespace MangGuoTv.ViewModels
                 }
             });
         }
+        public bool isM3U8Video = false;
         public VideoInfo currentVideo;
         public void PlayerVideo(VideoInfo info)
         {
@@ -564,6 +565,7 @@ namespace MangGuoTv.ViewModels
             //设置多媒体控件的网络视频资源
             if (info.downloadUrl.Count > 0)
             {
+                isM3U8Video = false;
                 App.PlayerModel.PayVisibility = Visibility.Collapsed;
                 App.PlayerModel.LoadVisibility = Visibility.Visible;
                 int downIndex = 0;
@@ -611,11 +613,13 @@ namespace MangGuoTv.ViewModels
                                     //todo
                                     App.HideLoading();
                                     LoadVisibility = Visibility.Collapsed;
-                                    ErrMsg = "格式不支持";
-                                    PayVisibility = Visibility.Visible;
-                                    //info.downloadUrl = videosDetailResult.data.downloadUrl;
-                                    //info.downloadUrl = videosDetailResult.data.videoSources;
-                                    //PlayerM3U8Video(videosDetailResult.data.videoSources);
+                                    //ErrMsg = "格式不支持";
+                                    //PayVisibility = Visibility.Visible;
+
+                                    info.downloadUrl = videosDetailResult.data.downloadUrl;
+                                    info.downloadUrl = videosDetailResult.data.videoSources;
+                                    currentVideo.downloadUrl = videosDetailResult.data.videoSources;
+                                    PlayerM3U8Video(videosDetailResult.data.videoSources);
                                 });
                             }
                         }
@@ -657,6 +661,7 @@ namespace MangGuoTv.ViewModels
             System.Diagnostics.Debug.WriteLine("获取播放源：" + definition.url);
             HttpHelper.httpGet(definition.url, (ar) =>
             {
+                App.HideLoading();
                 string result = HttpHelper.SyncResultTostring(ar);
                 if (result != null)
                 {
@@ -695,9 +700,67 @@ namespace MangGuoTv.ViewModels
                 //}
             });
         }
-        private void PlayerM3U8Video(List<VideoDefinition> list)
+        private void PlayerM3U8Video(List<VideoDefinition> listVideos)
         {
-
+            if (listVideos.Count == 0) return;
+            isM3U8Video = true;
+            int downIndex = 0;
+            for (int i = 0; i < listVideos.Count; i++)
+            {
+                if (listVideos[i].name == "高清")
+                {
+                    downIndex = i;
+                    break;
+                }
+            }
+            VideoDefinition Definition = listVideos[downIndex];
+            GetM3U8VideoSource(Definition, currentVideo);
+        }
+        public void GetM3U8VideoSource(VideoDefinition definition, VideoInfo info)
+        {
+            if (definition == null || string.IsNullOrEmpty(definition.url) || currentDefinitionUrl == definition.url) return;
+            currentDefinitionUrl = definition.url;
+            CurrentDefinitionName = definition.name;
+            System.Diagnostics.Debug.WriteLine("获取播放源：" + definition.url);
+            HttpHelper.httpGet(definition.url, (ar) =>
+            {
+                App.HideLoading();
+                string result = HttpHelper.SyncResultTostring(ar);
+                if (result != null)
+                {
+                    ResourceInfo videosResult = null;
+                    try
+                    {
+                        videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                        App.JsonError(result);
+                    }
+                    if (videosResult == null)
+                    {
+                        JsonError(result);
+                    }
+                    else if (videosResult.status == "ok" && videosResult.info != null)
+                    {
+                        if (CallbackManager.currentPage != null)
+                        {
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                
+                                App.MainViewModel.AddRememberVideo(info);
+                                CurrentDefinitionName = definition.name;
+                                System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
+                            });
+                        }
+                    }
+                }
+                //else
+                //{
+                //    App.ShowToast("获取视频数据失败，请检查网络或重试");
+                //}
+            });
         }
         public void JsonError(string result)
         {
