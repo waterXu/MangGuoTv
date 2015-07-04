@@ -616,9 +616,9 @@ namespace MangGuoTv.ViewModels
                                     //ErrMsg = "格式不支持";
                                     //PayVisibility = Visibility.Visible;
 
-                                    info.downloadUrl = videosDetailResult.data.downloadUrl;
-                                    info.downloadUrl = videosDetailResult.data.videoSources;
-                                    currentVideo.downloadUrl = videosDetailResult.data.videoSources;
+                                    //info.downloadUrl = videosDetailResult.data.downloadUrl;
+                                    //info.downloadUrl = videosDetailResult.data.videoSources;
+                                    //currentVideo.downloadUrl = videosDetailResult.data.videoSources;
                                     PlayerM3U8Video(videosDetailResult.data.videoSources);
                                 });
                             }
@@ -748,10 +748,14 @@ namespace MangGuoTv.ViewModels
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
+                               PlayerInfo playpage =  CallbackManager.currentPage as PlayerInfo;
+                               if (playpage != null) {
+                                   playpage.BeginPlayM3u8Video(videosResult.info);
+                                   App.MainViewModel.AddRememberVideo(info);
+                                   CurrentDefinitionName = definition.name;
+                                   System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
+                               }
                                 
-                                App.MainViewModel.AddRememberVideo(info);
-                                CurrentDefinitionName = definition.name;
-                                System.Diagnostics.Debug.WriteLine("视频地址 ： " + videosResult.info);
                             });
                         }
                     }

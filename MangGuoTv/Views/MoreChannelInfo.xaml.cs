@@ -30,18 +30,11 @@ namespace MangGuoTv.Views
         public MoreChannelInfo()
         {
             InitializeComponent();
-            //scrollView = new ScrollViewer();
-            ////scrollView.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
-            //scrollView.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            //stackPanel = new StackPanel();
-            //CreateReload();
-            //stackPanel.Children.Add(loadGrid);
-            //scrollView.Content = stackPanel;
-            //MainGrid.Children.Add(scrollView);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            App.ShowMemory();
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
            
@@ -52,68 +45,19 @@ namespace MangGuoTv.Views
             CallbackManager.currentPage = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            if (e.Content != null) {
+                moreChannelInfo.ItemsSource = null;
+            }
         }
         private void MainGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            //pageCount = 1;
-            //this.channelName.Text = name;
-            //string channelInfoUrl = CommonData.GetMoreChannelInfo + "&typeId=" + typeId + "&pageCount=" + pageCount;
-            //App.ShowLoading();
-            //System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
-            //HttpHelper.httpGet(channelInfoUrl, LoadChannelCompleted);
         }
-        //private void LoadChannelCompleted(IAsyncResult ar)
-        //{
-        //    string result = HttpHelper.SyncResultTostring(ar);
-        //    if (result != null)
-        //    {
-        //        MoreChannelResult channelDetails = null;
-        //        try
-        //        {
-        //            channelDetails = JsonConvert.DeserializeObject<MoreChannelResult>(result);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
-        //            App.HideLoading();
-        //        }
-        //        if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
-        //        {
-        //            this.Dispatcher.BeginInvoke(() =>
-        //            {
-        //                App.HideLoading();
-        //                loadGrid.Visibility = Visibility.Collapsed;
-        //                //if (pageCount > 0) 
-        //                //{
-        //                //    stackPanel.Children.Remove(addTipGrid);
-        //                //}
-        //                AddChannelView(channelDetails.data, 200, 2);
-        //                pageCount++;
-        //            });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //App.ShowToast("获取数据失败，请检查网络或重试");
-        //        App.HideLoading();
-        //        this.Dispatcher.BeginInvoke(() =>
-        //        {
-        //            loadGrid.Visibility = Visibility.Visible;
-        //        });
-        //    }
-        //}
-
 
         #region  View event Menthod
 
         private void MoreChannelData_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-#if DEBUG
-            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
-            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
-            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
-            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
-#endif
+            App.ShowMemory();
             ReloadDataTap(null, null);
         }
         private void ReloadDataTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -156,12 +100,6 @@ namespace MangGuoTv.Views
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         App.HideLoading();
-                        //loadGrid.Visibility = Visibility.Collapsed;
-                        ////if (pageCount > 0) 
-                        ////{
-                        ////    stackPanel.Children.Remove(addTipGrid);
-                        ////}
-                        //AddChannelView(channelDetails.data, 200, 2);
                         List<VideoViewModel> TemplateListData = new List<VideoViewModel>();
 
                         for (int i = 0; i < channelDetails.data.Count; i = i + 2)
@@ -199,7 +137,19 @@ namespace MangGuoTv.Views
                                 TemplateListData.Add(videoData);
                             }
                         }
-                        moreChannelInfo.ItemsSource = TemplateListData;
+
+                        if (pageCount > 1)
+                        {
+                            //List<VideoViewModel> channelList = moreChannelInfo.ItemsSource as List<VideoViewModel>;
+                            //channelList.AddRange(TemplateListData);
+                            moreChannelInfo.ItemsSource = null;
+                            moreChannelInfo.ItemsSource = TemplateListData;
+                            moreChannelInfo.UpdateLayout();
+                        }
+                        else 
+                        {
+                            moreChannelInfo.ItemsSource = TemplateListData;
+                        }
                         pageCount++;
                     });
                 }
@@ -255,11 +205,9 @@ namespace MangGuoTv.Views
             System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
 #endif
         }
-
-        private void changeDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void MoreDataTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            ReloadDataTap(null, null);
         }
-
     }
 }

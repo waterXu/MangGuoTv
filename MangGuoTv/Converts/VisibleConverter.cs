@@ -17,7 +17,7 @@ namespace MangGuoTv.Converts
                 bool val = (bool)value;
                 return val ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
-            else 
+            else if(value!=null)
             {
                 string val = value.ToString();
                 if (parameter != null) 

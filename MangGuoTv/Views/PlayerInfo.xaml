@@ -192,7 +192,7 @@
                     <TextBlock Text="评论" Width="80"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
                 <Grid>
-                    <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding Comments}">
+                    <ListBox HorizontalAlignment="Center" Margin="5,0" ItemsSource="{Binding Comments}" x:Name="CommentList">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid  Margin="10">

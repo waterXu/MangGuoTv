@@ -29,29 +29,8 @@ namespace MangGuoTv
             InitializeComponent();
             this.DataContext = App.MainViewModel;
             App.MainViewModel.LoadChannels();
-           
-            //for (int i = 0; i < CommonData.LockedChannel.Count; i++)
-            //{
-            //    if (CommonData.LockedChannel[i].channelName == "精选" || CommonData.LockedChannel[i].channelName == "热榜")
-            //    {
-            //        PivotItemControl pivot = new PivotItemControl(CommonData.LockedChannel[i]);
-            //        pivot.pivotItem.DataContext = CommonData.LockedChannel[i];
-            //        MainPivot.Items.Add(pivot.pivotItem);
-            //    }
-           
-            //}
-            //for (int i = 0; i < CommonData.NormalChannel.Count; i++)
-            //{
-            //    if (CommonData.NormalChannel[i].channelName == "精选" || CommonData.NormalChannel[i].channelName == "热榜" )
-            //    {
-            //        PivotItemControl pivot = new PivotItemControl(CommonData.NormalChannel[i]);
-            //        pivot.pivotItem.DataContext = CommonData.NormalChannel[i];
-            //        MainPivot.Items.Add(pivot.pivotItem);
-            //    }
-            //}
-            //MainPivot.SelectedIndex = 2;
         }
-       
+        #region control event func
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             CallbackManager.Mainpage = this;
@@ -65,10 +44,216 @@ namespace MangGuoTv
             if (currentPovitIndex == 0) 
             {
                 ChannelInfo channel = FindChannelInfo("精选");
+                if (siftListLoadSucc)
+                {
+                    SiftLLs.ItemsSource = TemplateSiftListData;
+                }
+                else 
+                {
+                    SiftLLs_Loaded(null, null);
+                }
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
             }
             else if (currentPovitIndex == 1) 
             {
                 ChannelInfo channel = FindChannelInfo("热榜");
+                if (rankListLoadSucc)
+                {
+                    RankListBox.ItemsSource = rankListData;
+                }
+                else 
+                {
+                    RankListBox_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
+            else if (currentPovitIndex == 2)
+            {
+                ChannelInfo channel = FindChannelInfo("综艺");
+                if (funListLoadSucc)
+                {
+                    FunLLs.ItemsSource = TemplateFunListData;
+                }
+                else 
+                {
+                    FunLLs_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
+            else if (currentPovitIndex == 3)
+            {
+                ChannelInfo channel = FindChannelInfo("电视剧");
+                if (tvListLoadSucc)
+                {
+                    TvLLs.ItemsSource = TemplateTvListData;
+                }
+                else
+                {
+                    TvLLs_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
+            else if (currentPovitIndex == 4)
+            {
+                ChannelInfo channel = FindChannelInfo("电影");
+                if (movieListLoadSucc)
+                {
+                    MovieLLs.ItemsSource = TemplateMovieListData;
+                }
+                else
+                {
+                    MovieLLs_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
+            else if (currentPovitIndex == 5)
+            {
+                ChannelInfo channel = FindChannelInfo("动漫");
+                if (animeListLoadSucc)
+                {
+                    AnimeLLs.ItemsSource = TemplateAnimeListData;
+                }
+                else
+                {
+                    AnimeLLs_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                ChildLLs.ItemsSource = null;
+            }
+            else if (currentPovitIndex == 6)
+            {
+                ChannelInfo channel = FindChannelInfo("少儿");
+                if (childListLoadSucc)
+                {
+                    ChildLLs.ItemsSource = TemplateChildListData;
+                }
+                else
+                {
+                    ChildLLs_Loaded(null, null);
+                }
+                SiftLLs.ItemsSource = null;
+                RankListBox.ItemsSource = null;
+                FunLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
+                AnimeLLs.ItemsSource = null;
+                TvLLs.ItemsSource = null;
+            }
+        }
+        bool isNeedLoadChach = false;
+        private void CleanItemsSource() 
+        {
+            SiftLLs.ItemsSource = null;
+            RankListBox.ItemsSource = null;
+            FunLLs.ItemsSource = null;
+            MovieLLs.ItemsSource = null;
+            AnimeLLs.ItemsSource = null;
+            TvLLs.ItemsSource = null;
+            ChildLLs.ItemsSource = null;
+            isNeedLoadChach = true;
+        }
+        private void LoadChachItemsSource() 
+        {
+            switch (currentPovitIndex) 
+            {
+                case 0:
+                    if (siftListLoadSucc)
+                    {
+                        SiftLLs.ItemsSource = TemplateSiftListData;
+                    }
+                    else
+                    {
+                        SiftLLs_Loaded(null, null);
+                    }
+                    break;
+                case 1:
+                    if (rankListLoadSucc)
+                    {
+                        RankListBox.ItemsSource = rankListData;
+                    }
+                    else
+                    {
+                        RankListBox_Loaded(null, null);
+                    }
+                    break;
+                case 2:
+                    if (funListLoadSucc)
+                    {
+                        FunLLs.ItemsSource = TemplateFunListData;
+                    }
+                    else
+                    {
+                        FunLLs_Loaded(null, null);
+                    }
+                    break;
+                case 3:
+                    if (tvListLoadSucc)
+                    {
+                        TvLLs.ItemsSource = TemplateTvListData;
+                    }
+                    else
+                    {
+                        TvLLs_Loaded(null, null);
+                    }
+                    break;
+                case 4:
+                    if (movieListLoadSucc)
+                    {
+                        MovieLLs.ItemsSource = TemplateMovieListData;
+                    }
+                    else
+                    {
+                        MovieLLs_Loaded(null, null);
+                    }
+                    break;
+                case 5:
+                    if (animeListLoadSucc)
+                    {
+                        AnimeLLs.ItemsSource = TemplateAnimeListData;
+                    }
+                    else
+                    {
+                        AnimeLLs_Loaded(null, null);
+                    }
+                    break;
+                case 6:
+                    if (childListLoadSucc)
+                    {
+                        ChildLLs.ItemsSource = TemplateChildListData;
+                    }
+                    else
+                    {
+                        ChildLLs_Loaded(null, null);
+                    }
+                    break;
             }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -76,12 +261,22 @@ namespace MangGuoTv
             base.OnNavigatedTo(e);
             CallbackManager.currentPage = this;
             this.DataContext = App.MainViewModel;
+            if (isNeedLoadChach)
+            {
+                LoadChachItemsSource();
+            }
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
  	         base.OnNavigatedFrom(e);
              this.DataContext = null;
              CallbackManager.currentPage = null;
+             if (e.Content != null)
+             {
+                 CleanItemsSource();
+             }
+             App.ShowMemory();
+
         }
 
         private void AllChannels_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -174,7 +369,9 @@ namespace MangGuoTv
             }
             return null;
         }
-        #region loadData
+        #endregion
+
+        #region lls loadData
         bool rankListLoadSucc = false;
         private void RankListBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -182,18 +379,21 @@ namespace MangGuoTv
             ChannelInfo rankChannel = FindChannelInfo("热榜");
             if (rankChannel != null)
             {
+                App.ShowLoading();
                 string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + rankChannel.channelId + "&type=" + rankChannel.type;
                 HttpHelper.httpGet(channelInfoUrl, LoadRankChannelCompleted);
                 System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
             }
             else 
             {
-                MessageBox.Show("获取该频道信息失败");
+                App.ShowToast("对不起，获取该频道信息失败");
             }
             
         }
+        List<ChannelTemplate> rankListData = new List<ChannelTemplate>();
         private void LoadRankChannelCompleted(IAsyncResult ar)
         {
+            App.HideLoading();
             string result = HttpHelper.SyncResultTostring(ar);
             if (result != null)
             {
@@ -213,7 +413,6 @@ namespace MangGuoTv
                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                     {
                         RankListBox.Visibility = System.Windows.Visibility.Visible;
-                       List<ChannelTemplate> rankListData = new List<ChannelTemplate>();
                        foreach (ChannelDetail channelDatail in channelDetails.data)
                        {
                            rankListData.AddRange(channelDatail.templateData);
@@ -230,10 +429,7 @@ namespace MangGuoTv
                 }
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
-                    App.HideLoading();
                     RankLoadGrid.Visibility = System.Windows.Visibility.Visible;
-                    //RankLoadGrid.Tap -= new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadRankDataTap);
-                    //RankLoadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadRankDataTap);
                     RankListBox.Visibility = System.Windows.Visibility.Collapsed;
                 });
 
@@ -270,155 +466,95 @@ namespace MangGuoTv
                 OperationImageTap(videoData);
             }
         }
-
+        public enum ChannelType
+        {
+            Sift,
+            Fun,
+            Tv,
+            Movie,
+            Anime,
+            Child
+        }
         bool siftListLoadSucc = false;
         private void SiftLLs_Loaded(object sender, RoutedEventArgs e)
         {
             if (siftListLoadSucc) { return; }
-            ChannelInfo rankChannel = FindChannelInfo("精选");
-            if (rankChannel != null)
+            LoadChannelData("精选",ChannelType.Sift);
+        }
+        bool funListLoadSucc = false;
+        private void FunLLs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (funListLoadSucc) { return; }
+            LoadChannelData("综艺", ChannelType.Fun);
+        }
+        bool tvListLoadSucc = false;
+        private void TvLLs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (tvListLoadSucc) { return; }
+            LoadChannelData("电视剧", ChannelType.Tv);
+        }
+        bool movieListLoadSucc = false;
+        private void MovieLLs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (movieListLoadSucc) { return; }
+            LoadChannelData("电影", ChannelType.Movie);
+        }
+        bool animeListLoadSucc = false;
+        private void AnimeLLs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (animeListLoadSucc) { return; }
+            LoadChannelData("动漫", ChannelType.Anime);
+        }
+        bool childListLoadSucc = false;
+        private void ChildLLs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (childListLoadSucc) { return; }
+            LoadChannelData("少儿", ChannelType.Child);
+        }
+
+        private void LoadChannelData(string name,ChannelType type) 
+        {
+            ChannelInfo channel = FindChannelInfo(name);
+            if (channel != null)
             {
-                string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + rankChannel.channelId + "&type=" + rankChannel.type;
-                HttpHelper.httpGet(channelInfoUrl, LoadSiftChannelCompleted);
+                App.ShowLoading();
+                string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=" + channel.channelId + "&type=" + channel.type;
+                switch (type)
+                {
+                    case ChannelType.Sift:
+                        HttpHelper.httpGet(channelInfoUrl, LoadSiftChannelCompleted);
+                        break;
+                    case ChannelType.Fun:
+                        HttpHelper.httpGet(channelInfoUrl, LoadFunChannelCompleted);
+                        break;
+                    case ChannelType.Tv:
+                        HttpHelper.httpGet(channelInfoUrl, LoadTvChannelCompleted);
+                        break;
+                    case ChannelType.Movie:
+                        HttpHelper.httpGet(channelInfoUrl, LoadMovieChannelCompleted);
+                        break;
+                    case ChannelType.Anime:
+                        HttpHelper.httpGet(channelInfoUrl, LoadAnimeChannelCompleted);
+                        break;
+                    case ChannelType.Child:
+                        HttpHelper.httpGet(channelInfoUrl, LoadChildChannelCompleted);
+                        break;
+                }
                 System.Diagnostics.Debug.WriteLine("频道详情channelInfoUrl ：" + channelInfoUrl);
             }
             else
             {
                 MessageBox.Show("获取该频道信息失败");
             }
-
         }
+
         private void LoadSiftChannelCompleted(IAsyncResult ar)
         {
+            App.HideLoading();
             string result = HttpHelper.SyncResultTostring(ar);
             if (result != null)
             {
-                channelDetailResult channelDetails = null;
-                try
-                {
-                    channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
-                }
-                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
-                {
-                    siftListLoadSucc = true;
-
-                    CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
-                    {
-                        SiftLLs.Visibility = System.Windows.Visibility.Visible;
-                        List<VideoViewModel> TemplateListData = new List<VideoViewModel>();
-                        foreach (ChannelDetail channelDatail in channelDetails.data)
-                        {
-                            switch (channelDatail.type)
-                            {
-                                case "normalAvatorText":
-                                case "normalLandScape":
-                                case "roundAvatorText":
-                                case "tvPortrait":
-                                    for (int i = 0; i < channelDatail.templateData.Count; i=i+2)
-                                    {
-                                        if (channelDatail.templateData.Count > i + 1)
-                                        {
-                                            ChannelTemplate template1 = channelDatail.templateData[i];
-                                            ChannelTemplate template2 = channelDatail.templateData[i+1];
-                                            VideoViewModel videoData = new VideoViewModel
-                                            {
-                                                //stupid func
-                                                type = channelDatail.type,
-                                                name = template1.name,
-                                                jumpType = template1.jumpType,
-                                                picUrl = template1.picUrl,
-                                                tag = template1.tag,
-                                                desc = template1.desc,
-                                                videoId = template1.videoId,
-                                                webUrl = template1.webUrl,
-                                                playUrl = template1.playUrl,
-                                                subjectId = template1.subjectId,
-                                                name1 = template2.name,
-                                                picUrl1 = template2.picUrl,
-                                                tag1 = template2.tag,
-                                                desc1 = template2.desc,
-                                                videoId1 = template2.videoId,
-                                                jumpType1 = template1.jumpType,
-                                                webUrl1 = template2.webUrl,
-                                                playUrl1 = template2.playUrl,
-                                                subjectId1 = template2.subjectId,
-                                            };
-                                            TemplateListData.Add(videoData);
-                                        }
-                                        else 
-                                        {
-                                            ChannelTemplate template1 = channelDatail.templateData[i];
-                                            VideoViewModel videoData = new VideoViewModel
-                                            {
-                                                type = channelDatail.type,
-                                                name = template1.name,
-                                                jumpType = template1.jumpType,
-                                                picUrl = template1.picUrl,
-                                                tag = template1.tag,
-                                                desc = template1.desc,
-                                                videoId = template1.videoId,
-                                                webUrl = template1.webUrl,
-                                                playUrl = template1.playUrl,
-                                                subjectId = template1.subjectId,
-                                            };
-                                            TemplateListData.Add(videoData);
-                                        }
-                                      
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                            foreach (ChannelTemplate template in channelDatail.templateData)
-                            {
-                                switch (channelDatail.type)
-                                {
-                                    case "banner":
-                                    case "largeLandScapeNodesc":
-                                    case "largeLandScape":
-                                    case "normalLandScapeNodesc":
-                                    case "aceSeason":
-                                    case "title":
-                                    case "rankList":
-                                    case "live":
-                                        break;
-                                    case "normalAvatorText":
-                                    case "normalLandScape":
-                                    case "roundAvatorText":
-                                    case "tvPortrait":
-                                    case "unknowModType1":
-                                    case "unknowModType2":
-                                        continue;
-                                    default:
-                                        continue;
-                                }
-                                VideoViewModel videoData = new VideoViewModel
-                                {
-                                    type = channelDatail.type,
-                                    //width = width,
-                                    //hight = height,
-                                    name = template.name,
-                                    jumpType = template.jumpType,
-                                    subjectId = template.subjectId,
-                                    picUrl = template.picUrl,
-                                    playUrl = template.playUrl,
-                                    tag = template.tag,
-                                    desc = template.desc,
-                                    videoId = template.videoId,
-                                    hotDegree = template.hotDegree,
-                                    webUrl = template.webUrl,
-                                    rank = template.rank
-                                };
-                                TemplateListData.Add(videoData);
-                            }
-                        }
-                        SiftLLs.ItemsSource = TemplateListData;
-                    });
-                }
+                convertResultData(result, ChannelType.Sift);
             }
             else
             {
@@ -429,12 +565,286 @@ namespace MangGuoTv
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     siftLoadGrid.Visibility = System.Windows.Visibility.Visible;
-                    App.HideLoading();
-                    //siftLoadGrid.Tap -= new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadSiftDataTap);
-                    //siftLoadGrid.Tap += new EventHandler<System.Windows.Input.GestureEventArgs>(ReloadSiftDataTap);
                     SiftLLs.Visibility = System.Windows.Visibility.Collapsed;
                 });
 
+            }
+        }
+        private void LoadFunChannelCompleted(IAsyncResult ar)
+        {
+            App.HideLoading();
+            string result = HttpHelper.SyncResultTostring(ar);
+            if (result != null)
+            {
+                convertResultData(result, ChannelType.Fun);
+            }
+            else
+            {
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    funLoadGrid.Visibility = System.Windows.Visibility.Visible;
+                    FunLLs.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+            }
+        }
+        private void LoadTvChannelCompleted(IAsyncResult ar)
+        {
+            App.HideLoading();
+            string result = HttpHelper.SyncResultTostring(ar);
+            if (result != null)
+            {
+                convertResultData(result, ChannelType.Tv);
+            }
+            else
+            {
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    tvLoadGrid.Visibility = System.Windows.Visibility.Visible;
+                    TvLLs.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+            }
+        }
+        private void LoadMovieChannelCompleted(IAsyncResult ar)
+        {
+            App.HideLoading();
+            string result = HttpHelper.SyncResultTostring(ar);
+            if (result != null)
+            {
+                convertResultData(result, ChannelType.Movie);
+            }
+            else
+            {
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    movieLoadGrid.Visibility = System.Windows.Visibility.Visible;
+                    MovieLLs.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+            }
+        }
+        private void LoadAnimeChannelCompleted(IAsyncResult ar)
+        {
+            App.HideLoading();
+            string result = HttpHelper.SyncResultTostring(ar);
+            if (result != null)
+            {
+                convertResultData(result, ChannelType.Anime);
+            }
+            else
+            {
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    animeLoadGrid.Visibility = System.Windows.Visibility.Visible;
+                    AnimeLLs.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+            }
+        }
+        private void LoadChildChannelCompleted(IAsyncResult ar)
+        {
+            App.HideLoading();
+            string result = HttpHelper.SyncResultTostring(ar);
+            if (result != null)
+            {
+                convertResultData(result, ChannelType.Child);
+            }
+            else
+            {
+                if (CommonData.NetworkStatus != "None")
+                {
+                    App.ShowToast("获取数据失败，请检查网络或重试");
+                }
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    childLoadGrid.Visibility = System.Windows.Visibility.Visible;
+                    ChildLLs.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+            }
+        }
+        List<VideoViewModel> TemplateSiftListData = new List<VideoViewModel>();
+        List<VideoViewModel> TemplateFunListData = new List<VideoViewModel>();
+        List<VideoViewModel> TemplateTvListData = new List<VideoViewModel>();
+        List<VideoViewModel> TemplateMovieListData = new List<VideoViewModel>();
+        List<VideoViewModel> TemplateAnimeListData = new List<VideoViewModel>();
+        List<VideoViewModel> TemplateChildListData = new List<VideoViewModel>();
+
+        private void convertResultData(string result,ChannelType type)
+        {
+            channelDetailResult channelDetails = null;
+            try
+            {
+                channelDetails = JsonConvert.DeserializeObject<channelDetailResult>(result);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+            }
+            if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
+            {
+
+                CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                {
+                    SiftLLs.Visibility = System.Windows.Visibility.Visible;
+                    List<VideoViewModel> TemplateListData = new List<VideoViewModel>();
+                    foreach (ChannelDetail channelDatail in channelDetails.data)
+                    {
+                        switch (channelDatail.type)
+                        {
+                            case "normalAvatorText":
+                            case "normalLandScape":
+                            case "roundAvatorText":
+                            case "tvPortrait":
+                                for (int i = 0; i < channelDatail.templateData.Count; i = i + 2)
+                                {
+                                    if (channelDatail.templateData.Count > i + 1)
+                                    {
+                                        ChannelTemplate template1 = channelDatail.templateData[i];
+                                        ChannelTemplate template2 = channelDatail.templateData[i + 1];
+                                        VideoViewModel videoData = new VideoViewModel
+                                        {
+                                            //stupid func
+                                            type = channelDatail.type,
+                                            name = template1.name,
+                                            jumpType = template1.jumpType,
+                                            picUrl = template1.picUrl,
+                                            tag = template1.tag,
+                                            desc = template1.desc,
+                                            videoId = template1.videoId,
+                                            webUrl = template1.webUrl,
+                                            playUrl = template1.playUrl,
+                                            subjectId = template1.subjectId,
+                                            name1 = template2.name,
+                                            picUrl1 = template2.picUrl,
+                                            tag1 = template2.tag,
+                                            desc1 = template2.desc,
+                                            videoId1 = template2.videoId,
+                                            jumpType1 = template1.jumpType,
+                                            webUrl1 = template2.webUrl,
+                                            playUrl1 = template2.playUrl,
+                                            subjectId1 = template2.subjectId,
+                                        };
+                                        TemplateListData.Add(videoData);
+                                    }
+                                    else
+                                    {
+                                        ChannelTemplate template1 = channelDatail.templateData[i];
+                                        VideoViewModel videoData = new VideoViewModel
+                                        {
+                                            type = channelDatail.type,
+                                            name = template1.name,
+                                            jumpType = template1.jumpType,
+                                            picUrl = template1.picUrl,
+                                            tag = template1.tag,
+                                            desc = template1.desc,
+                                            videoId = template1.videoId,
+                                            webUrl = template1.webUrl,
+                                            playUrl = template1.playUrl,
+                                            subjectId = template1.subjectId,
+                                        };
+                                        TemplateListData.Add(videoData);
+                                    }
+
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        foreach (ChannelTemplate template in channelDatail.templateData)
+                        {
+                            switch (channelDatail.type)
+                            {
+                                case "banner":
+                                case "largeLandScapeNodesc":
+                                case "largeLandScape":
+                                case "normalLandScapeNodesc":
+                                case "aceSeason":
+                                case "title":
+                                case "rankList":
+                                case "live":
+                                    break;
+                                case "normalAvatorText":
+                                case "normalLandScape":
+                                case "roundAvatorText":
+                                case "tvPortrait":
+                                case "unknowModType1":
+                                case "unknowModType2":
+                                    continue;
+                                default:
+                                    continue;
+                            }
+                            VideoViewModel videoData = new VideoViewModel
+                            {
+                                type = channelDatail.type,
+                                //width = width,
+                                //hight = height,
+                                name = template.name,
+                                jumpType = template.jumpType,
+                                subjectId = template.subjectId,
+                                picUrl = template.picUrl,
+                                playUrl = template.playUrl,
+                                tag = template.tag,
+                                desc = template.desc,
+                                videoId = template.videoId,
+                                hotDegree = template.hotDegree,
+                                webUrl = template.webUrl,
+                                rank = template.rank
+                            };
+                            TemplateListData.Add(videoData);
+                        }
+                    }
+                    switch (type) 
+                    {
+                        case ChannelType.Sift:
+                            SiftLLs.ItemsSource = TemplateListData;
+                            TemplateSiftListData = TemplateListData;
+                            siftListLoadSucc = true;
+                            break;
+                        case ChannelType.Fun:
+                            FunLLs.ItemsSource = TemplateListData;
+                            TemplateFunListData = TemplateListData;
+                            funListLoadSucc = true;
+                            break;
+                        case ChannelType.Tv:
+                            TvLLs.ItemsSource = TemplateListData;
+                            TemplateTvListData = TemplateListData;
+                            tvListLoadSucc = true;
+                            break;
+                        case ChannelType.Movie:
+                            MovieLLs.ItemsSource = TemplateListData;
+                            TemplateMovieListData = TemplateListData;
+                            movieListLoadSucc = true;
+                            break;
+                        case ChannelType.Anime:
+                            AnimeLLs.ItemsSource = TemplateListData;
+                            TemplateAnimeListData = TemplateListData;
+                            animeListLoadSucc = true;
+                            break;
+                        case ChannelType.Child:
+                            ChildLLs.ItemsSource = TemplateListData;
+                            TemplateChildListData = TemplateListData;
+                            childListLoadSucc = true;
+                            break;
+                    }
+                });
             }
         }
         private void ReloadSiftDataTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -442,9 +852,31 @@ namespace MangGuoTv
             siftLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
             SiftLLs_Loaded(null, null);
         }
-
-        #endregion 
-
+        private void ReloadFunDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            funLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
+            FunLLs_Loaded(null, null);
+        }
+        private void ReloadTvDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            tvLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
+            TvLLs_Loaded(null, null);
+        }
+        private void ReloadMovieDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            movieLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
+            MovieLLs_Loaded(null, null);
+        }
+        private void ReloadAnimeDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            animeLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
+            AnimeLLs_Loaded(null, null);
+        }
+        private void ReloadChildDataTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            childLoadGrid.Visibility = System.Windows.Visibility.Collapsed;
+            ChildLLs_Loaded(null, null);
+        }
         private void SiftLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tapFromGrid) 
@@ -452,8 +884,72 @@ namespace MangGuoTv
                 tapFromGrid = false;
                 return;
             }
-
             VideoViewModel template = SiftLLs.SelectedItem as VideoViewModel;
+            if (template != null)
+            {
+                OperationImageTap(template);
+            }
+        }
+        private void FunLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tapFromGrid)
+            {
+                tapFromGrid = false;
+                return;
+            }
+            VideoViewModel template = FunLLs.SelectedItem as VideoViewModel;
+            if (template != null)
+            {
+                OperationImageTap(template);
+            }
+        }
+        private void TvLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tapFromGrid)
+            {
+                tapFromGrid = false;
+                return;
+            }
+            VideoViewModel template = TvLLs.SelectedItem as VideoViewModel;
+            if (template != null)
+            {
+                OperationImageTap(template);
+            }
+        }
+        private void MovieLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tapFromGrid)
+            {
+                tapFromGrid = false;
+                return;
+            }
+            VideoViewModel template = MovieLLs.SelectedItem as VideoViewModel;
+            if (template != null)
+            {
+                OperationImageTap(template);
+            }
+        }
+        private void AnimeLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tapFromGrid)
+            {
+                tapFromGrid = false;
+                return;
+            }
+            VideoViewModel template = AnimeLLs.SelectedItem as VideoViewModel;
+            if (template != null)
+            {
+                OperationImageTap(template);
+            }
+        }
+        private void ChildLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tapFromGrid)
+            {
+                tapFromGrid = false;
+                return;
+            }
+            VideoViewModel template = ChildLLs.SelectedItem as VideoViewModel;
             if (template != null)
             {
                 OperationImageTap(template);
@@ -461,13 +957,7 @@ namespace MangGuoTv
         }
         private void OperationImageTap(VideoViewModel template)
         {
-#if DEBUG
-            long memory = DeviceStatus.ApplicationCurrentMemoryUsage / (1024 * 1024);
-            long memoryLimit = DeviceStatus.ApplicationMemoryUsageLimit / (1024 * 1024);
-            long memoryMax = DeviceStatus.ApplicationPeakMemoryUsage / (1024 * 1024);
-            System.Diagnostics.Debug.WriteLine("当前内存使用情况：" + memory.ToString() + " MB 当前最大内存使用情况： " + memoryMax.ToString() + "MB  当前可分配最大内存： " + memoryLimit.ToString() + "  MB");
-#endif
-
+            App.ShowMemory();
             switch (template.jumpType)
             {
                 case "videoPlayer":
@@ -614,5 +1104,6 @@ namespace MangGuoTv
                 }
             }
         }
+        #endregion
     }
 }

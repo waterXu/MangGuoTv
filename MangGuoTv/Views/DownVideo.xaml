@@ -18,7 +18,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/MangGuoTv;component/Style/ListboxItemStyle.xaml"/>
+                <ResourceDictionary Source="/MangGuoTv;component/Styles/ListboxItemStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

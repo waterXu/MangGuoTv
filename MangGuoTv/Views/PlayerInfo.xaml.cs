@@ -21,6 +21,9 @@ using System.IO.IsolatedStorage;
 using System.IO;
 using MangGuoTv.Views;
 using Microsoft.Phone.Info;
+using SM.Media.Utility;
+using SM.Media;
+using SM.Media.Web;
 
 namespace MangGuoTv
 {
@@ -39,6 +42,28 @@ namespace MangGuoTv
             get;
             set;
         }
+        public static string liveUrl { get; set; }
+#if STREAM_SWITCHING
+        static readonly string[] Sources =
+        {
+            "http://www.npr.org/streams/mp3/nprlive24.pls",
+            "http://www.nasa.gov/multimedia/nasatv/NTV-Public-IPS.m3u8",
+            "http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8",
+            null,
+            "https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8"
+        };
+
+        readonly DispatcherTimer _timer;
+        int _count;
+#endif
+
+        static readonly TimeSpan StepSize = TimeSpan.FromMinutes(2);
+        static readonly IApplicationInformation ApplicationInformation = ApplicationInformationFactory.Default;
+        IMediaElementManager _mediaElementManager;
+        readonly DispatcherTimer _positionSampler;
+        IMediaStreamFascade _mediaStreamFascade;
+        TimeSpan _previousPosition;
+        IHttpClients _httpClients;
         public PlayerInfo()
         {
             InitializeComponent();
@@ -74,6 +99,11 @@ namespace MangGuoTv
             App.ShowLoading();
             App.PlayerModel.LoadVisibility = Visibility.Visible;
             App.PlayerModel.PayVisibility = Visibility.Collapsed;
+          
+            if (App.PlayerModel.isM3U8Video) 
+            {
+                currentDramaIndex = -1;
+            }
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -88,6 +118,7 @@ namespace MangGuoTv
                 {
                     leaveSilderValue = pbVideo.Value;
                     App.PlayerModel.ClearData();
+                    CleanItemsSource();
                     this.DataContext = null;
                 }
             }
@@ -101,8 +132,19 @@ namespace MangGuoTv
             App.HideLoading();
             WpStorage.SetIsoSetting(needSetSliderValueIso, needSetSliderValue);
             WpStorage.SetIsoSetting(leaveSilderValueIso, leaveSilderValue);
+            if (null != _mediaElementManager)
+            {
+               // App.PlayerModel.ClearData();
+                this.DataContext = null;
+                //_mediaElementManager.CloseAsync()
+                //                    .Wait();
+            }
         }
-
+        private void CleanItemsSource() {
+            AllDramas.ItemsSource = null;
+            CommentList.ItemsSource = null;
+            RelatedVideos.ItemsSource = null;
+        }
         private void DramaItem_Loaded(object sender, RoutedEventArgs e)
         {
             if (App.PlayerModel.currentType == PlayerViewModel.PlayType.LoaclType)
@@ -826,7 +868,110 @@ namespace MangGuoTv
             ListBoxItem lbi = FindParentOfType<ListBoxItem>(cb);
         }
 
+        #region m3u8 func
+        public void InitM3U8Video() 
+        {
+            _mediaElementManager = new MediaElementManager(Dispatcher,
+    () =>
+    {
+        UpdateState(MediaElementState.Opening);
 
+        return myMediaElement;
+    },
+    me => UpdateState(MediaElementState.Closed));
+
+            _httpClients = new HttpClients(userAgent: ApplicationInformation.CreateUserAgent());
+#if STREAM_SWITCHING
+            _timer = new DispatcherTimer();
+
+            _timer.Tick += (sender, args) =>
+                           {
+                               GC.Collect();
+                               GC.WaitForPendingFinalizers();
+                               GC.Collect();
+
+                               var gcMemory = GC.GetTotalMemory(true).BytesToMiB();
+
+                               var source = Sources[_count];
+
+                               Debug.WriteLine("Switching to {0} (GC {1:F3} MiB App {2:F3}/{3:F3}/{4:F3} MiB)", source, gcMemory,
+                                   DeviceStatus.ApplicationCurrentMemoryUsage.BytesToMiB(),
+                                   DeviceStatus.ApplicationPeakMemoryUsage.BytesToMiB(),
+                                   DeviceStatus.ApplicationMemoryUsageLimit.BytesToMiB());
+
+                               InitializeMediaStream();
+
+                               _mediaStreamFascade.Source = null == source ? null : new Uri(source);
+
+                               if (++_count >= Sources.Length)
+                                   _count = 0;
+
+                               _positionSampler.Start();
+                           };
+
+            _timer.Interval = TimeSpan.FromSeconds(15);
+
+            _timer.Start();
+#endif // STREAM_SWITCHING
+        }
+        void UpdateState(MediaElementState state)
+        {
+            //if (MediaElementState.Buffering == state && null != mediaElement1)
+            //MediaStateBox.Text = string.Format("Buffering {0:F2}%", mediaElement1.BufferingProgress * 100);
+            //else
+            // MediaStateBox.Text = state.ToString();
+
+            switch (state)
+            {
+                case MediaElementState.Closed:
+                    PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+                    break;
+                case MediaElementState.Paused:
+                    PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
+                    break;
+                case MediaElementState.Playing:
+                    PlayImg.Source = new BitmapImage(new Uri(pauseImg, UriKind.RelativeOrAbsolute));
+                    break;
+                default:
+                    break;
+            }
+        }
+        void InitializeMediaStream()
+        {
+            if (null != _mediaStreamFascade)
+                return;
+
+            _mediaStreamFascade = MediaStreamFascadeSettings.Parameters.Create(_httpClients, _mediaElementManager.SetSourceAsync);
+
+            _mediaStreamFascade.SetParameter(_mediaElementManager);
+
+            _mediaStreamFascade.StateChange += TsMediaManagerOnStateChange;
+        }
+
+        private void TsMediaManagerOnStateChange(object sender, TsMediaManagerStateEventArgs tsMediaManagerStateEventArgs)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                var message = tsMediaManagerStateEventArgs.Message;
+
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    System.Diagnostics.Debug.WriteLine(message);
+                }
+
+                myMediaElement_CurrentStateChanged(null, null);
+            });
+        }
+        public void BeginPlayM3u8Video(string videoUrl) 
+        {
+            InitM3U8Video();
+            InitializeMediaStream();
+
+            _mediaStreamFascade.Source = new Uri(videoUrl);
+
+            myMediaElement.Play();
+        }
+        #endregion
 
     }
 }

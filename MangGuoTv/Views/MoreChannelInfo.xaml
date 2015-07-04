@@ -12,7 +12,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.IsVisible="False"
     shell:SystemTray.Opacity="0"
     shell:SystemTray.ForegroundColor="White"
     >
@@ -26,10 +26,7 @@
         <Grid>
             <Image Source="/Images/logo.png" Margin="10,10,0,0" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
             <TextBlock x:Name="channelName" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
-            <Border HorizontalAlignment="Right" Background="#FFD57125"  VerticalAlignment="Center" Margin="0,0,20,0" Width="100"  Tap="changeDataTap">
-                <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="换一批" FontSize="25"></TextBlock>
-            </Border>
-           
+            <Image  HorizontalAlignment="Right"  VerticalAlignment="Center" Source="/Images/reload.png" Margin="0,10,30,0" Height="50" Width="50" Tap="MoreDataTap"/>
         </Grid>
         <Grid  Margin="0,20,0,0" x:Name="MainGrid" Grid.Row="1" Loaded="MainGrid_Loaded">
             <Grid Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Tap="ReloadDataTap" x:Name="reLoadGrid" Visibility="Collapsed">
@@ -57,7 +54,6 @@
                                                 <TextBlock  Text="{Binding tag}" FontSize="25"  TextWrapping="Wrap" Margin="2"/>
                                             </Border>
                                             <TextBlock Text="{Binding name}" Grid.Row="1" TextWrapping="Wrap" />
-                                            <TextBlock Text="{Binding desc}" FontSize="15"  Grid.Row="2" Foreground="Gray" TextWrapping="Wrap"/>
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="5" Tap="NorVideoTap" Tag="1">
                                             <Grid.RowDefinitions>
@@ -75,13 +71,13 @@
                                 </DataTemplate>
                     
                 </phone:LongListSelector.ItemTemplate>
-                <phone:LongListSelector.GroupFooterTemplate>
+                <!--<phone:LongListSelector.GroupFooterTemplate>
                     <DataTemplate>
                         <Border HorizontalAlignment="Right" Background="#FFD57125"  VerticalAlignment="Center" Margin="0,0,20,0" Width="100"  Tap="changeDataTap">
                             <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="点击加载更多" FontSize="25"></TextBlock>
                         </Border>
                     </DataTemplate>
-                </phone:LongListSelector.GroupFooterTemplate>
+                </phone:LongListSelector.GroupFooterTemplate>-->
             </phone:LongListSelector>
         </Grid>
     </Grid>

@@ -112,4 +112,3 @@ C:\Users\xyl\documents\visual studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug
 C:\Users\xyl\documents\visual studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll
 C:\Users\xyl\documents\visual studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.pdb
 C:\Users\xyl\documents\visual studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\XapCacheFile.xml
-C:\Users\xyl\Documents\Visual Studio 2013\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.csprojResolveAssemblyReference.cache

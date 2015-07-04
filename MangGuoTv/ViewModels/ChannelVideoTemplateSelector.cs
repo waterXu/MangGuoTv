@@ -48,9 +48,9 @@ namespace MangGuoTv.ViewModels
                      case "banner":
                          dt = BannerImage;
                          break;
-                     case "normalAvatorText":
-                         dt = AvatorImage;
-                         break;
+                     //case "normalAvatorText":
+                     //    dt = AvatorImage;
+                     //    break;
                      case "largeLandScapeNodesc":
                      case "largeLandScape":
                      case "normalLandScapeNodesc":
@@ -58,8 +58,10 @@ namespace MangGuoTv.ViewModels
                          dt = LandscapeImage;
                          break;
                      case "normalLandScape":
+                     case "normalAvatorText":
                      case "roundAvatorText":
                      case "tvPortrait":
+                     case "live":
                          dt = NorLandscapeImage;
                          break;
                      case "title":
@@ -68,9 +70,9 @@ namespace MangGuoTv.ViewModels
                      case "rankList":
                          dt = RankTemplate;
                          break;
-                     case "live":
-                         dt = LiveImage;
-                         break;
+                     //case "live":
+                     //    dt = LiveImage;
+                     //    break;
                      //case "unknowModType1":
                      //    //CreateNorLandscapeImages(channeldetail.templateData);
                      //    break;
