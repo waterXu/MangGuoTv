@@ -260,6 +260,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MangGuoTv_2015_07_05_10_05_43.sap" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>

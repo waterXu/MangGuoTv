@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProfilerSession Type="MemoryPerformanceAnalysis" Name="MangGuoTv1121124731">
+  <TargetApplication Name="MangGuoTv_Release_AnyCPU" SourceProject="MangGuoTv.csproj" Type="WindowsPhone">
+    <ApplicationBinary Path="Bin\Release\MangGuoTv_Release_AnyCPU.xap" Timestamp="2015/7/4 21:21:01" />
+    <ApplicationIconPath Path="" />
+    <SymbolPaths>
+      <Path Value="Bin\Release\" />
+    </SymbolPaths>
+  </TargetApplication>
+  <Settings>
+    <Probe Name="Visual">
+      <CollectElementLevelCosting Enabled="True" />
+      <CollectSnapshots Enabled="True" Interval="1000" Resampling="2" />
+      <CollectMediaEvents Enabled="False" />
+      <CollectCacheDetails Enabled="False" />
+    </Probe>
+    <Probe Name="Code">
+      <SampleCallStack Enabled="False" Depth="" Interval="1000" />
+      <CollectPerformanceCounters Enabled="False" />
+    </Probe>
+    <Probe Name="Memory">
+      <MemoryCallStack Enabled="True" Depth="8" />
+      <ObjectTree Enabled="True" Interval="5" />
+    </Probe>
+  </Settings>
+  <Data>
+    <Logs>
+      <File Type="NativeFormat" Path="PerfLogs\MangGuoTv1121124731\tmp86AE.spl" />
+    </Logs>
+  </Data>
+  <TargetDeviceSettings OSVersion="8.10.14219" AvailablePhysicalMemoryAtStartup="0" ProcessorArchitectureType="Arm" ProcessorInformation="Unknown" IsEmulator="False" />
+</ProfilerSession>

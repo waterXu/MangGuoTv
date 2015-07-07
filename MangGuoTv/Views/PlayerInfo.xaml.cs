@@ -104,6 +104,10 @@ namespace MangGuoTv
             {
                 currentDramaIndex = -1;
             }
+            if (!string.IsNullOrEmpty(m3u8videoUrl)) 
+            {
+                BeginPlayM3u8Video(m3u8videoUrl);
+            }
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -121,8 +125,12 @@ namespace MangGuoTv
                     CleanItemsSource();
                     this.DataContext = null;
                 }
+                else if (null == _mediaElementManager)
+                {
+                    needSetSliderValue = true;
+                }
             }
-            else
+            else if (null == _mediaElementManager)
             {
                 needSetSliderValue = true;
                 GC.Collect();
@@ -134,10 +142,24 @@ namespace MangGuoTv
             WpStorage.SetIsoSetting(leaveSilderValueIso, leaveSilderValue);
             if (null != _mediaElementManager)
             {
-               // App.PlayerModel.ClearData();
-                this.DataContext = null;
-                //_mediaElementManager.CloseAsync()
-                //                    .Wait();
+                if (e.Content != null)
+                {
+                    App.PlayerModel.ClearData();
+                    this.DataContext = null;
+                    m3u8videoUrl = null;
+                }
+
+                _mediaElementManager.CloseAsync()
+                                    .Wait();
+                _mediaElementManager = null;
+                if (_mediaStreamFascade != null)
+                {
+                    _mediaStreamFascade = null;
+                }
+
+            }
+            else {
+                m3u8videoUrl = null;
             }
         }
         private void CleanItemsSource() {
@@ -920,8 +942,19 @@ namespace MangGuoTv
             //MediaStateBox.Text = string.Format("Buffering {0:F2}%", mediaElement1.BufferingProgress * 100);
             //else
             // MediaStateBox.Text = state.ToString();
+            var states = null == myMediaElement ? MediaElementState.Closed : myMediaElement.CurrentState;
 
-            switch (state)
+            if (null != _mediaStreamFascade)
+            {
+                var managerState = _mediaStreamFascade.State;
+
+                if (MediaElementState.Closed == states)
+                {
+                    if (TsMediaManager.MediaState.OpenMedia == managerState || TsMediaManager.MediaState.Opening == managerState || TsMediaManager.MediaState.Playing == managerState)
+                        states = MediaElementState.Opening;
+                }
+            }
+            switch (states)
             {
                 case MediaElementState.Closed:
                     PlayImg.Source = new BitmapImage(new Uri(playImg, UriKind.RelativeOrAbsolute));
@@ -962,13 +995,14 @@ namespace MangGuoTv
                 myMediaElement_CurrentStateChanged(null, null);
             });
         }
+        string m3u8videoUrl = null;
         public void BeginPlayM3u8Video(string videoUrl) 
         {
+            App.ShowToast("正在加载解码器，请稍候....");
             InitM3U8Video();
             InitializeMediaStream();
-
             _mediaStreamFascade.Source = new Uri(videoUrl);
-
+            m3u8videoUrl = videoUrl;
             myMediaElement.Play();
         }
         #endregion

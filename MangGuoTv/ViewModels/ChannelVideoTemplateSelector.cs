@@ -61,6 +61,7 @@ namespace MangGuoTv.ViewModels
                      case "normalAvatorText":
                      case "roundAvatorText":
                      case "tvPortrait":
+                     case "moviePortrait":
                      case "live":
                          dt = NorLandscapeImage;
                          break;

@@ -732,6 +732,7 @@ namespace MangGuoTv
                             case "normalLandScape":
                             case "roundAvatorText":
                             case "tvPortrait":
+                            case "moviePortrait":
                                 for (int i = 0; i < channelDatail.templateData.Count; i = i + 2)
                                 {
                                     if (channelDatail.templateData.Count > i + 1)
@@ -804,6 +805,7 @@ namespace MangGuoTv
                                 case "normalLandScape":
                                 case "roundAvatorText":
                                 case "tvPortrait":
+                                case "moviePortrait":
                                 case "unknowModType1":
                                 case "unknowModType2":
                                     continue;
