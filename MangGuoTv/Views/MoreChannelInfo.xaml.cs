@@ -179,6 +179,13 @@ namespace MangGuoTv.Views
                 string tag = tapGrid.Tag.ToString();
                 VideoViewModel template = tapGrid.DataContext as VideoViewModel;
                 if (template == null) return;
+                if (CommonData.NetworkStatus != "WiFi" && CommonData.NetworkStatus != "None")
+                {
+                    if (MessageBox.Show("警告！正在使用手机网络，确定要使用手机网络观看视频吗？", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+                    {
+                        return;
+                    }
+                }
                 switch (tag)
                 {
                     case "0":

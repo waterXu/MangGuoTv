@@ -1028,7 +1028,7 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="所有频道" Width="150"  FontSize="35"></TextBlock>
                 </phone:PivotItem.Header>
-                <ListBox x:Name="AllChannels" ItemsSource="{Binding AllChannels}" Margin="0,10,0,-10" SelectionChanged="AllChannels_SelectionChanged">
+                <ListBox x:Name="AllChannels" ItemsSource="{Binding AllChannels}" Margin="0,10,0,-10" SelectionChanged="AllChannels_SelectionChanged" HorizontalAlignment="Center">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
@@ -1036,13 +1036,13 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="10,0,0,0">
-                                <Grid Margin="5" Width="130" Height="150" CB:TiltEffect.IsTiltEnabled="true">
+                            <StackPanel>
+                                <Grid Margin="10" Width="130" Height="140" CB:TiltEffect.IsTiltEnabled="true" Background="#FFEE7C28">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="4*"/>
+                                        <RowDefinition Height="2*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding iconUrl}" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                                    <Image Source="{Binding iconUrl}" Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
                                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding channelName}"/>
                                 </Grid>
                             </StackPanel>

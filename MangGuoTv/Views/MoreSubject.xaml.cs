@@ -223,11 +223,19 @@ namespace MangGuoTv.Views
             if (template != null)
             {
                 OperationImageTap(template);
+                DataLLs.SelectedItem = null;
             }
         }
 
         private void OperationImageTap(VideoViewModel template)
         {
+            if (CommonData.NetworkStatus != "WiFi" && CommonData.NetworkStatus != "None")
+            {
+                if (MessageBox.Show("警告！正在使用手机网络，确定要使用手机网络观看视频吗？", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
             App.ShowMemory();
             switch (template.jumpType)
             {

@@ -29,7 +29,10 @@
                 <TextBlock Text="下载完成后提示    " FontSize="30" TextWrapping="Wrap"  Margin="30,10"></TextBlock>
                 <tool:ToggleSwitch Grid.Column="1" Grid.Row="0"  IsChecked="{Binding NeedDownedTip,Mode=TwoWay}" Foreground="Black"  VerticalAlignment="Center" ></tool:ToggleSwitch>
             </StackPanel>
-
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="允许手机网络下载" FontSize="30" TextWrapping="Wrap"  Margin="30,10"></TextBlock>
+                <tool:ToggleSwitch Grid.Column="1" Grid.Row="0"  IsChecked="{Binding AllowPhoneNetworkDown,Mode=TwoWay}" Foreground="Black"  VerticalAlignment="Center" ></tool:ToggleSwitch>
+            </StackPanel>
             <TextBlock Text="点击清除缓存将清除改应用所有的缓存数据    " FontSize="30" TextWrapping="Wrap"  Margin="20,10"></TextBlock>
             <Button Width="200" Height="80" HorizontalAlignment="Left" Margin="20,10" Content="清除缓存" Command="{Binding CleanAllIsoCommand}" ></Button>
 

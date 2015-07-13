@@ -310,6 +310,32 @@ namespace MangGuoTv.ViewModels
                 }
             }
         }
+         private bool _allowPhoneNetworkDown;
+         public bool AllowPhoneNetworkDown
+
+        {
+            get 
+            {
+                if (WpStorage.GetIsoSetting("AllowPhoneNetworkDown") != null)
+                {
+                    _allowPhoneNetworkDown = (bool)WpStorage.GetIsoSetting("AllowPhoneNetworkDown");
+                }
+                else
+                {
+                    _allowPhoneNetworkDown = false;
+                }
+                return _allowPhoneNetworkDown; 
+            }
+            set
+            {
+                if (_allowPhoneNetworkDown != value)
+                {
+                    _allowPhoneNetworkDown = value;
+                    WpStorage.SetIsoSetting("AllowPhoneNetworkDown", _allowPhoneNetworkDown);
+                    NotifyPropertyChanged("AllowPhoneNetworkDown");
+                }
+            }
+        }
        
     }
 }

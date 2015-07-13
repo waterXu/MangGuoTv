@@ -48,7 +48,7 @@ namespace MangGuoTv.Views
             }
             if (isNeedClean)
             {
-                if (MessageBox.Show("检测到版本更新，为避免数据冲突建议清除本地缓存，是否清除缓存？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("检测到版本更新，为避免数据冲突建议清除本地缓存，是否清除所有缓存(包括缓存视频，包括缓存视频，包括缓存视频)？不想已经缓存好的视频在版本升级中被自动清除，请点击“取消”按钮，否则会被清除，谢谢~", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     WpStorage.DeleteDirectory(CommonData.IsoRootPath);
                     IsolatedStorageSettings.ApplicationSettings.Clear();

@@ -13,8 +13,5 @@
     <AssemblyPart x:Name="System.Net.Http" Source="System.Net.Http.dll" />
     <AssemblyPart x:Name="System.Net.Http.Extensions" Source="System.Net.Http.Extensions.dll" />
     <AssemblyPart x:Name="System.Net.Http.Primitives" Source="System.Net.Http.Primitives.dll" />
-    <AssemblyPart x:Name="System.Reactive.Core" Source="System.Reactive.Core.dll" />
-    <AssemblyPart x:Name="System.Reactive.Linq" Source="System.Reactive.Linq.dll" />
-    <AssemblyPart x:Name="System.Reactive.Interfaces" Source="System.Reactive.Interfaces.dll" />
   </Deployment.Parts>
 </Deployment>

@@ -331,6 +331,13 @@ namespace MangGuoTv
         {
             DownVideoInfoViewMoel DownVideo = VideoRemember.SelectedItem as DownVideoInfoViewMoel;
             if (DownVideo == null) return;
+            if (CommonData.NetworkStatus != "WiFi" && CommonData.NetworkStatus != "None")
+            {
+                if (MessageBox.Show("警告！正在使用手机网络，确定要使用手机网络观看视频吗？", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
             App.PlayerModel.VideoId = DownVideo.VideoId;
             App.PlayerModel.currentType = ViewModels.PlayerViewModel.PlayType.VideoType;
             this.NavigationService.Navigate(new Uri(CommonData.PlayerPageName, UriKind.Relative)); 
@@ -556,11 +563,17 @@ namespace MangGuoTv
             }
             else
             {
-                if (name == "少儿") 
+                if (name == "少儿")
                 {
                     string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=1021" + "&type=normal";
+                    HttpHelper.httpGet(channelInfoUrl, LoadChildChannelCompleted);
                 }
-                else 
+                else if (name == "动漫")
+                {
+                    string channelInfoUrl = CommonData.GetChannelInfoUrl + "&channelId=1006" + "&type=normal";
+                    HttpHelper.httpGet(channelInfoUrl, LoadAnimeChannelCompleted);
+                }
+                else
                 {
                     App.ShowToast("获取该频道信息失败");
                 }
@@ -926,6 +939,7 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                SiftLLs.SelectedItem = null;
             }
         }
         private void FunLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -939,6 +953,7 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                FunLLs.SelectedItem = null;
             }
         }
         private void TvLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -952,6 +967,7 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                TvLLs.SelectedItem = null;
             }
         }
         private void MovieLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -965,6 +981,7 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                MovieLLs.SelectedItem = null;
             }
         }
         private void AnimeLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -978,6 +995,7 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                AnimeLLs.SelectedItem = null;
             }
         }
         private void ChildLLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -991,10 +1009,19 @@ namespace MangGuoTv
             if (template != null)
             {
                 OperationImageTap(template);
+                ChildLLs.SelectedItem = null;
             }
         }
         private void OperationImageTap(VideoViewModel template)
         {
+            if (CommonData.NetworkStatus != "WiFi" && CommonData.NetworkStatus != "None") 
+            {
+                if (MessageBox.Show("警告！正在使用手机网络，确定要使用手机网络观看视频吗？", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
+           
             App.ShowMemory();
             switch (template.jumpType)
             {

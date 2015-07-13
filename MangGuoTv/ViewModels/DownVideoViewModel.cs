@@ -75,8 +75,13 @@ namespace MangGuoTv.ViewModels
         public DownVideoInfoViewMoel currentDownVideo = null;
         public void BeginDownVideos()
         {
+            
             //PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
-            if (CommonData.NetworkStatus != "WiFi" || isDownding || DowningVideo.Count == 0)
+            if ( isDownding || DowningVideo.Count == 0)
+            {
+                return;
+            }
+            if (CommonData.NetworkStatus != "WiFi" && !App.MainViewModel.AllowPhoneNetworkDown) 
             {
                 return;
             }
@@ -201,7 +206,7 @@ namespace MangGuoTv.ViewModels
                 int read = 0;
                 while ((read = stream.Read(data, 0, data.Length)) > 0)
                 {
-                    if (CommonData.NetworkStatus != "WiFi")
+                    if (CommonData.NetworkStatus != "WiFi" && !App.MainViewModel.AllowPhoneNetworkDown)
                     {
                         StopGetVideoData();
                         break;
