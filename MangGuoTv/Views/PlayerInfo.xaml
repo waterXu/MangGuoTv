@@ -37,22 +37,22 @@
         <Image Source="/Images/logo.png" x:Name="Logo" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" x:Name="Name" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
         <Grid Grid.Row="2" Background="Black">
-            <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2" MouseMove="myMediaElement_MouseMove" MouseEnter="myMediaElement_MouseEnter" MouseLeave="myMediaElement_MouseLeave" Volume="{Binding Volume}"/>
+            <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}"  MouseMove="myMediaElement_MouseMove" MouseEnter="myMediaElement_MouseEnter" MouseLeave="myMediaElement_MouseLeave" Volume="{Binding Volume}"/>
 
-            <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
+            <Border  Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
                 <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
             </Border>
-            <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
+            <Border  Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
                 <TextBlock Text="{Binding ErrMsg}" HorizontalAlignment="Center"></TextBlock>
             </Border>
-            <Border Grid.Row="2" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding ValueChangeVisibility}">
+            <Border Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding ValueChangeVisibility}">
                 <TextBlock Text="{Binding ValueChangeMsg}" HorizontalAlignment="Center"></TextBlock>
             </Border>
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding VolumeChangeVisibility}" >
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"  Visibility="{Binding VolumeChangeVisibility}" >
                 <Slider Orientation="Vertical" Maximum="1" Minimum="0" Value="{Binding Volume,Mode=TwoWay}" Foreground="#FFF88035" Height="180" Background="#FF9A968B"></Slider>
                 <Image Width="50" Height="50" Source="/Images/voice.png"></Image>
             </StackPanel>
-            <Grid Grid.Row="2"  x:Name="FullPlayerGrid" Visibility="Collapsed">
+            <Grid  x:Name="FullPlayerGrid" Visibility="Collapsed">
                 <Canvas Height="40" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Top">
                 </Canvas>
                 <TextBlock FontSize="20" Text="{Binding VideoName}" Margin="20,0,80,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"/>
