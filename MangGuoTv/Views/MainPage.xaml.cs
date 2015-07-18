@@ -146,7 +146,7 @@ namespace MangGuoTv
                 RankListBox.ItemsSource = null;
                 FunLLs.ItemsSource = null;
                 TvLLs.ItemsSource = null;
-                AnimeLLs.ItemsSource = null;
+                MovieLLs.ItemsSource = null;
                 ChildLLs.ItemsSource = null;
             }
             else if (currentPovitIndex == 6)

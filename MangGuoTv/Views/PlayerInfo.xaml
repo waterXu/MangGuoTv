@@ -36,88 +36,91 @@
         </Grid.RowDefinitions>
         <Image Source="/Images/logo.png" x:Name="Logo" HorizontalAlignment="Left" Margin="10,0,0,0"></Image>
         <TextBlock Margin="20,0,20,0" FontSize="20" Foreground="Gray" Text="{Binding VideoName}" x:Name="Name" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
-        <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2" MouseMove="myMediaElement_MouseMove" MouseEnter="myMediaElement_MouseEnter" MouseLeave="myMediaElement_MouseLeave" Volume="{Binding Volume}"/>
+        <Grid Grid.Row="2" Background="Black">
+            <MediaElement DoubleTap="PlayerGrid_Tap"  AutoPlay="True" x:Name="myMediaElement" Source="{Binding MediaSource}" Grid.Row="2" MouseMove="myMediaElement_MouseMove" MouseEnter="myMediaElement_MouseEnter" MouseLeave="myMediaElement_MouseLeave" Volume="{Binding Volume}"/>
 
-        <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
-            <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
-        </Border>
-        <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
-            <TextBlock Text="{Binding ErrMsg}" HorizontalAlignment="Center"></TextBlock>
-        </Border>
-        <Border Grid.Row="2" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding ValueChangeVisibility}">
-            <TextBlock Text="{Binding ValueChangeMsg}" HorizontalAlignment="Center"></TextBlock>
-        </Border>
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding VolumeChangeVisibility}" >
-            <Slider Orientation="Vertical" Maximum="1" Minimum="0" Value="{Binding Volume,Mode=TwoWay}" Foreground="#FFF88035" Height="180" Background="#FF9A968B"></Slider>
-            <Image Width="50" Height="50" Source="/Images/voice.png"></Image>
-        </StackPanel>
-        <Grid Grid.Row="2"  x:Name="FullPlayerGrid" Visibility="Collapsed">
-            <Canvas Height="40" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Top">
-            </Canvas>
-            <TextBlock FontSize="20" Text="{Binding VideoName}" Margin="20,0,80,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"/>
-            <TextBlock FontSize="15" x:Name="TimeNow"  Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextWrapping="Wrap"/>
-            <Canvas Height="180" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Bottom"></Canvas>
-            <Grid  VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                    <Grid Tap="PreviousPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PreviousVisibility}">
-                        <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
-                            <Image Source="/Images/Icons/transport.rew.png"></Image>
-                        </Border>
-                    </Grid>
-                    <Grid  Margin="40,0" Tap="PlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Border  BorderBrush="White" BorderThickness="3"  Height="80" Width="80" CornerRadius="60"  >
-                            <Image Source="{Binding ElementName=PlayImg,Path=Source}"></Image>
-                        </Border>
-                    </Grid>
-                    <Grid Tap="NextPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding NextVisibility}">
-                        <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
-                            <Image Source="/Images/Icons/transport.ff.png"></Image>
-                        </Border>
-                    </Grid>
-                </StackPanel>
-                <StackPanel x:Name="DefinitionList" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"  Visibility="Collapsed">
-                </StackPanel>
-                <Button Content="{Binding CurrentDefinitionName}" BorderBrush="#FFEE7C28" Height="70" Width="120" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Click="DefinitionListClick"/>
-                <!--<tool:ListPicker x:Name="UrlList"  Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
+            <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"  Visibility="{Binding LoadVisibility}">
+                <TextBlock Text="正在加载......" HorizontalAlignment="Center"></TextBlock>
+            </Border>
+            <Border Grid.Row="2" Background="#FFEE7C28" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="30" Visibility="{Binding PayVisibility}">
+                <TextBlock Text="{Binding ErrMsg}" HorizontalAlignment="Center"></TextBlock>
+            </Border>
+            <Border Grid.Row="2" Background="#FFEE7C28" Opacity=".8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Visibility="{Binding ValueChangeVisibility}">
+                <TextBlock Text="{Binding ValueChangeMsg}" HorizontalAlignment="Center"></TextBlock>
+            </Border>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding VolumeChangeVisibility}" >
+                <Slider Orientation="Vertical" Maximum="1" Minimum="0" Value="{Binding Volume,Mode=TwoWay}" Foreground="#FFF88035" Height="180" Background="#FF9A968B"></Slider>
+                <Image Width="50" Height="50" Source="/Images/voice.png"></Image>
+            </StackPanel>
+            <Grid Grid.Row="2"  x:Name="FullPlayerGrid" Visibility="Collapsed">
+                <Canvas Height="40" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Top">
+                </Canvas>
+                <TextBlock FontSize="20" Text="{Binding VideoName}" Margin="20,0,80,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                <TextBlock FontSize="15" x:Name="TimeNow"  Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextWrapping="Wrap"/>
+                <Canvas Height="180" Background="#FF5A4A3E" Opacity=".5" VerticalAlignment="Bottom"></Canvas>
+                <Grid  VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+                        <Grid Tap="PreviousPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PreviousVisibility}">
+                            <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
+                                <Image Source="/Images/Icons/transport.rew.png"></Image>
+                            </Border>
+                        </Grid>
+                        <Grid  Margin="40,0" Tap="PlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border  BorderBrush="White" BorderThickness="3"  Height="80" Width="80" CornerRadius="60"  >
+                                <Image Source="{Binding ElementName=PlayImg,Path=Source}"></Image>
+                            </Border>
+                        </Grid>
+                        <Grid Tap="NextPlayerGrid_Tap" Grid.Column="0" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding NextVisibility}">
+                            <Border  BorderBrush="White" BorderThickness="3"  Height="60" Width="60" CornerRadius="60"  >
+                                <Image Source="/Images/Icons/transport.ff.png"></Image>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="DefinitionList" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"  Visibility="Collapsed">
+                    </StackPanel>
+                    <Button Content="{Binding CurrentDefinitionName}" BorderBrush="#FFEE7C28" Height="70" Width="120" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Click="DefinitionListClick"/>
+                    <!--<tool:ListPicker x:Name="UrlList"  Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Bottom" ItemsSource="{Binding VideoDownloadUrl}" BorderBrush="#FFEE7C28" SelectionChanged="ListPicker_SelectionChanged">
                     <tool:ListPicker.FullModeItemTemplate >
                         <DataTemplate>
                             <TextBlock Text="{Binding name}" Foreground="Green" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </tool:ListPicker.FullModeItemTemplate>
                 </tool:ListPicker>-->
-                <Grid Grid.Column="1" Grid.Row="1"  Margin="5,0,0,0">
-                    <Slider VerticalAlignment="Bottom" Value="{Binding ElementName=pbVideo,Path=Value,Mode=TwoWay}"  Foreground="#FFF88035" Background="#FF9A968B" Minimum="{Binding ElementName=pbVideo,Path=MinHeight}" Maximum="{Binding ElementName=pbVideo,Path=Maximum}" ValueChanged="pbVideo_ValueChanged" IsEnabled="{Binding ElementName=pbVideo,Path=IsEnabled}" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
-                    <TextBlock Text="{Binding ElementName=StartTextBlock,Path=Text}"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
-                    <TextBlock  Text="{Binding ElementName=EndTextBlock,Path=Text}" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
+                    <Grid Grid.Column="1" Grid.Row="1"  Margin="5,0,0,0">
+                        <Slider VerticalAlignment="Bottom" Value="{Binding ElementName=pbVideo,Path=Value,Mode=TwoWay}"  Foreground="#FFF88035" Background="#FF9A968B" Minimum="{Binding ElementName=pbVideo,Path=MinHeight}" Maximum="{Binding ElementName=pbVideo,Path=Maximum}" ValueChanged="pbVideo_ValueChanged" IsEnabled="{Binding ElementName=pbVideo,Path=IsEnabled}" LostFocus="pbVideo_LostFocus" GotFocus="pbVideo_GotFocus" Height="90"/>
+                        <TextBlock Text="{Binding ElementName=StartTextBlock,Path=Text}"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
+                        <TextBlock  Text="{Binding ElementName=EndTextBlock,Path=Text}" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"/>
+                    </Grid>
+                    <Button Content="剧集" BorderBrush="#FFEE7C28" Height="70"  Grid.Row="1" Grid.Column="2" Width="120" VerticalAlignment="Bottom" Click="CheckAllVideoClick"/>
                 </Grid>
-                <Button Content="剧集" BorderBrush="#FFEE7C28" Height="70"  Grid.Row="1" Grid.Column="2" Width="120" VerticalAlignment="Bottom" Click="CheckAllVideoClick"/>
-            </Grid>
-            <Grid  x:Name="FullAllDramas" Visibility="Collapsed" Width="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,80">
-                <Canvas Background="#FF5A4A3E" Opacity=".5" ></Canvas>
-                <ListBox x:Name="AllVideos" ItemsSource="{Binding ElementName=AllDramas,Path=ItemsSource}" SelectedIndex="{Binding ElementName=AllDramas,Path=SelectedIndex,Mode=TwoWay}"  ItemContainerStyle="{Binding VideoStyle}" >
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Grid  x:Name="FullAllDramas" Visibility="Collapsed" Width="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,80">
+                    <Canvas Background="#FF5A4A3E" Opacity=".5" ></Canvas>
+                    <ListBox x:Name="AllVideos" ItemsSource="{Binding ElementName=AllDramas,Path=ItemsSource}" SelectedIndex="{Binding ElementName=AllDramas,Path=SelectedIndex,Mode=TwoWay}"  ItemContainerStyle="{Binding VideoStyle}" >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <tool:WrapPanel Orientation="Horizontal"></tool:WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+
             </Grid>
 
         </Grid>
-
+       
         <!--<ProgressBar Name="pbVideo1" Grid.Row="3" VerticalAlignment="Bottom"/>-->
         <Grid Grid.Row="3"  x:Name="playerGrid">
             <Grid.ColumnDefinitions>
