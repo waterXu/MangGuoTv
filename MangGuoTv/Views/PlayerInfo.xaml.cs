@@ -672,6 +672,7 @@ namespace MangGuoTv
         #region Full Screen Method
         private void fullScreen_Click(object sender, RoutedEventArgs e)
         {
+            App.ShowMemory();
             CloseIcon_Click(null, null);
             Logo.Visibility = System.Windows.Visibility.Collapsed;
             MainPivot.Visibility = System.Windows.Visibility.Collapsed;

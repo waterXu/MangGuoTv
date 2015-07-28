@@ -1050,9 +1050,14 @@ namespace MangGuoTv
                     break;
                 case "webView":
                     WebBrowserTask task = new WebBrowserTask();
-                    task.Uri = new Uri(template.webUrl, UriKind.Absolute);
+                    string url = template.webUrl;
+                    if (string.IsNullOrEmpty(url))
+                    {
+                        url = template.playUrl;
+                    }
                     try
                     {
+                        task.Uri = new Uri(url, UriKind.Absolute);
                         task.Show();
                     }
                     catch (Exception e)

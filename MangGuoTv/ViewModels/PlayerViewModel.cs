@@ -346,47 +346,74 @@ namespace MangGuoTv.ViewModels
                         {
                             CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
-                                if (DramaPageCount > 1)
-                                {
-                                    foreach (VideoInfo video in videosResult.data)
+                                if( videosResult.data != null && videosResult.data.Count > 0){
+                                
+                                    if (DramaPageCount > 1)
                                     {
-                                        AllDramas.Add(video);
-                                    }
-                                    if (VideoStyleType == "1")
-                                    {
-                                        App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
-                                    }
-                                    else if (VideoStyleType == "2")
-                                    {
-                                        if (AllDramas.Count == 30 * DramaPageCount)
+                                        foreach (VideoInfo video in videosResult.data)
                                         {
-                                            App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                            AllDramas.Add(video);
                                         }
-                                        else
+                                        if (VideoStyleType == "1")
                                         {
                                             App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
                                         }
+                                        else if (VideoStyleType == "2")
+                                        {
+                                            if (AllDramas.Count == 30 * DramaPageCount)
+                                            {
+                                                App.PlayerModel.MoreVideoVisibility = Visibility.Visible;
+                                            }
+                                            else
+                                            {
+                                                App.PlayerModel.MoreVideoVisibility = Visibility.Collapsed;
+                                            }
+                                        }
+                                        dramaPageCount++;
                                     }
-                                    dramaPageCount++;
-                                }
-                                else
-                                {
-                                    AllDramas = videosResult.data;
-                                    PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
-                                    if (player != null)
+                                    else
                                     {
-                                        player.LoadDramaSeletedItem(videoId);
+                                        AllDramas = videosResult.data;
+                                        PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+                                        if (player != null)
+                                        {
+                                            player.LoadDramaSeletedItem(videoId);
+                                        }
                                     }
+                                }else {
+                                    CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                                    {
+                                        App.HideLoading();
+                                        App.ShowToast("视频列表为空");
+                                        PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+
+                                        if (player!=null && player.NavigationService.CanGoBack){
+                                            player.NavigationService.GoBack();
+                                        }
+                                    });
                                 }
                             });
                         }
                     }
+                    
                 }
                 else
                 {
-                    if (CommonData.NetworkStatus != "None") 
+                    if (CommonData.NetworkStatus != "None")
                     {
                         LoadedDramaItem();
+                    }
+                    else {
+                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                            {
+                                App.HideLoading();
+                                App.ShowToast("获取视频列表失败,没有可用网络");
+                                PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+                                if (player != null && player.NavigationService.CanGoBack)
+                                {
+                                    player.NavigationService.GoBack();
+                                }
+                            });
                     }
                 }
             });

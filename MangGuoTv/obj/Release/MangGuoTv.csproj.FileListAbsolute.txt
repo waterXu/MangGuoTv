@@ -70,7 +70,6 @@ C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Net.Http.dll
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Net.Http.Extensions.dll
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Release\System.Net.Http.Primitives.dll
-C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Release\MangGuoTv.csprojResolveAssemblyReference.cache
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Release\App.g.cs
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Release\Popup\CommentControl.g.cs
 C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Release\Popup\DbLoginControl.g.cs

@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/7/13 14:43:20">
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/7/13 14:43:18" />
+﻿<xapCache source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Debug\MangGuoTv_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="2015/7/28 17:18:37">
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\obj\Debug\MangGuoTv.dll" archivePath="MangGuoTv.dll" lastWriteTime="2015/7/28 17:18:35" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="2015/4/30 21:24:50" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="2015/4/30 21:24:50" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="2015/4/30 21:24:50" />
@@ -68,5 +68,5 @@
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Debug\System.Net.Http.Primitives.dll" archivePath="System.Net.Http.Primitives.dll" lastWriteTime="2015/5/14 12:37:38" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\icon.png" archivePath="icon.png" lastWriteTime="2015/5/18 22:54:26" />
   <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\logo1.png" archivePath="logo1.png" lastWriteTime="2015/5/18 22:51:30" />
-  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/7/13 13:44:45" />
+  <file source="C:\Users\xyl\Documents\Visual Studio 2013\Projects\Projects\MangGuoTv\MangGuoTv\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="2015/7/18 21:45:22" />
 </xapCache>
