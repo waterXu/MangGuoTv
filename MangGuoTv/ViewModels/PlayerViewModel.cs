@@ -324,7 +324,7 @@ namespace MangGuoTv.ViewModels
             HttpHelper.httpGet(videoListUrl, (ar) =>
             {
                 string result = HttpHelper.SyncResultTostring(ar);
-                if (result != null)
+                if (!string.IsNullOrEmpty(result))
                 {
                     VideoInfoResult videosResult = null;
                     try
@@ -384,11 +384,15 @@ namespace MangGuoTv.ViewModels
                                     CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                                     {
                                         App.HideLoading();
-                                        App.ShowToast("视频列表为空");
-                                        PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
+                                        if (dramaPageCount == 1)
+                                        {
+                                            App.ShowToast("视频列表为空");
+                                            PlayerInfo player = CallbackManager.currentPage as PlayerInfo;
 
-                                        if (player!=null && player.NavigationService.CanGoBack){
-                                            player.NavigationService.GoBack();
+                                            if (player != null && player.NavigationService.CanGoBack)
+                                            {
+                                                player.NavigationService.GoBack();
+                                            }
                                         }
                                     });
                                 }
@@ -795,21 +799,25 @@ namespace MangGuoTv.ViewModels
         }
         public void JsonError(string result)
         {
+            JsonError jsonError = null;
             try
             {
-                JsonError jsonError = JsonConvert.DeserializeObject<JsonError>(result);
+                jsonError = JsonConvert.DeserializeObject<JsonError>(result);
+            }
+                catch
+            {
+            }
+            if (jsonError != null && !string.IsNullOrEmpty(jsonError.err_msg))
+            {
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     App.HideLoading();
                     App.ShowToast(jsonError.err_msg);
-                    App.JsonError(result);
+                    //App.JsonError(result);
                     LoadVisibility = Visibility.Collapsed;
                     PayVisibility = Visibility.Visible;
                     ErrMsg = jsonError.err_msg;
                 });
-            }
-            catch
-            {
             }
         }
 

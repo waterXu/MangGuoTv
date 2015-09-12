@@ -29,6 +29,9 @@ namespace MangGuoTv
                 stream.Read(data, 0, (int)stream.Length);
 
                 string result = System.Text.UTF8Encoding.UTF8.GetString(data, 0, data.Length);
+                if (string.IsNullOrEmpty(result)) {
+                    return null;
+                }
                 return result;
             }
             catch(Exception e)

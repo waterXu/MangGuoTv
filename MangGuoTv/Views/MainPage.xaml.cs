@@ -413,7 +413,7 @@ namespace MangGuoTv
         {
             App.HideLoading();
             string result = HttpHelper.SyncResultTostring(ar);
-            if (result != null)
+            if (!string.IsNullOrEmpty(result))
             {
                 channelDetailResult channelDetails = null;
                 try
@@ -424,7 +424,7 @@ namespace MangGuoTv
                 {
                     System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
                 }
-                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
+                if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode && channelDetails.data != null && channelDetails.data.Count > 0)
                 {
                     rankListLoadSucc = true;
 
@@ -584,7 +584,7 @@ namespace MangGuoTv
         {
             App.HideLoading();
             string result = HttpHelper.SyncResultTostring(ar);
-            if (result != null)
+            if (!string.IsNullOrEmpty(result))
             {
                 convertResultData(result, ChannelType.Sift);
             }
@@ -694,7 +694,7 @@ namespace MangGuoTv
         {
             App.HideLoading();
             string result = HttpHelper.SyncResultTostring(ar);
-            if (result != null)
+            if (!string.IsNullOrEmpty(result))
             {
                 convertResultData(result, ChannelType.Child);
             }
@@ -730,7 +730,7 @@ namespace MangGuoTv
             {
                 System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
             }
-            if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode)
+            if (channelDetails != null && channelDetails.err_code == HttpHelper.rightCode && channelDetails.data != null && channelDetails.data.Count>0)
             {
 
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>

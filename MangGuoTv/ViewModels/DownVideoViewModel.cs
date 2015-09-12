@@ -75,94 +75,104 @@ namespace MangGuoTv.ViewModels
         public DownVideoInfoViewMoel currentDownVideo = null;
         public void BeginDownVideos()
         {
-            
-            //PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
-            if ( isDownding || DowningVideo.Count == 0)
+            try
             {
-                return;
-            }
-            if (CommonData.NetworkStatus != "WiFi" && !App.MainViewModel.AllowPhoneNetworkDown) 
-            {
-                return;
-            }
-            isDownding = true;
-            currentDownVideo = DowningVideo[0];
-            System.Diagnostics.Debug.WriteLine("视频地址：" + currentDownVideo.DownUrl);
-            HttpHelper.httpGet(currentDownVideo.DownUrl, (ar) =>
-            {
-                string result = HttpHelper.SyncResultTostring(ar);
-                if (result != null)
+                //PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+                if (DowningVideo == null || isDownding || DowningVideo.Count == 0)
                 {
-                    ResourceInfo videosResult = null;
-                    try
+                    return;
+                }
+                if (CommonData.NetworkStatus != "WiFi" && !App.MainViewModel.AllowPhoneNetworkDown)
+                {
+                    return;
+                }
+                isDownding = true;
+                currentDownVideo = DowningVideo[0];
+                System.Diagnostics.Debug.WriteLine("视频地址：" + currentDownVideo.DownUrl);
+                if (string.IsNullOrEmpty(currentDownVideo.DownUrl)) {
+                    return;
+                }
+                HttpHelper.httpGet(currentDownVideo.DownUrl, (ar) =>
+                {
+                    string result = HttpHelper.SyncResultTostring(ar);
+                    if (result != null)
                     {
-                        videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
-                        App.JsonError(result);
-                    }
-                    if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
-                    {
-                        CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
+                        ResourceInfo videosResult = null;
+                        try
                         {
-                            currentDownVideo.IsLoading = true;
-                            currentDownVideo.IsLoadError = false;
-                            HttpHelper.httpGet(currentDownVideo.Image, (imageAr) =>
+                            videosResult = JsonConvert.DeserializeObject<ResourceInfo>(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine("LoadChannelCompleted   json 解析错误" + ex.Message);
+                            App.JsonError(result);
+                        }
+                        if (videosResult != null && videosResult.status == "ok" && videosResult.info != null)
+                        {
+                            CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                             {
-                                byte[] imgdata = HttpHelper.SyncResultToByte(imageAr);
-                                if (imgdata != null)
+                                currentDownVideo.IsLoading = true;
+                                currentDownVideo.IsLoadError = false;
+                                HttpHelper.httpGet(currentDownVideo.Image, (imageAr) =>
                                 {
-                                    string imageType = currentDownVideo.Image.Remove(0, currentDownVideo.Image.Length - 4);
-                                    WpStorage.SaveFilesToIsoStore(CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + imageType, imgdata);
-                                    currentDownVideo.LocalImage = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + imageType;
-                                }
+                                    byte[] imgdata = HttpHelper.SyncResultToByte(imageAr);
+                                    if (imgdata != null)
+                                    {
+                                        string imageType = currentDownVideo.Image.Remove(0, currentDownVideo.Image.Length - 4);
+                                        WpStorage.SaveFilesToIsoStore(CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + imageType, imgdata);
+                                        currentDownVideo.LocalImage = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + imageType;
+                                    }
+                                });
+
+                                DownloadFile(videosResult.info);
                             });
-                          
-                            DownloadFile(videosResult.info);
-                        });
+                        }
                     }
-                }
-                else
-                {
-                    //todo
-                }
-            });
+                    else
+                    {
+                        //todo
+                    }
+                });
+            }
+            catch { }
         }
         IsolatedStorageFileStream streamToWriteTo ;
         HttpWebRequest request;
         public void DownloadFile(string url)
         {
-            request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            request.AllowReadStreamBuffering = false;
-            request.Method = "get";
-            request.Headers["Range"] = "bytes=" + ((int)currentDownVideo.Loadedsize).ToString() + "-";
-            WebHeaderCollection WebHeaderCollection = new WebHeaderCollection();
-            string[] headers = WebHeaderCollection.AllKeys;
+            try
+            {
+                request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                request.AllowReadStreamBuffering = false;
+                request.Method = "get";
+                request.Headers["Range"] = "bytes=" + ((int)currentDownVideo.Loadedsize).ToString() + "-";
+                WebHeaderCollection WebHeaderCollection = new WebHeaderCollection();
+                string[] headers = WebHeaderCollection.AllKeys;
 
-            request.BeginGetResponse(new AsyncCallback(GetVideoData), request);
-            string fileName = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
-            Debug.WriteLine("文件路径："+fileName);
-            if (!WpStorage.isoFile.FileExists(fileName))
-            {
-                string strBaseDir = string.Empty;
-                string delimStr = "\\";
-                char[] delimiter = delimStr.ToCharArray();
-                string[] dirsPath = fileName.Split(delimiter);
-                for (int i = 0; i < dirsPath.Length - 1; i++)
+                request.BeginGetResponse(new AsyncCallback(GetVideoData), request);
+                string fileName = CommonData.videoSavePath + currentDownVideo.VideoId.ToString() + ".mp4";
+                Debug.WriteLine("文件路径：" + fileName);
+                if (!WpStorage.isoFile.FileExists(fileName))
                 {
-                    strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
-                    WpStorage.isoFile.CreateDirectory(strBaseDir);
+                    string strBaseDir = string.Empty;
+                    string delimStr = "\\";
+                    char[] delimiter = delimStr.ToCharArray();
+                    string[] dirsPath = fileName.Split(delimiter);
+                    for (int i = 0; i < dirsPath.Length - 1; i++)
+                    {
+                        strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
+                        WpStorage.isoFile.CreateDirectory(strBaseDir);
+                    }
                 }
+
+                streamToWriteTo = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, WpStorage.isoFile);
+                if (currentDownVideo.Loadedsize > 0)
+                {
+                    streamToWriteTo.Seek((long)currentDownVideo.Loadedsize, SeekOrigin.Current);
+                }
+                //streamToWriteTo.Position = (long)currentDownVideo.Loadedsize;
             }
-           
-            streamToWriteTo = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, WpStorage.isoFile);
-            if (currentDownVideo.Loadedsize > 0) 
-            {
-                streamToWriteTo.Seek((long)currentDownVideo.Loadedsize,SeekOrigin.Current);
-            }
-            //streamToWriteTo.Position = (long)currentDownVideo.Loadedsize;
+            catch { }
         }
 
         public void StopGetVideoData() 
@@ -191,6 +201,7 @@ namespace MangGuoTv.ViewModels
             {
                 WebResponse response = ((HttpWebRequest)result.AsyncState).EndGetResponse(result);
                 Stream stream = response.GetResponseStream();
+                if (stream == null) return;
                 long totalValue = response.ContentLength;
                 //以第一次记录的size为文件大小
                 if (currentDownVideo.TotalSize == 0)
@@ -263,7 +274,13 @@ namespace MangGuoTv.ViewModels
                         }
                         //进行下一个下载
                         isDownding = false;
-                        BeginDownVideos();
+                        try
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            this.BeginDownVideos();
+                        }
+                        catch { 
+                        }
                     });
                     Debug.WriteLine("下载完成");
                 }
@@ -290,9 +307,15 @@ namespace MangGuoTv.ViewModels
                 CallbackManager.currentPage.Dispatcher.BeginInvoke(() =>
                 {
                     System.Diagnostics.Debug.WriteLine(e.Message);
-                    streamToWriteTo.Close();
-                    currentDownVideo.IsLoadError = true;
-                    currentDownVideo.IsLoading = false;
+                    if (streamToWriteTo != null)
+                    {
+                        streamToWriteTo.Close();
+                    }
+                    if (currentDownVideo != null)
+                    {
+                        currentDownVideo.IsLoadError = true;
+                        currentDownVideo.IsLoading = false;
+                    }
                     isDownding = false;
                     //重新下载
                     BeginDownVideos();

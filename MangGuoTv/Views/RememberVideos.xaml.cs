@@ -71,16 +71,24 @@ namespace MangGuoTv.Views
         {
             if (MessageBox.Show("确定要删除选中播放记录吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                foreach (DownVideoInfoViewMoel rememberVideo in RememberVideoList.SelectedItems) 
+                List<DownVideoInfoViewMoel> videos = new List<DownVideoInfoViewMoel>();
+                foreach (DownVideoInfoViewMoel Video in RememberVideoList.SelectedItems)
+                {
+                    videos.Add(Video);
+                }
+                foreach (DownVideoInfoViewMoel rememberVideo in videos) 
                 {
                     App.MainViewModel.RememberVideos.Remove(rememberVideo);
+
                     //没有删除成功则代表不是最近播放记录
-                    if (!App.MainViewModel.LastVideoRemember.Remove(rememberVideo)) 
+                    try
                     {
-                        if (WpStorage.isoFile.FileExists(rememberVideo.LocalImage))
-                        {
-                            WpStorage.isoFile.DeleteFile(rememberVideo.LocalImage);
-                        }
+                        App.MainViewModel.LastVideoRemember.Remove(rememberVideo);
+                    }
+                    catch { }
+                    if (WpStorage.isoFile.FileExists(rememberVideo.LocalImage))
+                    {
+                        WpStorage.isoFile.DeleteFile(rememberVideo.LocalImage);
                     }
                 }
                 App.MainViewModel.SaveRememberVideoData();

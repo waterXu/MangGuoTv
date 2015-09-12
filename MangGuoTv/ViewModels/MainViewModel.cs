@@ -88,10 +88,12 @@ namespace MangGuoTv.ViewModels
         }
         public void AddRememberVideo(VideoInfo videoInfo)
         {
+            if (videoInfo == null) return;
             DownVideoInfoViewMoel video = new DownVideoInfoViewMoel();
             video.Name = videoInfo.name;
             video.Image = videoInfo.image;
             video.VideoId = videoInfo.videoId;
+            if (string.IsNullOrEmpty(video.Image)) return; 
             HttpHelper.httpGet(video.Image, (imageAr) =>
             {
                 byte[] imgdata = HttpHelper.SyncResultToByte(imageAr);
@@ -173,15 +175,37 @@ namespace MangGuoTv.ViewModels
                         }
                     }
                 }
-
-                AllChannelsData channels = JsonConvert.DeserializeObject<AllChannelsData>(strFileContent);
-                CommonData.LockedChannel = channels.lockedChannel;
-                CommonData.NormalChannel = channels.normalChannel;
+                AllChannelsData channels = null;
+                try
+                {
+                    channels = JsonConvert.DeserializeObject<AllChannelsData>(strFileContent);
+                }
+                catch { }
+                if (channels != null && channels.lockedChannel != null && channels.normalChannel != null)
+                {
+                    CommonData.LockedChannel = channels.lockedChannel;
+                    CommonData.NormalChannel = channels.normalChannel;
+                }
             }
             this.AllChannels.AddRange(CommonData.LockedChannel);
             this.AllChannels.AddRange(CommonData.NormalChannel);
         }
-        public List<ChannelInfo> AllChannels { get; set; }
+        private List<ChannelInfo> _allChannels;
+        public List<ChannelInfo> AllChannels 
+        {
+            get
+            {
+                if (_allChannels == null)
+                {
+                    _allChannels = new List<ChannelInfo>();
+                }
+                return _allChannels;
+            }
+            set 
+            {
+                _allChannels = value;
+            }
+        }
 
         #region Command
 

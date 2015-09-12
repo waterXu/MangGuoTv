@@ -15,16 +15,20 @@ namespace MangGuoTv.Converts
     {
        public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-           BitmapImage videoImage = new BitmapImage();
+           if (value == null) return null;
            string LocalImage = value.ToString();
            if(string.IsNullOrEmpty(LocalImage))return null;
-            if (WpStorage.isoFile.FileExists(LocalImage))
+           BitmapImage videoImage = new BitmapImage();
+           if (WpStorage.isoFile.FileExists(LocalImage))
             {
                 using (IsolatedStorageFileStream isoFileStream = new IsolatedStorageFileStream(LocalImage, FileMode.Open, FileAccess.ReadWrite, WpStorage.isoFile))
                 {
-                    videoImage.DecodePixelHeight = 100;
-                    videoImage.DecodePixelWidth = 180;
-                    videoImage.SetSource(isoFileStream);
+                    if (isoFileStream != null)
+                    {
+                        videoImage.DecodePixelHeight = 100;
+                        videoImage.DecodePixelWidth = 180;
+                        videoImage.SetSource(isoFileStream);
+                    }
                 }
             }
             //else
